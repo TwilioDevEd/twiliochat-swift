@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  twiliochat
-//
-//  Created by Mario Celi on 11/24/15.
-//  Copyright © 2015 Twilio. All rights reserved.
-//
-
 import UIKit
 
 @UIApplicationMain
