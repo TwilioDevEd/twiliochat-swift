@@ -18,8 +18,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate, TextFieldFormH
     
     var constraintDataList: [(NSLayoutConstraint, CGFloat)]!
     var isSigningUp = false
-    var keyboardSize: CGFloat!
-    var animationOffset: CGFloat!
     var textFieldFormHandler: TextFieldFormHandler!
     
     var createAccountButtonTitle: String {
@@ -45,7 +43,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, TextFieldFormH
 
     func initializeTextFields() {
         let textFields: [UITextField] = [usernameTextField, passwordTextField, fullNameTextField, emailTextField]
-        textFieldFormHandler = TextFieldFormHandler(withTextFields: textFields, topContainer: self.view)
+        textFieldFormHandler = TextFieldFormHandler(withTextFields: textFields, topContainer: view)
         textFieldFormHandler.delegate = self
     }
     
