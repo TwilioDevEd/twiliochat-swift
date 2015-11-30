@@ -277,9 +277,6 @@
                             <constraint firstItem="DE5-HN-jdn" firstAttribute="top" secondItem="MtJ-mr-gFE" secondAttribute="bottom" id="goH-Bg-waZ"/>
                             <constraint firstItem="jYb-Qp-cMq" firstAttribute="top" secondItem="JLx-DB-tlv" secondAttribute="bottom" id="h72-yJ-snI"/>
                         </constraints>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="4GB-sj-nqj" appends="YES" id="xGB-Qm-1Qe"/>
-                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="uOz-LE-GoU">
                         <barButtonItem key="leftBarButtonItem" image="icon-list.png" id="AYO-n3-dAn">
@@ -301,11 +298,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lVz-YE-NPX" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="4GB-sj-nqj">
-                    <connections>
-                        <action selector="backgroundTap:" destination="L07-8t-veM" id="YlX-aA-ddf"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-534" y="315"/>
         </scene>
@@ -336,15 +328,15 @@
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
+                                        <exclude reference="t5A-2L-Gjz"/>
                                         <exclude reference="upz-Ix-cfD"/>
                                         <exclude reference="xf4-Gq-dhd"/>
-                                        <exclude reference="t5A-2L-Gjz"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <include reference="xf4-Gq-dhd"/>
                                         <include reference="t5A-2L-Gjz"/>
+                                        <include reference="xf4-Gq-dhd"/>
                                     </mask>
                                 </variation>
                             </imageView>
@@ -459,9 +451,6 @@
                             <constraint firstItem="GuV-GU-t5Q" firstAttribute="centerX" secondItem="P0E-TQ-1yg" secondAttribute="centerX" id="vOq-x1-68Q"/>
                             <constraint firstItem="wgH-kh-gcL" firstAttribute="centerX" secondItem="P0E-TQ-1yg" secondAttribute="centerX" id="wDs-eo-EU9"/>
                         </constraints>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="KLr-Zb-yTt" appends="YES" id="SEd-ko-Pdm"/>
-                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="bP0-rf-Nhj">
                         <barButtonItem key="leftBarButtonItem" image="icon-list.png" id="mB7-di-1US">
@@ -473,11 +462,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hhA-lH-k1I" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="KLr-Zb-yTt">
-                    <connections>
-                        <action selector="backgroundTap:" destination="qjx-Rf-Vhu" id="H3u-bj-QfQ"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-1213" y="1062"/>
         </scene>

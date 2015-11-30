@@ -1,6 +1,6 @@
 import UIKit
 
-class LoginViewController: UIViewController, UITextFieldDelegate {
+class LoginViewController: UIViewController, UITextFieldDelegate, TextFieldFormHandlerDelegate {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var createAccountButton: UIButton!
     @IBOutlet weak var usernameTextField: UITextField!
@@ -17,170 +17,103 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Initialization
     
     var constraintDataList: [(NSLayoutConstraint, CGFloat)]!
-    var textFields: [UITextField]!
     var isSigningUp = false
     var keyboardSize: CGFloat!
     var animationOffset: CGFloat!
+    var textFieldFormHandler: TextFieldFormHandler!
+    
+    var createAccountButtonTitle: String {
+        return self.isSigningUp ? "Back to login" : "Create account";
+    }
+    var loginButtonTitle: String {
+        return self.isSigningUp ? "Register" : "Login";
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.isSigningUp = false;
+        initializeConstraints()
+        initializeTextFields()
+        refreshSignUpControls()
+    }
+    
+    func initializeConstraints() {
         let constraints = [fullNameHeightConstraint, fullNameTopConstraint, emailHeightConstraint, emailTopConstraint]
         constraintDataList = constraints.map({ constraint in (constraint, constraint.constant)})
-        hideSignUpControls()
-        initializeTextFields()
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
     }
 
     func initializeTextFields() {
-        textFields = [usernameTextField, passwordTextField, fullNameTextField, emailTextField]
-        for textField in textFields {
-            textField.delegate = self
-        }
+        let textFields: [UITextField] = [usernameTextField, passwordTextField, fullNameTextField, emailTextField]
+        textFieldFormHandler = TextFieldFormHandler(withTextFields: textFields, topContainer: self.view)
+        textFieldFormHandler.delegate = self
     }
     
-    func toggleSignUpMode() {
-        isSigningUp = !isSigningUp
-        if (isSigningUp) {
-            showSignUpControls()
-        }
-        else {
-            hideSignUpControls()
-        }
-    }
-    
-    func showSignUpControls() {
-        createAccountButton.setTitle("Back to login", forState: .Normal)
-        loginButton.setTitle("Register", forState: .Normal)
+    func refreshSignUpControls() {
+        createAccountButton.setTitle(createAccountButtonTitle, forState: .Normal)
+        loginButton.setTitle(loginButtonTitle, forState: .Normal)
+        
+        textFieldFormHandler.lastTextField = isSigningUp ? nil : passwordTextField;
+        
         for (constraint, constant) in constraintDataList {
-            constraint.constant = constant
+            constraint.constant = isSigningUp ? constant : 0
         }
-        setTextField(passwordTextField, returnKeyType: .Next)
+        
+        resetFirstResponderOnSignUpModeChange();
     }
     
-    func hideSignUpControls() {
-        createAccountButton.setTitle("Create account", forState: .Normal)
-        loginButton.setTitle("Login", forState: .Normal)
-        for (constraint, _) in constraintDataList {
-            constraint.constant = 0
-        }
-        setTextField(passwordTextField, returnKeyType: .Done)
-    }
-    
-    func setTextField(textField: UITextField, returnKeyType type: UIReturnKeyType) {
-        if (passwordTextField.isFirstResponder()) {
-            passwordTextField.resignFirstResponder()
-            passwordTextField.returnKeyType = type
-            passwordTextField.becomeFirstResponder()
-        }
-        else {
-            passwordTextField.returnKeyType = type
+    func resetFirstResponderOnSignUpModeChange() {
+        self.view.layoutSubviews();
+        
+        if let index = self.textFieldFormHandler.firstResponderIndex {
+            if (index > 1) {
+                textFieldFormHandler.setTextFieldAtIndexAsFirstResponder(1)
+            }
+            else {
+                textFieldFormHandler.resetScroll()
+            }
         }
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        textFieldFormHandler.cleanUp()
     }
-    
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     // MARK: - Actions
 
     @IBAction func loginButtonTouched(sender: UIButton) {
+        signUpOrLogin()
     }
+    
     @IBAction func createAccountButtonTouched(sender: UIButton) {
         toggleSignUpMode()
     }
     
-    // MARK: - Animation
+    // MARK: - TextFieldFormHandlerDelegate
     
-    func moveScreenUp() {
-        shiftScreenYPosition(-keyboardSize - animationOffset, duration: 0.3, curve: .EaseInOut)
+    func textFieldFormHandlerDoneEnteringData(handler: TextFieldFormHandler) {
+        signUpOrLogin()
     }
     
-    func moveScreenDown() {
-        shiftScreenYPosition(0, duration: 0.2, curve: .EaseInOut)
+    // MARK: - Login
+    
+    func toggleSignUpMode() {
+        isSigningUp = !isSigningUp
+        refreshSignUpControls()
     }
     
-    func shiftScreenYPosition(position: CGFloat, duration: NSTimeInterval, curve: UIViewAnimationCurve) {
-        UIView.beginAnimations("moveUp", context: nil)
-        UIView.setAnimationCurve(curve)
-        UIView.setAnimationDuration(duration)
+    func signUpOrLogin() {
         
-        view.frame.origin.y = position
-        UIView.commitAnimations()
     }
     
-    @IBAction func backgroundTap(sender: UITapGestureRecognizer) {
-        view.endEditing(true)
-        moveScreenDown()
-    }
+    // MARK: - Style
     
-    // MARK: - UITextFieldDelegate
-    
-    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-        
-        let screenHeight = UIScreen.mainScreen().bounds.size.height
-        let textFieldSuperView = textField.superview!
-        
-        let textFieldHeight = textFieldSuperView.frame.size.height
-        let textFieldY = textFieldSuperView.superview?.convertPoint(textFieldSuperView.frame.origin, toView: view).y
-        animationOffset = -screenHeight + (textFieldY ?? 0) + textFieldHeight;
-        return true
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent;
     }
-    
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        let index = textFields.indexOf(textField)!
-        
-        if (isSigningUp) {
-            if (index == textFields.count - 1) {
-                doneEnteringData()
-                return true
-            }
-        }
-        else if (index == 1) {
-            doneEnteringData()
-            return true
-        }
-        let nextTextField = textFields[index + 1]
-        nextTextField.becomeFirstResponder()
-        
-        return true
-    }
-
-    func doneEnteringData() {
-        view.endEditing(true)
-        moveScreenDown()
-    }
-    
-    func keyboardWillShow(notification: NSNotification) {
-        if (keyboardSize == nil) {
-            if let keyboardRect = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-                keyboardSize = min(keyboardRect.height, keyboardRect.width);
-            }
-        }
-        moveScreenUp()
-    }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

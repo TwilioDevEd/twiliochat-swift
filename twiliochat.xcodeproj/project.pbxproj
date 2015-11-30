@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4EFFB5BC993A26D4561D24EC /* Pods_twiliochat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EC391710DF37EFB323C5DA /* Pods_twiliochat.framework */; };
 		59AE1CCC1C08F4960008B10B /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AE1CCB1C08F4960008B10B /* ForgotPasswordViewController.swift */; };
+		59AE1CCE1C0C8C280008B10B /* TextFieldFormHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AE1CCD1C0C8C280008B10B /* TextFieldFormHandler.swift */; };
 		59F208FE1C04C06800CC2392 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F208FD1C04C06800CC2392 /* AppDelegate.swift */; };
 		59F209001C04C06800CC2392 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F208FF1C04C06800CC2392 /* ViewController.swift */; };
 		59F209031C04C06800CC2392 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59F209011C04C06800CC2392 /* Main.storyboard */; };
@@ -41,6 +42,7 @@
 /* Begin PBXFileReference section */
 		2AA560C65D3EFE31A77E1582 /* Pods-twiliochat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-twiliochat.release.xcconfig"; path = "Pods/Target Support Files/Pods-twiliochat/Pods-twiliochat.release.xcconfig"; sourceTree = "<group>"; };
 		59AE1CCB1C08F4960008B10B /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
+		59AE1CCD1C0C8C280008B10B /* TextFieldFormHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldFormHandler.swift; sourceTree = "<group>"; };
 		59F208FA1C04C06800CC2392 /* twiliochat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = twiliochat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59F208FD1C04C06800CC2392 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		59F208FF1C04C06800CC2392 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +105,14 @@
 			name = forgot;
 			sourceTree = "<group>";
 		};
+		59AE1CCF1C0C8C6D0008B10B /* util */ = {
+			isa = PBXGroup;
+			children = (
+				59AE1CCD1C0C8C280008B10B /* TextFieldFormHandler.swift */,
+			);
+			name = util;
+			sourceTree = "<group>";
+		};
 		59F208F11C04C06800CC2392 = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +138,7 @@
 		59F208FC1C04C06800CC2392 /* twiliochat */ = {
 			isa = PBXGroup;
 			children = (
+				59AE1CCF1C0C8C6D0008B10B /* util */,
 				59AE1CCA1C08F47B0008B10B /* forgot */,
 				59F209301C050ED800CC2392 /* parse */,
 				59F2092B1C04C33C00CC2392 /* resources */,
@@ -373,6 +384,7 @@
 			files = (
 				59AE1CCC1C08F4960008B10B /* ForgotPasswordViewController.swift in Sources */,
 				59F209321C050EF700CC2392 /* LoginViewController.swift in Sources */,
+				59AE1CCE1C0C8C280008B10B /* TextFieldFormHandler.swift in Sources */,
 				59F209001C04C06800CC2392 /* ViewController.swift in Sources */,
 				59F208FE1C04C06800CC2392 /* AppDelegate.swift in Sources */,
 			);
