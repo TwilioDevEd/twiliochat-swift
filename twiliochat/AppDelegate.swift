@@ -23,8 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         defaultACL.publicReadAccess = true
         PFACL.setDefaultACL(defaultACL, withAccessForCurrentUser:true)
         
-        //IPMessagingManager.sharedManager().presentLaunchScreen();
-        //IPMessagingManager.sharedManager().presentRootViewController();
+        IPMessagingManager.sharedManager.presentLaunchScreen();
+        IPMessagingManager.sharedManager.presentRootViewController();
         return true
     }
 

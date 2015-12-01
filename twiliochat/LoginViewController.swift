@@ -106,7 +106,61 @@ class LoginViewController: UIViewController, UITextFieldDelegate, TextFieldFormH
     }
     
     func signUpOrLogin() {
-        
+        if (validateUserData()) {
+            view.userInteractionEnabled = false
+            activityIndicator.startAnimating()
+            
+            if(isSigningUp) {
+                registerUser()
+            }
+            else {
+                loginUser()
+            }
+        }
+    }
+    
+    func loginUser() {
+        let ipMessagingManager = IPMessagingManager.sharedManager
+        if let username = usernameTextField.text, password = passwordTextField.text {
+            ipMessagingManager.loginWithUsername(username, password: password, handler: handleResponse)
+        }
+    }
+    
+    func registerUser() {
+        let ipMessagingManager = IPMessagingManager.sharedManager
+        if let username = usernameTextField.text, password = passwordTextField.text, fullName = fullNameTextField.text, email = emailTextField.text {
+            ipMessagingManager.registerWithUsername(username, password: password, fullName: fullName, email: email, handler: handleResponse)
+        }
+    }
+    
+    func validateUserData() -> Bool {
+        if let usernameEmpty = usernameTextField.text?.isEmpty, passwordEmpty = passwordTextField.text?.isEmpty where !usernameEmpty && !passwordEmpty {
+            if isSigningUp {
+                if let fullNameEmpty = fullNameTextField.text?.isEmpty, emailEmpty = emailTextField.text?.isEmpty where !fullNameEmpty && !emailEmpty {
+                    return true
+                }
+            }
+            else {
+                return true
+            }
+        }
+        showError("All fields are required")
+        return false
+    }
+    
+    func showError(message:String) {
+        AlertDialogController.showAlertWithMessage(message, title: nil, presenter: self)
+    }
+    
+    func handleResponse(succeeded: Bool, error: NSError?) {
+        self.activityIndicator.stopAnimating()
+        if succeeded {
+            IPMessagingManager.sharedManager.presentRootViewController()
+        }
+        else if let error = error {
+            self.showError(error.localizedDescription)
+        }
+        self.view.userInteractionEnabled = true
     }
     
     // MARK: - Style
