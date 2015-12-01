@@ -23,6 +23,8 @@
 		59F2092F1C04C35E00CC2392 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59F2092D1C04C35E00CC2392 /* Keys.plist */; };
 		59F209321C050EF700CC2392 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F209311C050EF700CC2392 /* LoginViewController.swift */; };
 		87F895F21C0CF3CE00754007 /* AlertDialogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F895F11C0CF3CE00754007 /* AlertDialogController.swift */; };
+		87F895F61C0E044300754007 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F895F51C0E044300754007 /* MenuViewController.swift */; };
+		87F895F81C0E045F00754007 /* MainChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F895F71C0E045F00754007 /* MainChatViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +68,8 @@
 		59F209311C050EF700CC2392 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		82EC391710DF37EFB323C5DA /* Pods_twiliochat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_twiliochat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		87F895F11C0CF3CE00754007 /* AlertDialogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertDialogController.swift; sourceTree = "<group>"; };
+		87F895F51C0E044300754007 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		87F895F71C0E045F00754007 /* MainChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainChatViewController.swift; sourceTree = "<group>"; };
 		9CD950001C6E991D2EC43869 /* Pods-twiliochat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-twiliochat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-twiliochat/Pods-twiliochat.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -155,6 +159,8 @@
 		59F208FC1C04C06800CC2392 /* twiliochat */ = {
 			isa = PBXGroup;
 			children = (
+				87F895F41C0E040E00754007 /* menu */,
+				87F895F31C0E033A00754007 /* chat */,
 				59AE1CD01C0D034D0008B10B /* messaging */,
 				59AE1CCF1C0C8C6D0008B10B /* util */,
 				59AE1CCA1C08F47B0008B10B /* forgot */,
@@ -212,6 +218,22 @@
 				2AA560C65D3EFE31A77E1582 /* Pods-twiliochat.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		87F895F31C0E033A00754007 /* chat */ = {
+			isa = PBXGroup;
+			children = (
+				87F895F71C0E045F00754007 /* MainChatViewController.swift */,
+			);
+			name = chat;
+			sourceTree = "<group>";
+		};
+		87F895F41C0E040E00754007 /* menu */ = {
+			isa = PBXGroup;
+			children = (
+				87F895F51C0E044300754007 /* MenuViewController.swift */,
+			);
+			name = menu;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -401,12 +423,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				59AE1CCC1C08F4960008B10B /* ForgotPasswordViewController.swift in Sources */,
+				87F895F81C0E045F00754007 /* MainChatViewController.swift in Sources */,
 				59F209321C050EF700CC2392 /* LoginViewController.swift in Sources */,
 				87F895F21C0CF3CE00754007 /* AlertDialogController.swift in Sources */,
 				59AE1CCE1C0C8C280008B10B /* TextFieldFormHandler.swift in Sources */,
 				59F209001C04C06800CC2392 /* ViewController.swift in Sources */,
 				59F208FE1C04C06800CC2392 /* AppDelegate.swift in Sources */,
 				59AE1CD21C0D03820008B10B /* IPMessagingManager.swift in Sources */,
+				87F895F61C0E044300754007 /* MenuViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
