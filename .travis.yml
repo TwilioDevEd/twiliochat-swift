@@ -1,0 +1,10 @@
+language: objective-c
+osx_image: xcode7.1
+xcode_workspace: twiliochat.xcworkspace
+xcode_scheme: twiliochat
+
+before_script:
+  - cp twiliochat/Keys.example.plist twiliochat/Keys.plist
+
+script:
+  - xctool -sdk iphonesimulator -workspace twiliochat.xcworkspace -scheme twiliochat test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
