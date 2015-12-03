@@ -4,23 +4,28 @@ PODS:
     - Bolts/Tasks (~> 1.5)
   - SlackTextViewController (1.7.2)
   - SWRevealViewController (2.3.0)
-  - TwilioIPMessagingClient (0.13.2)
+  - TwilioCommon (0.1.7)
+  - TwilioIPMessagingClient (0.13.3)
 
 DEPENDENCIES:
   - Parse (~> 1.9)
   - SlackTextViewController (~> 1.7)
   - SWRevealViewController (~> 2.3)
-  - TwilioIPMessagingClient (from `https://dev.twiliocdn.com/sdk/rtc/ios/ip-messaging/releases/0.13.2.b180-2b4a2a1/TwilioIPMessagingClient.podspec`)
+  - TwilioCommon (from `https://media.twiliocdn.com/sdk/rtc/ios/common/v0.1/TwilioCommon.podspec`)
+  - TwilioIPMessagingClient (from `https://media.twiliocdn.com/sdk/rtc/ios/ip-messaging/v0.13/TwilioIPMessagingClient.podspec`)
 
 EXTERNAL SOURCES:
+  TwilioCommon:
+    :podspec: https://media.twiliocdn.com/sdk/rtc/ios/common/v0.1/TwilioCommon.podspec
   TwilioIPMessagingClient:
-    :podspec: https://dev.twiliocdn.com/sdk/rtc/ios/ip-messaging/releases/0.13.2.b180-2b4a2a1/TwilioIPMessagingClient.podspec
+    :podspec: https://media.twiliocdn.com/sdk/rtc/ios/ip-messaging/v0.13/TwilioIPMessagingClient.podspec
 
 SPEC CHECKSUMS:
   Bolts: 722ab9a4f8b50fc4ed1b9998a5a7a2b3f16d80b4
   Parse: 90b2544822200f84b18bfacc4e8b0a3a6c3584a2
   SlackTextViewController: 1f4e8f68c156ef93de73fd422db2b8d5d5b0f4e7
   SWRevealViewController: 6d3fd97f70112fd7cef9de14df4260eacce4c63a
-  TwilioIPMessagingClient: 4089298ea6e4f17ee5fa97b22a8a9be147dc551a
+  TwilioCommon: 38afcfba06cd0cd389afeab362eced6c01762c1e
+  TwilioIPMessagingClient: 60eacf177056a866cc7e68d487f9e0da50f81fc0
 
 COCOAPODS: 0.39.0
