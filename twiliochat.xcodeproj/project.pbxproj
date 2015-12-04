@@ -21,6 +21,7 @@
 		59F2092E1C04C35E00CC2392 /* Keys.example.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59F2092C1C04C35E00CC2392 /* Keys.example.plist */; };
 		59F2092F1C04C35E00CC2392 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59F2092D1C04C35E00CC2392 /* Keys.plist */; };
 		59F209321C050EF700CC2392 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F209311C050EF700CC2392 /* LoginViewController.swift */; };
+		877109151C10EF4F004C57D3 /* ChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877109141C10EF4F004C57D3 /* ChannelManager.swift */; };
 		87F895F21C0CF3CE00754007 /* AlertDialogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F895F11C0CF3CE00754007 /* AlertDialogController.swift */; };
 		87F895F61C0E044300754007 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F895F51C0E044300754007 /* MenuViewController.swift */; };
 		87F895F81C0E045F00754007 /* MainChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F895F71C0E045F00754007 /* MainChatViewController.swift */; };
@@ -65,6 +66,7 @@
 		59F2092D1C04C35E00CC2392 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		59F209311C050EF700CC2392 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		82EC391710DF37EFB323C5DA /* Pods_twiliochat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_twiliochat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		877109141C10EF4F004C57D3 /* ChannelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelManager.swift; sourceTree = "<group>"; };
 		87F895F11C0CF3CE00754007 /* AlertDialogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertDialogController.swift; sourceTree = "<group>"; };
 		87F895F51C0E044300754007 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		87F895F71C0E045F00754007 /* MainChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainChatViewController.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 		59F208FC1C04C06800CC2392 /* twiliochat */ = {
 			isa = PBXGroup;
 			children = (
+				877109101C10EEF0004C57D3 /* channels */,
 				87F895F41C0E040E00754007 /* menu */,
 				87F895F31C0E033A00754007 /* chat */,
 				59AE1CD01C0D034D0008B10B /* messaging */,
@@ -206,6 +209,14 @@
 				59F209311C050EF700CC2392 /* LoginViewController.swift */,
 			);
 			name = login;
+			sourceTree = "<group>";
+		};
+		877109101C10EEF0004C57D3 /* channels */ = {
+			isa = PBXGroup;
+			children = (
+				877109141C10EF4F004C57D3 /* ChannelManager.swift */,
+			);
+			name = channels;
 			sourceTree = "<group>";
 		};
 		87D64AD497F4EB8203158504 /* Pods */ = {
@@ -420,6 +431,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				59AE1CCC1C08F4960008B10B /* ForgotPasswordViewController.swift in Sources */,
+				877109151C10EF4F004C57D3 /* ChannelManager.swift in Sources */,
 				87F895F81C0E045F00754007 /* MainChatViewController.swift in Sources */,
 				59F209321C050EF700CC2392 /* LoginViewController.swift in Sources */,
 				87F895F21C0CF3CE00754007 /* AlertDialogController.swift in Sources */,
@@ -575,6 +587,7 @@
 					"$(PROJECT_DIR)/Pods/TwilioIPMessagingClient",
 				);
 				INFOPLIST_FILE = twiliochat/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = twilio.twiliochat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -593,6 +606,7 @@
 					"$(PROJECT_DIR)/Pods/TwilioIPMessagingClient",
 				);
 				INFOPLIST_FILE = twiliochat/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = twilio.twiliochat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
