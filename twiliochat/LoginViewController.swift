@@ -21,16 +21,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate, TextFieldFormH
     var textFieldFormHandler: TextFieldFormHandler!
     
     var createAccountButtonTitle: String {
-        return self.isSigningUp ? "Back to login" : "Create account";
+        return self.isSigningUp ? "Back to login" : "Create account"
     }
     var loginButtonTitle: String {
-        return self.isSigningUp ? "Register" : "Login";
+        return self.isSigningUp ? "Register" : "Login"
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.isSigningUp = false;
+        self.isSigningUp = false
         initializeConstraints()
         initializeTextFields()
         refreshSignUpControls()
@@ -51,17 +51,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate, TextFieldFormH
         createAccountButton.setTitle(createAccountButtonTitle, forState: .Normal)
         loginButton.setTitle(loginButtonTitle, forState: .Normal)
         
-        textFieldFormHandler.lastTextField = isSigningUp ? nil : passwordTextField;
+        textFieldFormHandler.lastTextField = isSigningUp ? nil : passwordTextField
         
         for (constraint, constant) in constraintDataList {
             constraint.constant = isSigningUp ? constant : 0
         }
         
-        resetFirstResponderOnSignUpModeChange();
+        resetFirstResponderOnSignUpModeChange()
     }
     
     func resetFirstResponderOnSignUpModeChange() {
-        self.view.layoutSubviews();
+        self.view.layoutSubviews()
         
         if let index = self.textFieldFormHandler.firstResponderIndex {
             if (index > 1) {
@@ -122,14 +122,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate, TextFieldFormH
     func loginUser() {
         let ipMessagingManager = IPMessagingManager.sharedManager
         if let username = usernameTextField.text, password = passwordTextField.text {
-            ipMessagingManager.loginWithUsername(username, password: password, handler: handleResponse)
+            ipMessagingManager.loginWithUsername(username, password: password, completion: handleResponse)
         }
     }
     
     func registerUser() {
         let ipMessagingManager = IPMessagingManager.sharedManager
         if let username = usernameTextField.text, password = passwordTextField.text, fullName = fullNameTextField.text, email = emailTextField.text {
-            ipMessagingManager.registerWithUsername(username, password: password, fullName: fullName, email: email, handler: handleResponse)
+            ipMessagingManager.registerWithUsername(username, password: password, fullName: fullName, email: email, completion: handleResponse)
         }
     }
     
@@ -166,6 +166,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate, TextFieldFormH
     // MARK: - Style
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent;
+        return .LightContent
     }
 }

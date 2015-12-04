@@ -75,7 +75,7 @@ public class TextFieldFormHandler: NSObject, UITextFieldDelegate {
     }
     
     public func setTextFieldAtIndexAsFirstResponder(index:Int) {
-        textFields[index].becomeFirstResponder();
+        textFields[index].becomeFirstResponder()
     }
     
     public func cleanUp() {
@@ -138,7 +138,7 @@ public class TextFieldFormHandler: NSObject, UITextFieldDelegate {
     func keyboardWillShow(notification: NSNotification) {
         if (keyboardSize == 0) {
             if let keyboardRect = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-                keyboardSize = min(keyboardRect.height, keyboardRect.width);
+                keyboardSize = min(keyboardRect.height, keyboardRect.width)
             }
         }
         moveScreenUp()
@@ -159,7 +159,7 @@ public class TextFieldFormHandler: NSObject, UITextFieldDelegate {
             textField.becomeFirstResponder()
         }
         else {
-            textField.returnKeyType = type;
+            textField.returnKeyType = type
         }
     }
     

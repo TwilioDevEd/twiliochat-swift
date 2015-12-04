@@ -18,34 +18,32 @@ class ForgotPasswordViewController: UIViewController, TextFieldFormHandlerDelega
     
     func validateUserData() -> Bool {
         if let text = emailTextField.text where !text.isEmpty {
-            return true;
+            return true
         }
         
         AlertDialogController.showAlertWithMessage("Your email is required",
             title: nil,
             presenter: self)
-        return false;
+        return false
     }
     
     // MARK: - TextFieldFormHandlerDelegate
     
     func textFieldFormHandlerDoneEnteringData(handler: TextFieldFormHandler) {
-        startPasswordRecovery();
+        startPasswordRecovery()
     }
     
     func startPasswordRecovery() {
         view.userInteractionEnabled = false
         
         if (validateUserData()) {
-            PFUser.requestPasswordResetForEmailInBackground(emailTextField.text ?? "",
-                block: { (succeeded, error) in
+            PFUser.requestPasswordResetForEmailInBackground(emailTextField.text ?? "") { (succeeded, error) in
                     if (succeeded) {
                         AlertDialogController.showAlertWithMessage("We've sent you an email with further instructions",
                             title: nil,
-                            presenter: self,
-                            handler: {
+                            presenter: self) {
                                 self.performSegueWithIdentifier("BackToLogin", sender: self)
-                        })
+                            }
                     }
                     else {
                         AlertDialogController.showAlertWithMessage(error?.localizedDescription,
@@ -53,7 +51,7 @@ class ForgotPasswordViewController: UIViewController, TextFieldFormHandlerDelega
                             presenter: self)
                         self.view.userInteractionEnabled = true
                     }
-            })
+            }
         }
     }
     
@@ -63,7 +61,7 @@ class ForgotPasswordViewController: UIViewController, TextFieldFormHandlerDelega
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent;
+        return .LightContent
     }
 
 }

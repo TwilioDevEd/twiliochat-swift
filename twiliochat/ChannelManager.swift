@@ -12,104 +12,101 @@ class ChannelManager: NSObject, TwilioIPMessagingClientDelegate {
 
     override init() {
         super.init()
-        IPMessagingManager.sharedManager.client?.delegate = self;
+        IPMessagingManager.sharedManager.client?.delegate = self
     }
 
     // MARK: General channel
 
-    func joinGeneralChatRoomWithBlock(block: Bool -> Void) {
-        populateChannelsWithBlock { succeeded in
+    func joinGeneralChatRoomWithCompletion(completion: Bool -> Void) {
+        populateChannelsWithCompletion { succeeded in
             let uniqueName = ChannelManager.defaultChannelUniqueName
             if let channelsList = self.channelsList {
-                self.generalChatroom = channelsList.channelWithUniqueName(uniqueName);
+                self.generalChatroom = channelsList.channelWithUniqueName(uniqueName)
             }
 
             if self.generalChatroom != nil {
-                self.joinGeneralChatRoomWithUniqueName(nil, block: block)
-                return;
+                self.joinGeneralChatRoomWithUniqueName(nil, completion: completion)
+                return
             }
-            else {
-                self.createGeneralChatRoomWithBlock({ succeeded in
-                    if (succeeded) {
-                        self.joinGeneralChatRoomWithUniqueName(uniqueName, block: block)
-                        return;
-                    }
 
-                    block(false)
-                })
-            }
-        }
-    }
-
-    func joinGeneralChatRoomWithUniqueName(name: String?, block: Bool -> Void) {
-        generalChatroom.joinWithCompletion { result in
-            if (result == .Success) {
-                if (name != nil) {
-                    self.setGeneralChatRoomUniqueNameWithBlock(block)
+            self.createGeneralChatRoomWithCompletion { succeeded in
+                if (succeeded) {
+                    self.joinGeneralChatRoomWithUniqueName(uniqueName, completion: completion)
                     return
                 }
+                
+                completion(false)
             }
-            block(result == .Success);
         }
     }
 
-    func createGeneralChatRoomWithBlock(block: Bool -> Void) {
+    func joinGeneralChatRoomWithUniqueName(name: String?, completion: Bool -> Void) {
+        generalChatroom.joinWithCompletion { result in
+            if (result == .Success && name != nil) {
+                self.setGeneralChatRoomUniqueNameWithCompletion(completion)
+                return
+            }
+            completion(result == .Success)
+        }
+    }
+
+    func createGeneralChatRoomWithCompletion(completion: Bool -> Void) {
         let channelName = ChannelManager.defaultChannelName
-        channelsList!.createChannelWithFriendlyName(channelName, type: .Public, completion: { result, channel in
+        channelsList!.createChannelWithFriendlyName(channelName, type: .Public) { result, channel in
             if (result == .Success) {
                 self.generalChatroom = channel
             }
-            block(result == .Success)
-        })
+            completion(result == .Success)
+        }
     }
 
-    func setGeneralChatRoomUniqueNameWithBlock(block:Bool -> Void) {
+    func setGeneralChatRoomUniqueNameWithCompletion(completion:Bool -> Void) {
         generalChatroom.setUniqueName(ChannelManager.defaultChannelUniqueName) { result in
-            block(result == .Success)
+            completion(result == .Success)
         }
     }
 
     // MARK: Populate channels
 
-    func populateChannelsWithBlock(block: Bool -> Void) {
+    func populateChannelsWithCompletion(completion: Bool -> Void) {
         channels = nil
 
-        loadChannelListWithBlock { succeeded, channelList in
-            if (succeeded) {
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                    channelList!.loadChannelsWithCompletion({ result in
-                        if (result == .Success) {
-                            self.channels = NSMutableOrderedSet()
-                            self.channels!.addObjectsFromArray(channelList!.allObjects())
-                            self.sortChannels()
-                        }
-                        dispatch_async(dispatch_get_main_queue(), {
-                            block(true)
-                        })
-                    })
-                })
-            }
-            else {
+        loadChannelListWithCompletion { succeeded, channelList in
+            if (!succeeded) {
                 dispatch_async(dispatch_get_main_queue(), {
                     self.channelsList = nil
                     self.channels = nil
-                    block(false)
+                    completion(false)
                 })
+                return;
+            }
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                channelList!.loadChannelsWithCompletion { result in
+                    if (result == .Success) {
+                        self.channels = NSMutableOrderedSet()
+                        self.channels!.addObjectsFromArray(channelList!.allObjects())
+                        self.sortChannels()
+                    }
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completion(result == .Success)
+                    }
+                }
             }
         }
     }
 
-    func loadChannelListWithBlock(block: (Bool, TWMChannels?) -> Void) {
+    func loadChannelListWithCompletion(completion: (Bool, TWMChannels?) -> Void) {
         self.channelsList = nil
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            IPMessagingManager.sharedManager.client!.channelsListWithCompletion({ result, channelsList in
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            IPMessagingManager.sharedManager.client!.channelsListWithCompletion { result, channelsList in
                 if (result == .Success) {
                     self.channelsList = channelsList
                 }
-                block(result == .Success, self.channelsList)
-            })
-        })
+                completion(result == .Success, self.channelsList)
+            }
+        }
     }
 
     func sortChannels() {
@@ -120,27 +117,27 @@ class ChannelManager: NSObject, TwilioIPMessagingClientDelegate {
 
     // MARK: Create channel
 
-    func createChannelWithName(name: String, block: (Bool, TWMChannel?) -> Void) {
+    func createChannelWithName(name: String, completion: (Bool, TWMChannel?) -> Void) {
         if (name == ChannelManager.defaultChannelName) {
-            block(false, nil)
+            completion(false, nil)
+            return
         }
 
         if (channelsList == nil)
         {
-            loadChannelListWithBlock({ succeeded, channelsList in
+            loadChannelListWithCompletion { succeeded, channelsList in
                 if (succeeded) {
-                    self.createChannelWithName(name, block: block)
+                    self.createChannelWithName(name, completion: completion)
+                    return
                 }
-                else {
-                    block(succeeded, nil)
-                }
-            })
-            return;
+                completion(succeeded, nil)
+            }
+            return
         }
 
-        self.channelsList?.createChannelWithFriendlyName(name, type: .Public, completion: { result, channel in
-            block(result == .Success, channel)
-        })
+        self.channelsList?.createChannelWithFriendlyName(name, type: .Public) { result, channel in
+            completion(result == .Success, channel)
+        }
     }
 
     // MARK: TwilioIPMessagingClientDelegate

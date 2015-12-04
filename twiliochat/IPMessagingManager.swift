@@ -9,7 +9,7 @@ class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
     var connected = false
 
     var userIdentity:String? {
-        return PFUser.currentUser()?.username;
+        return PFUser.currentUser()?.username
     }
 
     var hasIdentity: Bool {
@@ -17,32 +17,28 @@ class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
     }
 
     func presentRootViewController() {
-        if (hasIdentity) {
-            if (connected) {
-                presentViewControllerByName("RevealViewController");
-            }
-            else {
-                connectClient({ success, error in
-                    if success {
-                        self.presentViewControllerByName("RevealViewController")
-                    }
-                    else {
-                        self.presentViewControllerByName("LoginViewController")
-                    }
-                })
-            }
+        if (!hasIdentity) {
+            presentViewControllerByName("LoginViewController")
+            return
         }
-        else {
-            presentViewControllerByName("LoginViewController");
+        
+        if (!connected) {
+            connectClientWithCompletion { success, error in
+                let viewController = success ? "RevealViewController" : "LoginViewController"
+                self.presentViewControllerByName(viewController)
+            }
+            return
         }
+        
+        presentViewControllerByName("RevealViewController")
     }
 
     func presentViewControllerByName(viewController: String) {
-        presentViewController(storyBoardWithName("Main").instantiateViewControllerWithIdentifier(viewController));
+        presentViewController(storyBoardWithName("Main").instantiateViewControllerWithIdentifier(viewController))
     }
 
     func presentLaunchScreen() {
-        presentViewController(storyBoardWithName("LaunchScreen").instantiateInitialViewController()!);
+        presentViewController(storyBoardWithName("LaunchScreen").instantiateInitialViewController()!)
     }
 
     func presentViewController(controller: UIViewController) {
@@ -61,7 +57,7 @@ class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
         password: String,
         fullName: String,
         email: String,
-        handler: (Bool, NSError?) -> Void) {
+        completion: (Bool, NSError?) -> Void) {
             let user = PFUser()
             user.username = username
             user.email = email
@@ -70,52 +66,50 @@ class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
             
             user.signUpInBackgroundWithBlock { succeeded, error in
                 if succeeded {
-                    self.connectClient(handler)
+                    self.connectClientWithCompletion(completion)
+                    return
                 }
-                else {
-                    handler(succeeded, error)
-                }
+                completion(succeeded, error)
             }
     }
 
     func loginWithUsername(
         username: String,
         password: String,
-        handler: (Bool, NSError?) -> Void) {
+        completion: (Bool, NSError?) -> Void) {
             PFUser.logInWithUsernameInBackground(username, password: password) { user, error in
                 if let error = error {
-                    handler(false, error)
+                    completion(false, error)
+                    return
                 }
-                else {
-                    self.connectClient(handler)
-                }
+                self.connectClientWithCompletion(completion)
             }
     }
 
     func logout() {
         PFUser.logOut()
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             self.client?.shutdown()
             self.client = nil
-        })
+        }
         self.connected = false
     }
 
     // MARK: Twilio Client
 
-    func connectClient(handler: (Bool, NSError?) -> Void) {
+    func connectClientWithCompletion(completion: (Bool, NSError?) -> Void) {
         if (client != nil) {
             logout()
         }
         
-        requestTokenWithBlock { succeeded, token in
+        requestTokenWithCompletion { succeeded, token in
             if let token = token where succeeded {
                 self.initializeClientWithToken(token)
-                self.loadGeneralChatRoom(handler)
+                self.loadGeneralChatRoomWithCompletion(completion)
             }
             else {
-                let error = self.errorWithDescription("Could not get access token", code:301);
-                handler(succeeded, error);
+                let error = self.errorWithDescription("Could not get access token", code:301)
+                completion(succeeded, error)
             }
         }
     }
@@ -125,45 +119,42 @@ class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
         client = TwilioIPMessagingClient.ipMessagingClientWithAccessManager(accessManager, delegate: nil)
     }
 
-    func loadGeneralChatRoom(handler:(Bool, NSError?) -> Void) {
-        ChannelManager.sharedManager.joinGeneralChatRoomWithBlock { succeeded in
+    func loadGeneralChatRoomWithCompletion(completion:(Bool, NSError?) -> Void) {
+        ChannelManager.sharedManager.joinGeneralChatRoomWithCompletion { succeeded in
             if succeeded {
                 self.connected = true
-                handler(succeeded, nil)
+                completion(succeeded, nil)
             }
             else {
                 let error = self.errorWithDescription("Could not join General channel", code: 300)
-                handler(succeeded, error)
+                completion(succeeded, error)
             }
         }
     }
 
-    func requestTokenWithBlock(handler:(Bool, String?) -> Void) {
+    func requestTokenWithCompletion(completion:(Bool, String?) -> Void) {
         if let device = UIDevice.currentDevice().identifierForVendor?.UUIDString {
             PFCloud.callFunctionInBackground(
                 "token",
-                withParameters: ["device": device],
-                block: { results, error in
-                    if let params = results as? NSDictionary, token = params["token"] as? String where error == nil {
-                        handler(true, token)
+                withParameters: ["device": device]) { results, error in
+                    var token: String?
+                    if let params = results as? NSDictionary where error == nil {
+                        token = params["token"] as? String
                     }
-                    else {
-                        handler(false, nil)
-                    }
+                    completion(token != nil, token)
                 }
-            )
         }
     }
 
     func errorWithDescription(description: String, code: Int) -> NSError {
-        let userInfo = [NSLocalizedDescriptionKey : description];
+        let userInfo = [NSLocalizedDescriptionKey : description]
         return NSError(domain: "app", code: code, userInfo: userInfo)
     }
 
     // MARK: TwilioAccessManagerDelegate
 
     func accessManagerTokenExpired(accessManager: TwilioAccessManager!) {
-        requestTokenWithBlock { succeeded, token in
+        requestTokenWithCompletion { succeeded, token in
             accessManager.updateToken(token)
         }
     }
