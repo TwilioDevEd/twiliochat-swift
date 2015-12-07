@@ -591,7 +591,7 @@
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="channelCell" id="YbJ-AH-YSC" customClass="MenuTableCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="channelCell" id="YbJ-AH-YSC" customClass="MenuTableCell" customModule="twiliochat" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YbJ-AH-YSC" id="5fw-9X-kWC">
@@ -653,6 +653,10 @@
                                         <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="rMA-kq-ND6" id="8OD-07-jSZ"/>
+                                    <outlet property="delegate" destination="rMA-kq-ND6" id="b6f-Av-wZQ"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <animations/>

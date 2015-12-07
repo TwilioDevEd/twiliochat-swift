@@ -146,22 +146,28 @@ class ChannelManager: NSObject, TwilioIPMessagingClientDelegate {
 
     func ipMessagingClient(client: TwilioIPMessagingClient!, channelAdded channel: TWMChannel!) {
         dispatch_async(dispatch_get_main_queue(), {
-            self.channels!.addObject(channel)
-            self.sortChannels()
-            self.delegate?.ipMessagingClient?(client, channelAdded: channel)
+            if self.channels != nil {
+                self.channels!.addObject(channel)
+                self.sortChannels()
+                self.delegate?.ipMessagingClient?(client, channelAdded: channel)
+            }
         })
     }
 
     func ipMessagingClient(client: TwilioIPMessagingClient!, channelChanged channel: TWMChannel!) {
         dispatch_async(dispatch_get_main_queue(), {
-            self.delegate?.ipMessagingClient?(client, channelChanged: channel)
+            if self.channels != nil {
+                self.delegate?.ipMessagingClient?(client, channelChanged: channel)
+            }
         })
     }
 
     func ipMessagingClient(client: TwilioIPMessagingClient!, channelDeleted channel: TWMChannel!) {
         dispatch_async(dispatch_get_main_queue(), {
-            self.channels?.removeObject(channel)
-            self.delegate?.ipMessagingClient?(client, channelDeleted: channel)
+            if self.channels != nil {
+                self.channels?.removeObject(channel)
+                self.delegate?.ipMessagingClient?(client, channelDeleted: channel)
+            }
         })
     }
 }

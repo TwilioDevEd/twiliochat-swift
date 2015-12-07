@@ -38,7 +38,7 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell
         
-        if ChannelManager.sharedManager.channels != nil {
+        if ChannelManager.sharedManager.channels == nil {
             cell = loadingCellForTableView(tableView)
         }
         else {
@@ -82,6 +82,17 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func refreshChannels() {
         refreshControl.beginRefreshing()
         populateChannels()
+    }
+    
+    // MARK: - Channel
+    
+    func createNewChannelDialog() {
+        InputDialogController.showWithTitle("New Channel",
+            message: "Enter a name for this channel",
+            placeholder: "Name",
+            presenter: self) { text in
+                ChannelManager.sharedManager.createChannelWithName(text, completion: { _,_ in })
+        }
     }
     
     // MARK: - TwilioIPMessagingClientDelegate

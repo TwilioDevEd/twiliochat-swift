@@ -22,6 +22,9 @@
 		59F209321C050EF700CC2392 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F209311C050EF700CC2392 /* LoginViewController.swift */; };
 		877109151C10EF4F004C57D3 /* ChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877109141C10EF4F004C57D3 /* ChannelManager.swift */; };
 		877109171C15E55E004C57D3 /* MenuTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877109161C15E55E004C57D3 /* MenuTableCell.swift */; };
+		8771091A1C162FC8004C57D3 /* ChatStatusTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 877109181C162FC8004C57D3 /* ChatStatusTableCell.xib */; };
+		8771091B1C162FC8004C57D3 /* ChatTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 877109191C162FC8004C57D3 /* ChatTableCell.xib */; };
+		8771091D1C1638E9004C57D3 /* InputDialogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8771091C1C1638E9004C57D3 /* InputDialogController.swift */; };
 		87F895F21C0CF3CE00754007 /* AlertDialogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F895F11C0CF3CE00754007 /* AlertDialogController.swift */; };
 		87F895F61C0E044300754007 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F895F51C0E044300754007 /* MenuViewController.swift */; };
 		87F895F81C0E045F00754007 /* MainChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F895F71C0E045F00754007 /* MainChatViewController.swift */; };
@@ -67,6 +70,9 @@
 		82EC391710DF37EFB323C5DA /* Pods_twiliochat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_twiliochat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		877109141C10EF4F004C57D3 /* ChannelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelManager.swift; sourceTree = "<group>"; };
 		877109161C15E55E004C57D3 /* MenuTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableCell.swift; sourceTree = "<group>"; };
+		877109181C162FC8004C57D3 /* ChatStatusTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatStatusTableCell.xib; sourceTree = "<group>"; };
+		877109191C162FC8004C57D3 /* ChatTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatTableCell.xib; sourceTree = "<group>"; };
+		8771091C1C1638E9004C57D3 /* InputDialogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputDialogController.swift; sourceTree = "<group>"; };
 		87F895F11C0CF3CE00754007 /* AlertDialogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertDialogController.swift; sourceTree = "<group>"; };
 		87F895F51C0E044300754007 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		87F895F71C0E045F00754007 /* MainChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainChatViewController.swift; sourceTree = "<group>"; };
@@ -122,6 +128,7 @@
 			children = (
 				59AE1CCD1C0C8C280008B10B /* TextFieldFormHandler.swift */,
 				87F895F11C0CF3CE00754007 /* AlertDialogController.swift */,
+				8771091C1C1638E9004C57D3 /* InputDialogController.swift */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -171,6 +178,8 @@
 				59F209011C04C06800CC2392 /* Main.storyboard */,
 				59F209041C04C06800CC2392 /* Assets.xcassets */,
 				59F209061C04C06800CC2392 /* LaunchScreen.storyboard */,
+				877109181C162FC8004C57D3 /* ChatStatusTableCell.xib */,
+				877109191C162FC8004C57D3 /* ChatTableCell.xib */,
 				59F209091C04C06800CC2392 /* Info.plist */,
 			);
 			path = twiliochat;
@@ -353,8 +362,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8771091B1C162FC8004C57D3 /* ChatTableCell.xib in Resources */,
 				59F209081C04C06800CC2392 /* LaunchScreen.storyboard in Resources */,
 				59F209051C04C06800CC2392 /* Assets.xcassets in Resources */,
+				8771091A1C162FC8004C57D3 /* ChatStatusTableCell.xib in Resources */,
 				59F2092E1C04C35E00CC2392 /* Keys.example.plist in Resources */,
 				59F209031C04C06800CC2392 /* Main.storyboard in Resources */,
 				59F2092F1C04C35E00CC2392 /* Keys.plist in Resources */,
@@ -434,6 +445,7 @@
 				877109151C10EF4F004C57D3 /* ChannelManager.swift in Sources */,
 				87F895F81C0E045F00754007 /* MainChatViewController.swift in Sources */,
 				877109171C15E55E004C57D3 /* MenuTableCell.swift in Sources */,
+				8771091D1C1638E9004C57D3 /* InputDialogController.swift in Sources */,
 				59F209321C050EF700CC2392 /* LoginViewController.swift in Sources */,
 				87F895F21C0CF3CE00754007 /* AlertDialogController.swift in Sources */,
 				59AE1CCE1C0C8C280008B10B /* TextFieldFormHandler.swift in Sources */,

@@ -26,13 +26,19 @@ class MenuTableCell: UITableViewCell {
     
     override func awakeFromNib() {
         label = viewWithTag(200)! as? UILabel
-        selectedBackgroundView?.backgroundColor = self.selectedBackgroundColor
+        selectedBackgroundView?.backgroundColor = selectedBackgroundColor
         label.highlightedTextColor = labelHighlightedTextColor
         label.textColor = labelTextColor
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        label.highlighted = true
+        
+        if (selected) {
+            self.label.highlightedTextColor = self.labelHighlightedTextColor;
+        }
+        else {
+            self.label.textColor = self.labelTextColor;
+        }
     }
 }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="44" id="jSO-rj-hBS">
+            <rect key="frame" x="0.0" y="0.0" width="411" height="45"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jSO-rj-hBS" id="5r3-PQ-tnG">
+                <rect key="frame" x="0.0" y="0.0" width="411" height="44.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" tag="200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="goG-ga-qbY">
+                        <rect key="frame" x="8" y="8" width="395" height="29"/>
+                        <animations/>
+                        <fontDescription key="fontDescription" name="Avenir-BookOblique" family="Avenir" pointSize="12"/>
+                        <color key="textColor" red="0.57647058819999997" green="0.58431372550000005" blue="0.59607843140000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aSH-RX-6Ki">
+                        <rect key="frame" x="0.0" y="0.0" width="411" height="1"/>
+                        <animations/>
+                        <color key="backgroundColor" red="0.57647058819999997" green="0.58431372550000005" blue="0.59607843140000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="DxT-Nm-3Dd"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rFV-dC-oNl">
+                        <rect key="frame" x="0.0" y="42" width="411" height="1"/>
+                        <animations/>
+                        <color key="backgroundColor" red="0.57647058819999997" green="0.58431372550000005" blue="0.59607843140000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="31r-xL-y24"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <animations/>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="aSH-RX-6Ki" secondAttribute="trailing" id="0mr-O9-OHl"/>
+                    <constraint firstItem="goG-ga-qbY" firstAttribute="leading" secondItem="5r3-PQ-tnG" secondAttribute="leadingMargin" id="8aD-OF-uRK"/>
+                    <constraint firstAttribute="bottom" secondItem="rFV-dC-oNl" secondAttribute="bottom" constant="2" id="QSq-un-TnC"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="goG-ga-qbY" secondAttribute="trailing" id="RXN-d4-dAZ"/>
+                    <constraint firstItem="aSH-RX-6Ki" firstAttribute="leading" secondItem="5r3-PQ-tnG" secondAttribute="leading" id="TUo-bJ-vb5"/>
+                    <constraint firstItem="aSH-RX-6Ki" firstAttribute="top" secondItem="5r3-PQ-tnG" secondAttribute="top" id="Ukl-qy-KlR"/>
+                    <constraint firstAttribute="trailing" secondItem="rFV-dC-oNl" secondAttribute="trailing" id="mbb-Ut-4JK"/>
+                    <constraint firstItem="rFV-dC-oNl" firstAttribute="leading" secondItem="5r3-PQ-tnG" secondAttribute="leading" id="pnl-2N-WMc"/>
+                    <constraint firstItem="goG-ga-qbY" firstAttribute="top" secondItem="5r3-PQ-tnG" secondAttribute="topMargin" id="qec-6f-ljq"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="goG-ga-qbY" secondAttribute="bottom" id="smP-Cb-oXR"/>
+                </constraints>
+            </tableViewCellContentView>
+            <animations/>
+            <point key="canvasLocation" x="429.5" y="316.5"/>
+        </tableViewCell>
+    </objects>
+</document>
