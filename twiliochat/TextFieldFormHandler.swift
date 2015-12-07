@@ -50,17 +50,21 @@ public class TextFieldFormHandler: NSObject, UITextFieldDelegate {
     
     init(withTextFields textFields: [UITextField], topContainer: UIView) {
         super.init()
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        
         self.textFields = textFields
         self.topContainer = topContainer
-        
+        initializeTextFields();
+        initializeObservers();
+    }
+    
+    func initializeTextFields() {
         for (index, textField) in self.textFields.enumerate() {
             textField.delegate = self
             setTextField(textField, returnKeyType: (index == self.textFields.count - 1 ? .Done : .Next))
         }
-        
+    }
+    
+    func initializeObservers() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         let tapRecognizer = UITapGestureRecognizer(target: self, action: "backgroundTap:")
         self.topContainer.addGestureRecognizer(tapRecognizer)
     }

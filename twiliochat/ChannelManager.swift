@@ -104,7 +104,9 @@ class ChannelManager: NSObject, TwilioIPMessagingClientDelegate {
                 if (result == .Success) {
                     self.channelsList = channelsList
                 }
-                completion(result == .Success, self.channelsList)
+                dispatch_async(dispatch_get_main_queue(), {
+                    completion(result == .Success, self.channelsList)
+                })
             }
         }
     }

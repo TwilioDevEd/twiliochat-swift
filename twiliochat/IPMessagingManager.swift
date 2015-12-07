@@ -155,11 +155,16 @@ class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
 
     func accessManagerTokenExpired(accessManager: TwilioAccessManager!) {
         requestTokenWithCompletion { succeeded, token in
-            accessManager.updateToken(token)
+            if (succeeded) {
+                accessManager.updateToken(token)
+            }
+            else {
+                print("Error while trying to get new access token")
+            }
         }
     }
 
     func accessManager(accessManager: TwilioAccessManager!, error: NSError!) {
-        print(error.localizedDescription)
+        print("Access manager error: \(error.localizedDescription)")
     }
 }

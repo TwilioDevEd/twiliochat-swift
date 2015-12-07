@@ -21,6 +21,7 @@
 		59F2092F1C04C35E00CC2392 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59F2092D1C04C35E00CC2392 /* Keys.plist */; };
 		59F209321C050EF700CC2392 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F209311C050EF700CC2392 /* LoginViewController.swift */; };
 		877109151C10EF4F004C57D3 /* ChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877109141C10EF4F004C57D3 /* ChannelManager.swift */; };
+		877109171C15E55E004C57D3 /* MenuTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877109161C15E55E004C57D3 /* MenuTableCell.swift */; };
 		87F895F21C0CF3CE00754007 /* AlertDialogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F895F11C0CF3CE00754007 /* AlertDialogController.swift */; };
 		87F895F61C0E044300754007 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F895F51C0E044300754007 /* MenuViewController.swift */; };
 		87F895F81C0E045F00754007 /* MainChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F895F71C0E045F00754007 /* MainChatViewController.swift */; };
@@ -65,6 +66,7 @@
 		59F209311C050EF700CC2392 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		82EC391710DF37EFB323C5DA /* Pods_twiliochat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_twiliochat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		877109141C10EF4F004C57D3 /* ChannelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelManager.swift; sourceTree = "<group>"; };
+		877109161C15E55E004C57D3 /* MenuTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableCell.swift; sourceTree = "<group>"; };
 		87F895F11C0CF3CE00754007 /* AlertDialogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertDialogController.swift; sourceTree = "<group>"; };
 		87F895F51C0E044300754007 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		87F895F71C0E045F00754007 /* MainChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainChatViewController.swift; sourceTree = "<group>"; };
@@ -158,11 +160,11 @@
 			isa = PBXGroup;
 			children = (
 				877109101C10EEF0004C57D3 /* channels */,
+				59AE1CCA1C08F47B0008B10B /* forgot */,
+				59AE1CCF1C0C8C6D0008B10B /* util */,
+				59AE1CD01C0D034D0008B10B /* messaging */,
 				87F895F41C0E040E00754007 /* menu */,
 				87F895F31C0E033A00754007 /* chat */,
-				59AE1CD01C0D034D0008B10B /* messaging */,
-				59AE1CCF1C0C8C6D0008B10B /* util */,
-				59AE1CCA1C08F47B0008B10B /* forgot */,
 				59F209301C050ED800CC2392 /* login */,
 				59F2092B1C04C33C00CC2392 /* resources */,
 				59F208FD1C04C06800CC2392 /* AppDelegate.swift */,
@@ -237,6 +239,7 @@
 			isa = PBXGroup;
 			children = (
 				87F895F51C0E044300754007 /* MenuViewController.swift */,
+				877109161C15E55E004C57D3 /* MenuTableCell.swift */,
 			);
 			name = menu;
 			sourceTree = "<group>";
@@ -430,6 +433,7 @@
 				59AE1CCC1C08F4960008B10B /* ForgotPasswordViewController.swift in Sources */,
 				877109151C10EF4F004C57D3 /* ChannelManager.swift in Sources */,
 				87F895F81C0E045F00754007 /* MainChatViewController.swift in Sources */,
+				877109171C15E55E004C57D3 /* MenuTableCell.swift in Sources */,
 				59F209321C050EF700CC2392 /* LoginViewController.swift in Sources */,
 				87F895F21C0CF3CE00754007 /* AlertDialogController.swift in Sources */,
 				59AE1CCE1C0C8C280008B10B /* TextFieldFormHandler.swift in Sources */,

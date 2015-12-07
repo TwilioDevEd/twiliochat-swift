@@ -63,5 +63,19 @@ class ForgotPasswordViewController: UIViewController, TextFieldFormHandlerDelega
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent
     }
-
+    
+    override func shouldAutorotate() -> Bool {
+        return true;
+    }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        if (UI_USER_INTERFACE_IDIOM() == .Pad) {
+            return .All
+        }
+        return .Portrait;
+    }
+    
+    override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
+        return .Portrait;
+    }
 }
