@@ -551,6 +551,9 @@
                                                 <exclude reference="5FJ-Tx-npU"/>
                                             </mask>
                                         </variation>
+                                        <connections>
+                                            <action selector="logoutButtonTouched:" destination="rMA-kq-ND6" eventType="touchUpInside" id="Hwc-Qc-U0W"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <animations/>
@@ -576,6 +579,9 @@
                                         <rect key="frame" x="30" y="14" width="94" height="25"/>
                                         <animations/>
                                         <state key="normal" image="add-channel-button"/>
+                                        <connections>
+                                            <action selector="newChannelButtonTouched:" destination="rMA-kq-ND6" eventType="touchUpInside" id="0Z6-Np-RVl"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <animations/>
