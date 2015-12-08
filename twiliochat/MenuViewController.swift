@@ -142,6 +142,17 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
     createNewChannelDialog()
   }
 
+  // MARK: - Navigation
+
+  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    if segue.identifier == MenuViewController.TWCOpenChannelSegue {
+      let indexPath = sender as! NSIndexPath
+      let channel = ChannelManager.sharedManager.channels![indexPath.row] as! TWMChannel
+      let navigationController = segue.destinationViewController as! UINavigationController
+      (navigationController.visibleViewController as! MainChatViewController).channel = channel
+    }
+  }
+
   // MARK: - Style
 
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
