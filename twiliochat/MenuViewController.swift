@@ -2,8 +2,8 @@ import UIKit
 import Parse
 
 class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TwilioIPMessagingClientDelegate {
-  static let TWCOpenChannelSegue = "OpenChat";
-  static let TWCRefreshControlXOffset: CGFloat = 120;
+  static let TWCOpenChannelSegue = "OpenChat"
+  static let TWCRefreshControlXOffset: CGFloat = 120
 
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var usernameLabel: UILabel!
@@ -139,7 +139,7 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
   }
 
   @IBAction func newChannelButtonTouched(sender: UIButton) {
-    createNewChannelDialog();
+    createNewChannelDialog()
   }
 
   // MARK: - Style

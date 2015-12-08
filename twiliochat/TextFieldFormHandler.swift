@@ -52,8 +52,8 @@ public class TextFieldFormHandler: NSObject, UITextFieldDelegate {
         super.init()
         self.textFields = textFields
         self.topContainer = topContainer
-        initializeTextFields();
-        initializeObservers();
+        initializeTextFields()
+        initializeObservers()
     }
     
     func initializeTextFields() {

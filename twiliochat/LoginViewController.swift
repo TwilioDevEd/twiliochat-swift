@@ -170,17 +170,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate, TextFieldFormH
     }
     
     override func shouldAutorotate() -> Bool {
-        return true;
+        return true
     }
     
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         if (UI_USER_INTERFACE_IDIOM() == .Pad) {
             return .All
         }
-        return .Portrait;
+        return .Portrait
     }
     
     override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
-        return .Portrait;
+        return .Portrait
     }
 }

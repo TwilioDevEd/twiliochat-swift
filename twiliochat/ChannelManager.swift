@@ -8,7 +8,7 @@ class ChannelManager: NSObject, TwilioIPMessagingClientDelegate {
 
     var channelsList:TWMChannels?
     var channels:NSMutableOrderedSet?
-    var generalChatroom:TWMChannel!
+    var generalChannel:TWMChannel!
 
     override init() {
         super.init()
@@ -21,10 +21,10 @@ class ChannelManager: NSObject, TwilioIPMessagingClientDelegate {
         populateChannelsWithCompletion { succeeded in
             let uniqueName = ChannelManager.defaultChannelUniqueName
             if let channelsList = self.channelsList {
-                self.generalChatroom = channelsList.channelWithUniqueName(uniqueName)
+                self.generalChannel = channelsList.channelWithUniqueName(uniqueName)
             }
 
-            if self.generalChatroom != nil {
+            if self.generalChannel != nil {
                 self.joinGeneralChatRoomWithUniqueName(nil, completion: completion)
                 return
             }
@@ -41,7 +41,7 @@ class ChannelManager: NSObject, TwilioIPMessagingClientDelegate {
     }
 
     func joinGeneralChatRoomWithUniqueName(name: String?, completion: Bool -> Void) {
-        generalChatroom.joinWithCompletion { result in
+        generalChannel.joinWithCompletion { result in
             if (result == .Success && name != nil) {
                 self.setGeneralChatRoomUniqueNameWithCompletion(completion)
                 return
@@ -54,14 +54,14 @@ class ChannelManager: NSObject, TwilioIPMessagingClientDelegate {
         let channelName = ChannelManager.defaultChannelName
         channelsList!.createChannelWithFriendlyName(channelName, type: .Public) { result, channel in
             if (result == .Success) {
-                self.generalChatroom = channel
+                self.generalChannel = channel
             }
             completion(result == .Success)
         }
     }
 
     func setGeneralChatRoomUniqueNameWithCompletion(completion:Bool -> Void) {
-        generalChatroom.setUniqueName(ChannelManager.defaultChannelUniqueName) { result in
+        generalChannel.setUniqueName(ChannelManager.defaultChannelUniqueName) { result in
             completion(result == .Success)
         }
     }
@@ -78,7 +78,7 @@ class ChannelManager: NSObject, TwilioIPMessagingClientDelegate {
                     self.channels = nil
                     completion(false)
                 })
-                return;
+                return
             }
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {

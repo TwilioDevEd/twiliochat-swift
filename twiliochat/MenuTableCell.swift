@@ -1,7 +1,7 @@
 import UIKit
 
 class MenuTableCell: UITableViewCell {
-  var label: UILabel!;
+  var label: UILabel!
 
   var channelName: String {
     get {
