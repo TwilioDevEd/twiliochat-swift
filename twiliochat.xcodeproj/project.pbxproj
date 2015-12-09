@@ -26,7 +26,7 @@
 		8771091B1C162FC8004C57D3 /* ChatTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 877109191C162FC8004C57D3 /* ChatTableCell.xib */; };
 		8771091D1C1638E9004C57D3 /* InputDialogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8771091C1C1638E9004C57D3 /* InputDialogController.swift */; };
 		8771091F1C175AC2004C57D3 /* ChatTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8771091E1C175AC2004C57D3 /* ChatTableCell.swift */; };
-		877109211C1772C5004C57D3 /* StatusEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877109201C1772C5004C57D3 /* StatusEntry.swift */; };
+		877109211C1772C5004C57D3 /* StatusMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877109201C1772C5004C57D3 /* StatusMessage.swift */; };
 		877109231C1776FA004C57D3 /* DateTodayFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877109221C1776FA004C57D3 /* DateTodayFormatter.swift */; };
 		87F895F21C0CF3CE00754007 /* AlertDialogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F895F11C0CF3CE00754007 /* AlertDialogController.swift */; };
 		87F895F61C0E044300754007 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F895F51C0E044300754007 /* MenuViewController.swift */; };
@@ -77,7 +77,7 @@
 		877109191C162FC8004C57D3 /* ChatTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatTableCell.xib; sourceTree = "<group>"; };
 		8771091C1C1638E9004C57D3 /* InputDialogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputDialogController.swift; sourceTree = "<group>"; };
 		8771091E1C175AC2004C57D3 /* ChatTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTableCell.swift; sourceTree = "<group>"; };
-		877109201C1772C5004C57D3 /* StatusEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusEntry.swift; sourceTree = "<group>"; };
+		877109201C1772C5004C57D3 /* StatusMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusMessage.swift; sourceTree = "<group>"; };
 		877109221C1776FA004C57D3 /* DateTodayFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTodayFormatter.swift; sourceTree = "<group>"; };
 		87F895F11C0CF3CE00754007 /* AlertDialogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertDialogController.swift; sourceTree = "<group>"; };
 		87F895F51C0E044300754007 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
@@ -248,7 +248,7 @@
 			children = (
 				87F895F71C0E045F00754007 /* MainChatViewController.swift */,
 				8771091E1C175AC2004C57D3 /* ChatTableCell.swift */,
-				877109201C1772C5004C57D3 /* StatusEntry.swift */,
+				877109201C1772C5004C57D3 /* StatusMessage.swift */,
 			);
 			name = chat;
 			sourceTree = "<group>";
@@ -455,7 +455,7 @@
 				87F895F81C0E045F00754007 /* MainChatViewController.swift in Sources */,
 				877109171C15E55E004C57D3 /* MenuTableCell.swift in Sources */,
 				877109231C1776FA004C57D3 /* DateTodayFormatter.swift in Sources */,
-				877109211C1772C5004C57D3 /* StatusEntry.swift in Sources */,
+				877109211C1772C5004C57D3 /* StatusMessage.swift in Sources */,
 				8771091D1C1638E9004C57D3 /* InputDialogController.swift in Sources */,
 				59F209321C050EF700CC2392 /* LoginViewController.swift in Sources */,
 				8771091F1C175AC2004C57D3 /* ChatTableCell.swift in Sources */,

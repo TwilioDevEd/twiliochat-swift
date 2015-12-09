@@ -6,13 +6,21 @@ enum TWCMemberStatus {
   case Left
 }
 
-class StatusEntry: NSObject {
-  var sid: NSString = ""
+class StatusMessage: TWMMessage {
   var member: TWMMember! = nil
-  var timestamp: NSString = ""
   var status: TWCMemberStatus! = nil
+  var storedTimestamp: String = ""
+  override var timestamp: String {
+    get {
+      return storedTimestamp
+    }
+    set(newTimestamp) {
+      storedTimestamp = newTimestamp
+    }
+  }
 
   init(member: TWMMember, status: TWCMemberStatus) {
+    super.init()
     self.member = member
     let dateFormatter = NSDateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"

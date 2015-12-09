@@ -26,8 +26,8 @@ class MainChatViewController: SLKTextViewController, TWMChannelDelegate {
     }
   }
 
-  var messages:Set<NSObject> = Set<NSObject>()
-  var sortedMessages:[NSObject]!
+  var messages:Set<TWMMessage> = Set<TWMMessage>()
+  var sortedMessages:[TWMMessage]!
 
   @IBOutlet weak var revealButtonItem: UIBarButtonItem!
 
@@ -95,11 +95,11 @@ class MainChatViewController: SLKTextViewController, TWMChannelDelegate {
 
     let message = sortedMessages[indexPath.row]
 
-    if let channel = message as? TWMMessage {
-      cell = getChatCellForTableView(tableView, forIndexPath:indexPath, message:channel)
+    if let statusMessage = message as? StatusMessage {
+      cell = getStatusCellForTableView(tableView, forIndexPath:indexPath, message:statusMessage)
     }
     else {
-      cell = getStatusCellForTableView(tableView, forIndexPath:indexPath, message:message as! StatusEntry)
+      cell = getChatCellForTableView(tableView, forIndexPath:indexPath, message:message)
     }
 
     cell.transform = tableView.transform
@@ -117,7 +117,7 @@ class MainChatViewController: SLKTextViewController, TWMChannelDelegate {
     return chatCell
   }
   
-  func getStatusCellForTableView(tableView: UITableView, forIndexPath indexPath:NSIndexPath, message: StatusEntry) -> UITableViewCell {
+  func getStatusCellForTableView(tableView: UITableView, forIndexPath indexPath:NSIndexPath, message: StatusMessage) -> UITableViewCell {
     let cell = tableView.dequeueReusableCellWithIdentifier(MainChatViewController.TWCChatStatusCellIdentifier, forIndexPath:indexPath)
 
     let label = cell.viewWithTag(MainChatViewController.TWCLabelTag) as! UILabel
@@ -160,7 +160,7 @@ class MainChatViewController: SLKTextViewController, TWMChannelDelegate {
     channel.messages.sendMessage(message, completion: nil)
   }
 
-  func addMessages(newMessages:[NSObject]) {
+  func addMessages(newMessages:[TWMMessage]) {
     messages =  messages.union(newMessages)
     sortMessages()
     dispatch_async(dispatch_get_main_queue(), {
@@ -172,8 +172,8 @@ class MainChatViewController: SLKTextViewController, TWMChannelDelegate {
   }
 
   func sortMessages() {
-    sortedMessages = messages.sort { _,_ in true }
-    //messages.sort { a, b in a.timestamp > b.timestamp }
+    //sortedMessages = messages.sort { _,_ in true }
+    sortedMessages = messages.sort { a, b in a.timestamp > b.timestamp }
   }
 
   func loadMessages() {
@@ -197,10 +197,10 @@ class MainChatViewController: SLKTextViewController, TWMChannelDelegate {
   }
 
   func ipMessagingClient(client: TwilioIPMessagingClient!, channel: TWMChannel!, memberJoined member: TWMMember!) {
-    addMessages([StatusEntry(member:member, status:.Joined)])
+    addMessages([StatusMessage(member:member, status:.Joined)])
   }
 
   func ipMessagingClient(client: TwilioIPMessagingClient!, channel: TWMChannel!, memberLeft member: TWMMember!) {
-    addMessages([StatusEntry(member:member, status:.Left)])
+    addMessages([StatusMessage(member:member, status:.Left)])
   }
 }
