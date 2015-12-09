@@ -30,6 +30,7 @@ class MainChatViewController: SLKTextViewController, TWMChannelDelegate {
   var sortedMessages:[TWMMessage]!
 
   @IBOutlet weak var revealButtonItem: UIBarButtonItem!
+  @IBOutlet weak var actionButtonItem: UIBarButtonItem!
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -172,7 +173,6 @@ class MainChatViewController: SLKTextViewController, TWMChannelDelegate {
   }
 
   func sortMessages() {
-    //sortedMessages = messages.sort { _,_ in true }
     sortedMessages = messages.sort { a, b in a.timestamp > b.timestamp }
   }
 
@@ -185,6 +185,14 @@ class MainChatViewController: SLKTextViewController, TWMChannelDelegate {
     if messages.count > 0 {
       let indexPath = NSIndexPath(forRow: 0, inSection: 0)
       tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: true)
+    }
+  }
+
+  func leaveChannel() {
+    channel.leaveWithCompletion { result in
+      if result == .Success {
+        self.revealViewController().rearViewController.performSegueWithIdentifier(MainChatViewController.TWCOpenGeneralChannelSegue, sender: nil)
+      }
     }
   }
 
@@ -202,5 +210,11 @@ class MainChatViewController: SLKTextViewController, TWMChannelDelegate {
 
   func ipMessagingClient(client: TwilioIPMessagingClient!, channel: TWMChannel!, memberLeft member: TWMMember!) {
     addMessages([StatusMessage(member:member, status:.Left)])
+  }
+
+  // MARK: - Actions
+
+  @IBAction func actionButtonTouched(sender: UIBarButtonItem) {
+    leaveChannel()
   }
 }

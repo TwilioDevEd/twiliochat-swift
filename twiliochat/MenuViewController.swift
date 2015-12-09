@@ -52,6 +52,33 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
     return cell
   }
 
+  func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    if let channel = ChannelManager.sharedManager.channels?.objectAtIndex(indexPath.row) as? TWMChannel {
+      return channel != ChannelManager.sharedManager.generalChannel
+    }
+    return false
+  }
+
+  func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    if editingStyle != .Delete {
+      return
+    }
+    if let channel = ChannelManager.sharedManager.channels?.objectAtIndex(indexPath.row) {
+      channel.destroyWithCompletion { result in
+        if result == .Success {
+          tableView.reloadData()
+        }
+        else {
+          AlertDialogController.showAlertWithMessage("You can not delete this channel", title: nil, presenter: self)
+        }
+      }
+    }
+  }
+
+  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    performSegueWithIdentifier(MenuViewController.TWCOpenChannelSegue, sender: indexPath)
+  }
+
   // MARK: - Internal methods
 
   func loadingCellForTableView(tableView: UITableView) -> UITableViewCell {

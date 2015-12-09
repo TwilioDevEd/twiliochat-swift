@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="L07-8t-veM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="L07-8t-veM">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
@@ -660,8 +660,8 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="rMA-kq-ND6" id="8OD-07-jSZ"/>
-                                    <outlet property="delegate" destination="rMA-kq-ND6" id="b6f-Av-wZQ"/>
+                                    <outlet property="dataSource" destination="rMA-kq-ND6" id="Rny-CZ-ruL"/>
+                                    <outlet property="delegate" destination="rMA-kq-ND6" id="fi2-VP-GPC"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -687,6 +687,8 @@
                     <connections>
                         <outlet property="tableView" destination="nTF-pl-HbZ" id="ptP-4l-3kO"/>
                         <outlet property="usernameLabel" destination="tVU-lQ-HEb" id="waa-zx-IIu"/>
+                        <segue destination="xa8-JC-Ynl" kind="custom" identifier="OpenChat" customClass="SWRevealViewControllerSeguePushController" id="FHT-Sq-FTn"/>
+                        <segue destination="xa8-JC-Ynl" kind="custom" identifier="OpenGeneralChat" customClass="SWRevealViewControllerSeguePushController" id="kLO-FZ-XZY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2BO-ma-jTg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -713,15 +715,19 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="action" id="SzG-Qw-vnI">
                             <color key="tintColor" red="0.97254901959999995" green="0.5568627451" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="actionButtonTouched:" destination="57q-t4-bI6" id="YPl-Nv-882"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="actionButtonItem" destination="SzG-Qw-vnI" id="gXb-EI-z5C"/>
                         <outlet property="revealButtonItem" destination="DnX-W1-ouN" id="LHU-Zh-TSr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zI8-6h-FW7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2050" y="793"/>
+            <point key="canvasLocation" x="2210" y="793"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Rbs-Cl-6oV">
@@ -740,7 +746,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kk5-bg-LeS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1238" y="793"/>
+            <point key="canvasLocation" x="1418" y="793"/>
         </scene>
     </scenes>
     <resources>
@@ -753,4 +759,7 @@
         <image name="password-field-bg" width="26" height="41"/>
         <image name="username-field-bg" width="25" height="41"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="kLO-FZ-XZY"/>
+    </inferredMetricsTieBreakers>
 </document>
