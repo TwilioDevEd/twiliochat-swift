@@ -29,5 +29,5 @@ class StatusMessage: TWMMessage {
     self.status = status
   }
 
-
+  
 }

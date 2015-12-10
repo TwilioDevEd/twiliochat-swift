@@ -117,7 +117,7 @@ class MainChatViewController: SLKTextViewController, TWMChannelDelegate {
 
     return chatCell
   }
-  
+
   func getStatusCellForTableView(tableView: UITableView, forIndexPath indexPath:NSIndexPath, message: StatusMessage) -> UITableViewCell {
     let cell = tableView.dequeueReusableCellWithIdentifier(MainChatViewController.TWCChatStatusCellIdentifier, forIndexPath:indexPath)
 
@@ -220,7 +220,7 @@ class MainChatViewController: SLKTextViewController, TWMChannelDelegate {
   @IBAction func actionButtonTouched(sender: UIBarButtonItem) {
     leaveChannel()
   }
-
+  
   @IBAction func revealButtonTouched(sender: AnyObject) {
     revealViewController().revealToggleAnimated(true)
   }
