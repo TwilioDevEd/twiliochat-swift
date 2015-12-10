@@ -1,6 +1,6 @@
 import UIKit
 
-class InputDialogController: NSObject {
+class InputDialogController {
 
   var saveAction: UIAlertAction!
 

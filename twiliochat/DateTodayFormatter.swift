@@ -1,6 +1,6 @@
 import UIKit
 
-class DateTodayFormatter: NSObject {
+class DateTodayFormatter {
   func stringFromDate(date: NSDate?) -> String? {
     if date == nil {
       return nil
