@@ -123,12 +123,13 @@ class MainChatViewController: SLKTextViewController, TWMChannelDelegate {
 
     let label = cell.viewWithTag(MainChatViewController.TWCLabelTag) as! UILabel
     let memberStatus = (message.status! == .Joined) ? "joined" : "left"
-    label.text = "User \(message.member.identity) has \(memberStatus)"
+    label.text = "User \(message.member.identity()) has \(memberStatus)"
     return cell
   }
 
   func joinChannel() {
     if channel.status == .Joined {
+      loadMessages()
       channel.delegate = self
       return
     }
@@ -191,6 +192,8 @@ class MainChatViewController: SLKTextViewController, TWMChannelDelegate {
   func leaveChannel() {
     channel.leaveWithCompletion { result in
       if result == .Success {
+        let menuViewController = self.revealViewController().rearViewController as! MenuViewController
+        menuViewController.deselectSelectedChannel()
         self.revealViewController().rearViewController.performSegueWithIdentifier(MainChatViewController.TWCOpenGeneralChannelSegue, sender: nil)
       }
     }
@@ -216,5 +219,9 @@ class MainChatViewController: SLKTextViewController, TWMChannelDelegate {
 
   @IBAction func actionButtonTouched(sender: UIBarButtonItem) {
     leaveChannel()
+  }
+
+  @IBAction func revealButtonTouched(sender: AnyObject) {
+    revealViewController().revealToggleAnimated(true)
   }
 }

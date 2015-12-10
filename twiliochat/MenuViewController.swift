@@ -114,6 +114,13 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
     populateChannels()
   }
 
+  func deselectSelectedChannel() {
+    let selectedRow = tableView.indexPathForSelectedRow
+    if let row = selectedRow {
+      tableView.deselectRowAtIndexPath(row, animated: true)
+    }
+  }
+
   // MARK: - Channel
 
   func createNewChannelDialog() {

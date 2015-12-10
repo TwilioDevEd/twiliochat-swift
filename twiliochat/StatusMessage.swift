@@ -9,13 +9,13 @@ enum TWCMemberStatus {
 class StatusMessage: TWMMessage {
   var member: TWMMember! = nil
   var status: TWCMemberStatus! = nil
-  var storedTimestamp: String = ""
+  var _timestamp: String = ""
   override var timestamp: String {
     get {
-      return storedTimestamp
+      return _timestamp
     }
     set(newTimestamp) {
-      storedTimestamp = newTimestamp
+      _timestamp = newTimestamp
     }
   }
 
