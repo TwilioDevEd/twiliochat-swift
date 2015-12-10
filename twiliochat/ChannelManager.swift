@@ -16,6 +16,7 @@ class ChannelManager: NSObject {
   }
 
   // MARK: - General channel
+
   func joinGeneralChatRoomWithCompletion(completion: Bool -> Void) {
     populateChannelsWithCompletion { succeeded in
       let uniqueName = ChannelManager.defaultChannelUniqueName
@@ -66,6 +67,7 @@ class ChannelManager: NSObject {
   }
 
   // MARK: - Populate channels
+
   func populateChannelsWithCompletion(completion: Bool -> Void) {
     channels = nil
 
@@ -116,6 +118,7 @@ class ChannelManager: NSObject {
   }
 
   // MARK: - Create channel
+
   func createChannelWithName(name: String, completion: (Bool, TWMChannel?) -> Void) {
     if (name == ChannelManager.defaultChannelName) {
       completion(false, nil)

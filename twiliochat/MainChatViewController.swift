@@ -2,7 +2,7 @@ import UIKit
 import SWRevealViewController
 import SlackTextViewController
 
-class MainChatViewController: SLKTextViewController, TWMChannelDelegate {
+class MainChatViewController: SLKTextViewController {
   static let TWCChatCellIdentifier = "ChatTableCell"
   static let TWCChatStatusCellIdentifier = "ChatStatusTableCell"
 
@@ -199,8 +199,18 @@ class MainChatViewController: SLKTextViewController, TWMChannelDelegate {
     }
   }
 
-  // MARK: - TMMessageDelegate
+  // MARK: - Actions
 
+  @IBAction func actionButtonTouched(sender: UIBarButtonItem) {
+    leaveChannel()
+  }
+
+  @IBAction func revealButtonTouched(sender: AnyObject) {
+    revealViewController().revealToggleAnimated(true)
+  }
+}
+
+extension MainChatViewController : TWMChannelDelegate {
   func ipMessagingClient(client: TwilioIPMessagingClient!, channel: TWMChannel!, messageAdded message: TWMMessage!) {
     if !messages.contains(message) {
       addMessages([message])
@@ -213,15 +223,5 @@ class MainChatViewController: SLKTextViewController, TWMChannelDelegate {
 
   func ipMessagingClient(client: TwilioIPMessagingClient!, channel: TWMChannel!, memberLeft member: TWMMember!) {
     addMessages([StatusMessage(member:member, status:.Left)])
-  }
-
-  // MARK: - Actions
-
-  @IBAction func actionButtonTouched(sender: UIBarButtonItem) {
-    leaveChannel()
-  }
-  
-  @IBAction func revealButtonTouched(sender: AnyObject) {
-    revealViewController().revealToggleAnimated(true)
   }
 }

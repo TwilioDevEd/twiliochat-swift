@@ -1,6 +1,6 @@
 import UIKit
 
-class LoginViewController: UIViewController, UITextFieldDelegate, TextFieldFormHandlerDelegate {
+class LoginViewController: UIViewController {
   @IBOutlet weak var loginButton: UIButton!
   @IBOutlet weak var createAccountButton: UIButton!
   @IBOutlet weak var usernameTextField: UITextField!
@@ -92,12 +92,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate, TextFieldFormH
     toggleSignUpMode()
   }
 
-  // MARK: - TextFieldFormHandlerDelegate
-
-  func textFieldFormHandlerDoneEnteringData(handler: TextFieldFormHandler) {
-    signUpOrLogin()
-  }
-
   // MARK: - Login
 
   func toggleSignUpMode() {
@@ -182,5 +176,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate, TextFieldFormH
 
   override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
     return .Portrait
+  }
+}
+
+// MARK: - TextFieldFormHandlerDelegate
+extension LoginViewController : TextFieldFormHandlerDelegate {
+  func textFieldFormHandlerDoneEnteringData(handler: TextFieldFormHandler) {
+    signUpOrLogin()
   }
 }

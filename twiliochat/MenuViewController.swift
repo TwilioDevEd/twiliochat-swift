@@ -1,7 +1,7 @@
 import UIKit
 import Parse
 
-class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TwilioIPMessagingClientDelegate {
+class MenuViewController: UIViewController {
   static let TWCOpenChannelSegue = "OpenChat"
   static let TWCRefreshControlXOffset: CGFloat = 120
 
@@ -27,56 +27,6 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
     self.refreshControl.frame.origin.x -= MenuViewController.TWCRefreshControlXOffset
     ChannelManager.sharedManager.delegate = self
     self.populateChannels()
-  }
-
-  // MARK: - Table view data source
-
-  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if let channels = ChannelManager.sharedManager.channels {
-      return channels.count
-    }
-    return 1
-  }
-
-  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let cell: UITableViewCell
-
-    if ChannelManager.sharedManager.channels == nil {
-      cell = loadingCellForTableView(tableView)
-    }
-    else {
-      cell = channelCellForTableView(tableView, atIndexPath: indexPath)
-    }
-
-    cell.layoutIfNeeded()
-    return cell
-  }
-
-  func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-    if let channel = ChannelManager.sharedManager.channels?.objectAtIndex(indexPath.row) as? TWMChannel {
-      return channel != ChannelManager.sharedManager.generalChannel
-    }
-    return false
-  }
-
-  func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-    if editingStyle != .Delete {
-      return
-    }
-    if let channel = ChannelManager.sharedManager.channels?.objectAtIndex(indexPath.row) {
-      channel.destroyWithCompletion { result in
-        if result == .Success {
-          tableView.reloadData()
-        }
-        else {
-          AlertDialogController.showAlertWithMessage("You can not delete this channel", title: nil, presenter: self)
-        }
-      }
-    }
-  }
-
-  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    performSegueWithIdentifier(MenuViewController.TWCOpenChannelSegue, sender: indexPath)
   }
 
   // MARK: - Internal methods
@@ -132,20 +82,6 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
   }
 
-  // MARK: - TwilioIPMessagingClientDelegate
-
-  func ipMessagingClient(client: TwilioIPMessagingClient!, channelAdded channel: TWMChannel!) {
-    tableView.reloadData()
-  }
-
-  func ipMessagingClient(client: TwilioIPMessagingClient!, channelChanged channel: TWMChannel!) {
-    tableView.reloadData()
-  }
-
-  func ipMessagingClient(client: TwilioIPMessagingClient!, channelDeleted channel: TWMChannel!) {
-    tableView.reloadData()
-  }
-
   // MARK: Logout
 
   func promptLogout() {
@@ -191,5 +127,75 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
     return .LightContent
+  }
+}
+
+// MARK: - UITableViewDataSource
+extension MenuViewController : UITableViewDataSource {
+  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    if let channels = ChannelManager.sharedManager.channels {
+      return channels.count
+    }
+    return 1
+  }
+
+  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    let cell: UITableViewCell
+
+    if ChannelManager.sharedManager.channels == nil {
+      cell = loadingCellForTableView(tableView)
+    }
+    else {
+      cell = channelCellForTableView(tableView, atIndexPath: indexPath)
+    }
+
+    cell.layoutIfNeeded()
+    return cell
+  }
+
+  func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    if let channel = ChannelManager.sharedManager.channels?.objectAtIndex(indexPath.row) as? TWMChannel {
+      return channel != ChannelManager.sharedManager.generalChannel
+    }
+    return false
+  }
+
+  func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle,
+    forRowAtIndexPath indexPath: NSIndexPath) {
+      if editingStyle != .Delete {
+        return
+      }
+      if let channel = ChannelManager.sharedManager.channels?.objectAtIndex(indexPath.row) {
+        channel.destroyWithCompletion { result in
+          if result == .Success {
+            tableView.reloadData()
+          }
+          else {
+            AlertDialogController.showAlertWithMessage("You can not delete this channel", title: nil, presenter: self)
+          }
+        }
+      }
+  }
+}
+
+// MARK: - UITableViewDelegate
+extension MenuViewController : UITableViewDelegate {
+  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    performSegueWithIdentifier(MenuViewController.TWCOpenChannelSegue, sender: indexPath)
+  }
+}
+
+// MARK: - TwilioIPMessagingClientDelegate
+extension MenuViewController : TwilioIPMessagingClientDelegate {
+  func ipMessagingClient(client: TwilioIPMessagingClient!, channelAdded channel: TWMChannel!) {
+    tableView.reloadData()
+  }
+
+  func ipMessagingClient(client: TwilioIPMessagingClient!, channelChanged channel: TWMChannel!) {
+    tableView.reloadData()
+  }
+
+  func ipMessagingClient(client: TwilioIPMessagingClient!, channelDeleted channel: TWMChannel!) {
+    tableView.reloadData()
   }
 }

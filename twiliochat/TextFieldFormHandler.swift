@@ -4,10 +4,7 @@ import UIKit
   optional func textFieldFormHandlerDoneEnteringData(handler: TextFieldFormHandler)
 }
 
-public class TextFieldFormHandler: NSObject, UITextFieldDelegate {
-
-  // MARK: - Properties
-
+public class TextFieldFormHandler: NSObject {
   var textFields: [UITextField]!
   var keyboardSize: CGFloat = 0
   var animationOffset: CGFloat = 0
@@ -86,29 +83,6 @@ public class TextFieldFormHandler: NSObject, UITextFieldDelegate {
     NSNotificationCenter.defaultCenter().removeObserver(self)
   }
 
-  // MARK: - UITextFieldDelegate
-
-  public func textFieldShouldReturn(textField: UITextField) -> Bool {
-    if let lastTextField = self.lastTextField where textField == lastTextField {
-      doneEnteringData()
-      return true
-    }
-    else if let lastTextField = self.textFields.last where lastTextField == textField {
-      doneEnteringData()
-      return true
-    }
-
-    let index = self.textFields.indexOf(textField)
-    let nextTextField = self.textFields[index! + 1]
-    nextTextField.becomeFirstResponder()
-    return true
-  }
-
-  public func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-    setAnimationOffsetForTextField(textField)
-    return true
-  }
-
   // MARK: - Private Methods
 
   func doneEnteringData() {
@@ -169,5 +143,28 @@ public class TextFieldFormHandler: NSObject, UITextFieldDelegate {
 
   deinit {
     cleanUp()
+  }
+}
+
+extension TextFieldFormHandler : UITextFieldDelegate {
+  public func textFieldShouldReturn(textField: UITextField) -> Bool {
+    if let lastTextField = self.lastTextField where textField == lastTextField {
+      doneEnteringData()
+      return true
+    }
+    else if let lastTextField = self.textFields.last where lastTextField == textField {
+      doneEnteringData()
+      return true
+    }
+
+    let index = self.textFields.indexOf(textField)
+    let nextTextField = self.textFields[index! + 1]
+    nextTextField.becomeFirstResponder()
+    return true
+  }
+
+  public func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+    setAnimationOffsetForTextField(textField)
+    return true
   }
 }

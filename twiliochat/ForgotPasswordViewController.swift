@@ -1,8 +1,7 @@
 import UIKit
 import Parse
 
-class ForgotPasswordViewController: UIViewController, TextFieldFormHandlerDelegate {
-
+class ForgotPasswordViewController: UIViewController {
   @IBOutlet weak var emailTextField: UITextField!
   var textFieldFormHandler:TextFieldFormHandler!
 
@@ -25,12 +24,6 @@ class ForgotPasswordViewController: UIViewController, TextFieldFormHandlerDelega
       title: nil,
       presenter: self)
     return false
-  }
-
-  // MARK: - TextFieldFormHandlerDelegate
-
-  func textFieldFormHandlerDoneEnteringData(handler: TextFieldFormHandler) {
-    startPasswordRecovery()
   }
 
   func startPasswordRecovery() {
@@ -77,5 +70,12 @@ class ForgotPasswordViewController: UIViewController, TextFieldFormHandlerDelega
 
   override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
     return .Portrait
+  }
+}
+
+// MARK: - TextFieldFormHandlerDelegate
+extension ForgotPasswordViewController : TextFieldFormHandlerDelegate {
+  func textFieldFormHandlerDoneEnteringData(handler: TextFieldFormHandler) {
+    startPasswordRecovery()
   }
 }

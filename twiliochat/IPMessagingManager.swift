@@ -52,12 +52,8 @@ class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
 
   // MARK: User and session management
 
-  func registerWithUsername(
-    username: String,
-    password: String,
-    fullName: String,
-    email: String,
-    completion: (Bool, NSError?) -> Void) {
+  func registerWithUsername(username: String, password: String, fullName: String,
+    email: String, completion: (Bool, NSError?) -> Void) {
       let user = PFUser()
       user.username = username
       user.email = email
@@ -73,9 +69,7 @@ class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
       }
   }
 
-  func loginWithUsername(
-    username: String,
-    password: String,
+  func loginWithUsername(username: String, password: String,
     completion: (Bool, NSError?) -> Void) {
       PFUser.logInWithUsernameInBackground(username, password: password) { user, error in
         if let error = error {
