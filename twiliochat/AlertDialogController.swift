@@ -2,11 +2,11 @@ import UIKit
 
 class AlertDialogController {
 
-  static func showAlertWithMessage(message:String?, title:String?, presenter:(UIViewController)) {
+  class func showAlertWithMessage(message:String?, title:String?, presenter:(UIViewController)) {
     showAlertWithMessage(message, title: title, presenter: presenter, completion: nil)
   }
 
-  static func showAlertWithMessage(message:String?, title:String?,
+  class func showAlertWithMessage(message:String?, title:String?,
     presenter:(UIViewController), completion:(Void -> Void)?) {
       let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
 

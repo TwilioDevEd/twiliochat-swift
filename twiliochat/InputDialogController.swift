@@ -4,7 +4,7 @@ class InputDialogController {
 
   var saveAction: UIAlertAction!
 
-  static func showWithTitle(title: String, message: String,
+  class func showWithTitle(title: String, message: String,
     placeholder: String, presenter: UIViewController, handler: String -> Void) {
       InputDialogController().showWithTitle(title, message: message,
         placeholder: placeholder, presenter: presenter, handler: handler)

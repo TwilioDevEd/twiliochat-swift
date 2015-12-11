@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		4EFFB5BC993A26D4561D24EC /* Pods_twiliochat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EC391710DF37EFB323C5DA /* Pods_twiliochat.framework */; };
+		59A866D81C1B179300525F07 /* ForgotPasswordViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A866D71C1B179300525F07 /* ForgotPasswordViewControllerTests.swift */; };
+		59A866DB1C1B5D6B00525F07 /* MockPFUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A866DA1C1B5D6B00525F07 /* MockPFUser.swift */; };
+		59A866DD1C1B5E8100525F07 /* MockAlertDialogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A866DC1C1B5E8100525F07 /* MockAlertDialogController.swift */; };
 		59AE1CCC1C08F4960008B10B /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AE1CCB1C08F4960008B10B /* ForgotPasswordViewController.swift */; };
 		59AE1CCE1C0C8C280008B10B /* TextFieldFormHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AE1CCD1C0C8C280008B10B /* TextFieldFormHandler.swift */; };
 		59AE1CD21C0D03820008B10B /* IPMessagingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AE1CD11C0D03820008B10B /* IPMessagingManager.swift */; };
@@ -16,7 +19,7 @@
 		59F209031C04C06800CC2392 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59F209011C04C06800CC2392 /* Main.storyboard */; };
 		59F209051C04C06800CC2392 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59F209041C04C06800CC2392 /* Assets.xcassets */; };
 		59F209081C04C06800CC2392 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59F209061C04C06800CC2392 /* LaunchScreen.storyboard */; };
-		59F209131C04C06800CC2392 /* DateTodayFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F209121C04C06800CC2392 /* DateTodayFormatter.swift */; };
+		59F209131C04C06800CC2392 /* DateTodayFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F209121C04C06800CC2392 /* DateTodayFormatterTests.swift */; };
 		59F2092E1C04C35E00CC2392 /* Keys.example.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59F2092C1C04C35E00CC2392 /* Keys.example.plist */; };
 		59F2092F1C04C35E00CC2392 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59F2092D1C04C35E00CC2392 /* Keys.plist */; };
 		59F209321C050EF700CC2392 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F209311C050EF700CC2392 /* LoginViewController.swift */; };
@@ -52,6 +55,9 @@
 
 /* Begin PBXFileReference section */
 		2AA560C65D3EFE31A77E1582 /* Pods-twiliochat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-twiliochat.release.xcconfig"; path = "Pods/Target Support Files/Pods-twiliochat/Pods-twiliochat.release.xcconfig"; sourceTree = "<group>"; };
+		59A866D71C1B179300525F07 /* ForgotPasswordViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewControllerTests.swift; sourceTree = "<group>"; };
+		59A866DA1C1B5D6B00525F07 /* MockPFUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockPFUser.swift; sourceTree = "<group>"; };
+		59A866DC1C1B5E8100525F07 /* MockAlertDialogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAlertDialogController.swift; sourceTree = "<group>"; };
 		59AE1CCB1C08F4960008B10B /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		59AE1CCD1C0C8C280008B10B /* TextFieldFormHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldFormHandler.swift; sourceTree = "<group>"; };
 		59AE1CD11C0D03820008B10B /* IPMessagingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPMessagingManager.swift; sourceTree = "<group>"; };
@@ -63,7 +69,7 @@
 		59F209071C04C06800CC2392 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		59F209091C04C06800CC2392 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59F2090E1C04C06800CC2392 /* twiliochatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = twiliochatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		59F209121C04C06800CC2392 /* DateTodayFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTodayFormatter.swift; sourceTree = "<group>"; };
+		59F209121C04C06800CC2392 /* DateTodayFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTodayFormatterTests.swift; sourceTree = "<group>"; };
 		59F209141C04C06800CC2392 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59F209191C04C06800CC2392 /* twiliochatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = twiliochatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		59F2091F1C04C06800CC2392 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -119,6 +125,15 @@
 				82EC391710DF37EFB323C5DA /* Pods_twiliochat.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		59A866D91C1B5D3700525F07 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				59A866DA1C1B5D6B00525F07 /* MockPFUser.swift */,
+				59A866DC1C1B5E8100525F07 /* MockAlertDialogController.swift */,
+			);
+			name = Mocks;
 			sourceTree = "<group>";
 		};
 		59AE1CCA1C08F47B0008B10B /* forgot */ = {
@@ -195,8 +210,10 @@
 		59F209111C04C06800CC2392 /* twiliochatTests */ = {
 			isa = PBXGroup;
 			children = (
-				59F209121C04C06800CC2392 /* DateTodayFormatter.swift */,
+				59A866D91C1B5D3700525F07 /* Mocks */,
+				59F209121C04C06800CC2392 /* DateTodayFormatterTests.swift */,
 				59F209141C04C06800CC2392 /* Info.plist */,
+				59A866D71C1B179300525F07 /* ForgotPasswordViewControllerTests.swift */,
 			);
 			path = twiliochatTests;
 			sourceTree = "<group>";
@@ -471,7 +488,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				59F209131C04C06800CC2392 /* DateTodayFormatter.swift in Sources */,
+				59A866DD1C1B5E8100525F07 /* MockAlertDialogController.swift in Sources */,
+				59A866D81C1B179300525F07 /* ForgotPasswordViewControllerTests.swift in Sources */,
+				59F209131C04C06800CC2392 /* DateTodayFormatterTests.swift in Sources */,
+				59A866DB1C1B5D6B00525F07 /* MockPFUser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

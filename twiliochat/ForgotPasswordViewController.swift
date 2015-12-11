@@ -5,6 +5,13 @@ class ForgotPasswordViewController: UIViewController {
   @IBOutlet weak var emailTextField: UITextField!
   var textFieldFormHandler:TextFieldFormHandler!
 
+  // MARK: - Injectable Properties
+
+  var pfUserClass = PFUser.self
+  var alertDialogControllerClass = AlertDialogController.self
+
+  // MARK: - Internal Methods
+
   override func viewDidLoad() {
     super.viewDidLoad()
     textFieldFormHandler = TextFieldFormHandler(withTextFields: [emailTextField], topContainer: view)
@@ -20,7 +27,7 @@ class ForgotPasswordViewController: UIViewController {
       return true
     }
 
-    AlertDialogController.showAlertWithMessage("Your email is required",
+    alertDialogControllerClass.showAlertWithMessage("Your email is required",
       title: nil,
       presenter: self)
     return false
@@ -30,16 +37,16 @@ class ForgotPasswordViewController: UIViewController {
     view.userInteractionEnabled = false
 
     if (validateUserData()) {
-      PFUser.requestPasswordResetForEmailInBackground(emailTextField.text ?? "") { (succeeded, error) in
+      pfUserClass.requestPasswordResetForEmailInBackground(emailTextField.text ?? "") { (succeeded, error) in
         if (succeeded) {
-          AlertDialogController.showAlertWithMessage("We've sent you an email with further instructions",
+          self.alertDialogControllerClass.showAlertWithMessage("We've sent you an email with further instructions",
             title: nil,
             presenter: self) {
               self.performSegueWithIdentifier("BackToLogin", sender: self)
           }
         }
         else {
-          AlertDialogController.showAlertWithMessage(error?.localizedDescription,
+          self.alertDialogControllerClass.showAlertWithMessage(error?.localizedDescription,
             title: nil,
             presenter: self)
           self.view.userInteractionEnabled = true

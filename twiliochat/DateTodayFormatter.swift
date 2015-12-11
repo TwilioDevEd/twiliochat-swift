@@ -30,15 +30,15 @@ class DateTodayFormatter {
 }
 
 extension NSDate {
-  static func dateWithISO8601String(var dateString: String) -> NSDate? {
+  class func dateWithISO8601String(var dateString: String) -> NSDate? {
     if dateString.hasSuffix("Z") {
-      let lastIndex = dateString.characters.indices.last!.predecessor()
+      let lastIndex = dateString.characters.indices.last!
       dateString = dateString.substringToIndex(lastIndex) + "-000"
     }
     return dateFromString(dateString, withFormat:"yyyy-MM-dd'T'HH:mm:ss.SSSZ")
   }
 
-  static func dateFromString(str: String, withFormat dateFormat: String) -> NSDate? {
+  class func dateFromString(str: String, withFormat dateFormat: String) -> NSDate? {
     let formatter = NSDateFormatter()
     formatter.dateFormat = dateFormat
     formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
