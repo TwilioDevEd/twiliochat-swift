@@ -11,6 +11,8 @@
 		59A866D81C1B179300525F07 /* ForgotPasswordViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A866D71C1B179300525F07 /* ForgotPasswordViewControllerTests.swift */; };
 		59A866DB1C1B5D6B00525F07 /* MockPFUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A866DA1C1B5D6B00525F07 /* MockPFUser.swift */; };
 		59A866DD1C1B5E8100525F07 /* MockAlertDialogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A866DC1C1B5E8100525F07 /* MockAlertDialogController.swift */; };
+		59A866DF1C1B6C0900525F07 /* LoginViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A866DE1C1B6C0900525F07 /* LoginViewControllerTests.swift */; };
+		59A866E11C1B7C0300525F07 /* MockIPMessagingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A866E01C1B7C0300525F07 /* MockIPMessagingManager.swift */; };
 		59AE1CCC1C08F4960008B10B /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AE1CCB1C08F4960008B10B /* ForgotPasswordViewController.swift */; };
 		59AE1CCE1C0C8C280008B10B /* TextFieldFormHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AE1CCD1C0C8C280008B10B /* TextFieldFormHandler.swift */; };
 		59AE1CD21C0D03820008B10B /* IPMessagingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AE1CD11C0D03820008B10B /* IPMessagingManager.swift */; };
@@ -58,6 +60,8 @@
 		59A866D71C1B179300525F07 /* ForgotPasswordViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewControllerTests.swift; sourceTree = "<group>"; };
 		59A866DA1C1B5D6B00525F07 /* MockPFUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockPFUser.swift; sourceTree = "<group>"; };
 		59A866DC1C1B5E8100525F07 /* MockAlertDialogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAlertDialogController.swift; sourceTree = "<group>"; };
+		59A866DE1C1B6C0900525F07 /* LoginViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewControllerTests.swift; sourceTree = "<group>"; };
+		59A866E01C1B7C0300525F07 /* MockIPMessagingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockIPMessagingManager.swift; sourceTree = "<group>"; };
 		59AE1CCB1C08F4960008B10B /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		59AE1CCD1C0C8C280008B10B /* TextFieldFormHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldFormHandler.swift; sourceTree = "<group>"; };
 		59AE1CD11C0D03820008B10B /* IPMessagingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPMessagingManager.swift; sourceTree = "<group>"; };
@@ -132,6 +136,7 @@
 			children = (
 				59A866DA1C1B5D6B00525F07 /* MockPFUser.swift */,
 				59A866DC1C1B5E8100525F07 /* MockAlertDialogController.swift */,
+				59A866E01C1B7C0300525F07 /* MockIPMessagingManager.swift */,
 			);
 			name = Mocks;
 			sourceTree = "<group>";
@@ -214,6 +219,7 @@
 				59F209121C04C06800CC2392 /* DateTodayFormatterTests.swift */,
 				59F209141C04C06800CC2392 /* Info.plist */,
 				59A866D71C1B179300525F07 /* ForgotPasswordViewControllerTests.swift */,
+				59A866DE1C1B6C0900525F07 /* LoginViewControllerTests.swift */,
 			);
 			path = twiliochatTests;
 			sourceTree = "<group>";
@@ -491,6 +497,8 @@
 				59A866DD1C1B5E8100525F07 /* MockAlertDialogController.swift in Sources */,
 				59A866D81C1B179300525F07 /* ForgotPasswordViewControllerTests.swift in Sources */,
 				59F209131C04C06800CC2392 /* DateTodayFormatterTests.swift in Sources */,
+				59A866E11C1B7C0300525F07 /* MockIPMessagingManager.swift in Sources */,
+				59A866DF1C1B6C0900525F07 /* LoginViewControllerTests.swift in Sources */,
 				59A866DB1C1B5D6B00525F07 /* MockPFUser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

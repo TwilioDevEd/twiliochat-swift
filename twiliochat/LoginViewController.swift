@@ -14,6 +14,11 @@ class LoginViewController: UIViewController {
   @IBOutlet weak var emailTopConstraint: NSLayoutConstraint!
   @IBOutlet weak var emailHeightConstraint: NSLayoutConstraint!
 
+  // MARK: - Injectable Properties
+
+  var alertDialogControllerClass = AlertDialogController.self
+  var ipMessagingClientClass = IPMessagingManager.self
+
   // MARK: - Initialization
 
   var constraintDataList: [(NSLayoutConstraint, CGFloat)]!
@@ -114,14 +119,14 @@ class LoginViewController: UIViewController {
   }
 
   func loginUser() {
-    let ipMessagingManager = IPMessagingManager.sharedManager
+    let ipMessagingManager = ipMessagingClientClass.sharedManager
     if let username = usernameTextField.text, password = passwordTextField.text {
       ipMessagingManager.loginWithUsername(username, password: password, completion: handleResponse)
     }
   }
 
   func registerUser() {
-    let ipMessagingManager = IPMessagingManager.sharedManager
+    let ipMessagingManager = ipMessagingClientClass.sharedManager
     if let username = usernameTextField.text, password = passwordTextField.text, fullName = fullNameTextField.text, email = emailTextField.text {
       ipMessagingManager.registerWithUsername(username, password: password, fullName: fullName, email: email, completion: handleResponse)
     }
@@ -149,7 +154,7 @@ class LoginViewController: UIViewController {
   func handleResponse(succeeded: Bool, error: NSError?) {
     self.activityIndicator.stopAnimating()
     if succeeded {
-      IPMessagingManager.sharedManager.presentRootViewController()
+      ipMessagingClientClass.sharedManager.presentRootViewController()
     }
     else if let error = error {
       self.showError(error.localizedDescription)
