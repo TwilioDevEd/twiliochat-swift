@@ -14,6 +14,9 @@ class LoginViewControllerTests: XCTestCase {
 
   override func tearDown() {
     super.tearDown()
+    MockIPMessagingManager.loginWithUsernameCalled = false
+    MockIPMessagingManager.usernameUsed = ""
+    MockIPMessagingManager.passwordUsed = ""
   }
 
   func testToggleSignUpMode() {
@@ -31,6 +34,14 @@ class LoginViewControllerTests: XCTestCase {
   }
 
   func testLoginUser() {
-    
+    viewController.usernameTextField.text = "username"
+    viewController.passwordTextField.text = "password"
+    viewController.ipMessagingClientClass = MockIPMessagingManager.self
+
+    viewController.loginUser()
+
+    XCTAssertTrue(MockIPMessagingManager.loginWithUsernameCalled)
+    XCTAssertEqual(MockIPMessagingManager.usernameUsed, "username")
+    XCTAssertEqual(MockIPMessagingManager.passwordUsed, "password")
   }
 }

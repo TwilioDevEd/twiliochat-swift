@@ -4,7 +4,7 @@ PODS:
     - Bolts/Tasks (~> 1.5)
   - SlackTextViewController (1.7.2)
   - SWRevealViewController (2.3.0)
-  - TwilioCommon (0.1.7)
+  - TwilioCommon (0.1.8)
   - TwilioIPMessagingClient (0.13.4)
 
 DEPENDENCIES:
@@ -25,7 +25,7 @@ SPEC CHECKSUMS:
   Parse: 90b2544822200f84b18bfacc4e8b0a3a6c3584a2
   SlackTextViewController: 1f4e8f68c156ef93de73fd422db2b8d5d5b0f4e7
   SWRevealViewController: 6d3fd97f70112fd7cef9de14df4260eacce4c63a
-  TwilioCommon: 38afcfba06cd0cd389afeab362eced6c01762c1e
+  TwilioCommon: a6b906c3afbc4479369fdffcf1e82851f0bbedf8
   TwilioIPMessagingClient: 83b739313fe9a51fc44b0b3099680e9a445617e9
 
 COCOAPODS: 0.39.0
