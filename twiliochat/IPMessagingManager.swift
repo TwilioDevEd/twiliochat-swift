@@ -3,7 +3,7 @@ import Parse
 
 class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
 
-  static let sharedManager = IPMessagingManager()
+  static let _sharedManager = IPMessagingManager()
 
   var client:TwilioIPMessagingClient?
   var connected = false
@@ -14,6 +14,10 @@ class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
 
   var hasIdentity: Bool {
     return PFUser.currentUser() != nil && PFUser.currentUser()!.authenticated
+  }
+
+  class func sharedManager() -> IPMessagingManager {
+    return _sharedManager
   }
 
   func presentRootViewController() {

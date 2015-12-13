@@ -12,7 +12,7 @@ class ChannelManager: NSObject {
 
   override init() {
     super.init()
-    IPMessagingManager.sharedManager.client?.delegate = self
+    IPMessagingManager.sharedManager().client?.delegate = self
   }
 
   // MARK: - General channel
@@ -100,7 +100,7 @@ class ChannelManager: NSObject {
     self.channelsList = nil
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-      IPMessagingManager.sharedManager.client!.channelsListWithCompletion { result, channelsList in
+      IPMessagingManager.sharedManager().client!.channelsListWithCompletion { result, channelsList in
         if (result == .Success) {
           self.channelsList = channelsList
         }

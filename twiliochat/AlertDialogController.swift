@@ -1,6 +1,6 @@
 import UIKit
 
-class AlertDialogController {
+class AlertDialogController: NSObject {
 
   class func showAlertWithMessage(message:String?, title:String?, presenter:(UIViewController)) {
     showAlertWithMessage(message, title: title, presenter: presenter, completion: nil)

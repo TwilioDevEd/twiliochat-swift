@@ -119,14 +119,14 @@ class LoginViewController: UIViewController {
   }
 
   func loginUser() {
-    let ipMessagingManager = ipMessagingClientClass.sharedManager
+    let ipMessagingManager = ipMessagingClientClass.sharedManager()
     if let username = usernameTextField.text, password = passwordTextField.text {
       ipMessagingManager.loginWithUsername(username, password: password, completion: handleResponse)
     }
   }
 
   func registerUser() {
-    let ipMessagingManager = ipMessagingClientClass.sharedManager
+    let ipMessagingManager = ipMessagingClientClass.sharedManager()
     if let username = usernameTextField.text, password = passwordTextField.text, fullName = fullNameTextField.text, email = emailTextField.text {
       ipMessagingManager.registerWithUsername(username, password: password, fullName: fullName, email: email, completion: handleResponse)
     }
@@ -154,7 +154,7 @@ class LoginViewController: UIViewController {
   func handleResponse(succeeded: Bool, error: NSError?) {
     self.activityIndicator.stopAnimating()
     if succeeded {
-      ipMessagingClientClass.sharedManager.presentRootViewController()
+      ipMessagingClientClass.sharedManager().presentRootViewController()
     }
     else if let error = error {
       self.showError(error.localizedDescription)

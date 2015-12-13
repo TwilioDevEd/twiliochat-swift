@@ -17,7 +17,7 @@ class MenuViewController: UIViewController {
     bgImage.frame = self.tableView.frame
     tableView.backgroundView = bgImage
 
-    usernameLabel.text = IPMessagingManager.sharedManager.userIdentity
+    usernameLabel.text = IPMessagingManager.sharedManager().userIdentity
 
     refreshControl = UIRefreshControl()
     tableView.addSubview(refreshControl)
@@ -98,8 +98,8 @@ class MenuViewController: UIViewController {
   }
 
   func logOut() {
-    IPMessagingManager.sharedManager.logout()
-    IPMessagingManager.sharedManager.presentRootViewController()
+    IPMessagingManager.sharedManager().logout()
+    IPMessagingManager.sharedManager().presentRootViewController()
   }
 
   // MARK: - Actions
