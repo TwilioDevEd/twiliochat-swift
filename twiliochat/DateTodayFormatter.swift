@@ -2,11 +2,11 @@ import UIKit
 
 class DateTodayFormatter {
   func stringFromDate(date: NSDate?) -> String? {
-    if date == nil {
+    guard let date = date else {
       return nil
     }
 
-    let messageDate = roundDateToDay(date!)
+    let messageDate = roundDateToDay(date)
     let todayDate = roundDateToDay(NSDate())
 
     let formatter = NSDateFormatter()
@@ -18,7 +18,7 @@ class DateTodayFormatter {
       formatter.dateFormat = "MMM. dd - hh:mma"
     }
 
-    return formatter.stringFromDate(date!)
+    return formatter.stringFromDate(date)
   }
 
   func roundDateToDay(date: NSDate) -> NSDate {

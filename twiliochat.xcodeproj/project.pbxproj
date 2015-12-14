@@ -61,10 +61,10 @@
 		59A866DC1C1B5E8100525F07 /* MockAlertDialogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAlertDialogController.swift; sourceTree = "<group>"; };
 		59A866DE1C1B6C0900525F07 /* LoginViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewControllerTests.swift; sourceTree = "<group>"; };
 		59A866E01C1B7C0300525F07 /* MockIPMessagingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockIPMessagingManager.swift; sourceTree = "<group>"; };
+		59A8671F1C1F250C00525F07 /* twiliochat-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "twiliochat-Bridging-Header.h"; sourceTree = "<group>"; };
 		59AE1CCB1C08F4960008B10B /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		59AE1CCD1C0C8C280008B10B /* TextFieldFormHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldFormHandler.swift; sourceTree = "<group>"; };
 		59AE1CD11C0D03820008B10B /* IPMessagingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPMessagingManager.swift; sourceTree = "<group>"; };
-		59AE1CD31C0D079E0008B10B /* TwilioIPMessagingClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TwilioIPMessagingClient.framework; path = Pods/TwilioIPMessagingClient/TwilioIPMessagingClient.framework; sourceTree = "<group>"; };
 		59F208FA1C04C06800CC2392 /* twiliochat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = twiliochat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59F208FD1C04C06800CC2392 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		59F209021C04C06800CC2392 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -123,7 +123,6 @@
 		190F41FB824BB0EF3D14298E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				59AE1CD31C0D079E0008B10B /* TwilioIPMessagingClient.framework */,
 				82EC391710DF37EFB323C5DA /* Pods_twiliochat.framework */,
 			);
 			name = Frameworks;
@@ -206,6 +205,7 @@
 				877109181C162FC8004C57D3 /* ChatStatusTableCell.xib */,
 				877109191C162FC8004C57D3 /* ChatTableCell.xib */,
 				59F209091C04C06800CC2392 /* Info.plist */,
+				59A8671F1C1F250C00525F07 /* twiliochat-Bridging-Header.h */,
 			);
 			path = twiliochat;
 			sourceTree = "<group>";
@@ -642,7 +642,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = twilio.twiliochat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/Pods/TwilioIPMessagingClient/TwilioIPMessagingClient.framework/Headers/TwilioIPMessagingClient.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "twiliochat/twiliochat-Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -662,7 +662,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = twilio.twiliochat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/Pods/TwilioIPMessagingClient/TwilioIPMessagingClient.framework/Headers/TwilioIPMessagingClient.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "twiliochat/twiliochat-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -674,6 +674,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = twilio.twiliochatTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/twiliochat.app/twiliochat";
 			};
 			name = Debug;
@@ -686,6 +687,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = twilio.twiliochatTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/twiliochat.app/twiliochat";
 			};
 			name = Release;

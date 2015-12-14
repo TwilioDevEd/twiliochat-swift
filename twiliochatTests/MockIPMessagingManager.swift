@@ -5,6 +5,7 @@ class MockIPMessagingManager: IPMessagingManager {
   static let mockManager = MockIPMessagingManager()
 
   static var loginWithUsernameCalled = false
+  static var registerWithUsernameCalled = false
   static var passwordUsed = ""
   static var usernameUsed = ""
 
@@ -17,5 +18,11 @@ class MockIPMessagingManager: IPMessagingManager {
       MockIPMessagingManager.loginWithUsernameCalled = true
       MockIPMessagingManager.passwordUsed = password
       MockIPMessagingManager.usernameUsed = username
+  }
+
+  override func registerWithUsername(username: String, password: String, fullName: String, email: String, completion: (Bool, NSError?) -> Void) {
+    MockIPMessagingManager.registerWithUsernameCalled = true
+    MockIPMessagingManager.passwordUsed = password
+    MockIPMessagingManager.usernameUsed = username
   }
 }

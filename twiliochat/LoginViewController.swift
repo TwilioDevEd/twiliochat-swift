@@ -148,7 +148,7 @@ class LoginViewController: UIViewController {
   }
 
   func showError(message:String) {
-    AlertDialogController.showAlertWithMessage(message, title: nil, presenter: self)
+    alertDialogControllerClass.showAlertWithMessage(message, title: nil, presenter: self)
   }
 
   func handleResponse(succeeded: Bool, error: NSError?) {
