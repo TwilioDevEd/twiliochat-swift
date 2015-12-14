@@ -39,7 +39,7 @@ expiration.</p>
 <li><a href="//media.twiliocdn.com/sdk/rtc/ios/ip-messaging/releases/0.13.3.b181-17abeb8/docs/">Twilio IP Messaging Client Reference</a></li>
 <li><a href="//media.twiliocdn.com/sdk/rtc/ios/common/releases/0.1.7.b23-4ca8945/docs/">Twilio Common Reference</a></li>
 </ul>
-</div><div data-title="Initializing the Client" data-file="twiliochat/IPMessagingManager.swift" data-highlight="109-156" class="step"><h2 id="initializing-the-ip-messaging-client">Initializing the IP Messaging Client</h2>
+</div><div data-title="Initializing the Client" data-file="twiliochat/IPMessagingManager.swift" data-highlight="98-145" class="step"><h2 id="initializing-the-ip-messaging-client">Initializing the IP Messaging Client</h2>
 <p>The only thing you need to create a client, is an access token. This token
 holds information about your Twilio account and IP Messaging API keys. You
 can find an example application written in node that demonstrates how to
@@ -52,7 +52,7 @@ to make a request to our server and get the access token.</p>
 <ul>
 <li><a href="//parse.com/docs/cloudcode/guide#cloud-code-advanced-cloud-code-webhooks">Parse cloud code webhooks</a></li>
 </ul>
-</div><div data-title="Getting the Channel List" data-file="twiliochat/ChannelManager.swift" data-highlight="81-119" class="step"><h2 id="getting-the-channel-list">Getting the Channel List</h2>
+</div><div data-title="Getting the Channel List" data-file="twiliochat/ChannelManager.swift" data-highlight="71-112" class="step"><h2 id="getting-the-channel-list">Getting the Channel List</h2>
 <p>Our <code>ChannelManager</code> class takes care of everything related to channels.
 The first thing we need to do when the class is initialized, is to store
 a list of channels of type <code>TWMChannelList</code> that we get by calling the method <code>channelsListWithCompletion</code>
@@ -61,7 +61,7 @@ from the IP Messaging Client.</p>
 <code>channelsList&#39;s</code> method <code>loadChannelsWithCompletion</code>. Once that operation
 finishes successfully, call the method <code>allObjects</code> on the same object, to
 get an array of channels.</p>
-</div><div data-title="Join the General Channel" data-file="twiliochat/ChannelManager.swift" data-highlight="33-77" class="step"><h2 id="join-the-general-channel">Join the General Channel</h2>
+</div><div data-title="Join the General Channel" data-file="twiliochat/ChannelManager.swift" data-highlight="20-67" class="step"><h2 id="join-the-general-channel">Join the General Channel</h2>
 <p>This application will try to join a channel called &quot;General Channel&quot; when it starts.
 If the channel doesn&#39;t exist, we&#39;ll create one with that name. The scope of
 this example application will show you how to work only with public channels,
@@ -70,7 +70,7 @@ invitations.</p>
 <p>Once you have joined a channel, you can register a class as the <code>TWMChannelDelegate</code>
 so you can start listening to events such as <code>messageAdded</code> or <code>memberJoined</code>.
 We&#39;ll show you how to do this in the next step.</p>
-</div><div data-title="Listen to Channel Events" data-file="twiliochat/MainChatViewController.swift" data-highlight="228-265" class="step"><h2 id="listen-to-channel-events">Listen to Channel Events</h2>
+</div><div data-title="Listen to Channel Events" data-file="twiliochat/MainChatViewController.swift" data-highlight="209-237" class="step"><h2 id="listen-to-channel-events">Listen to Channel Events</h2>
 <p>We registered <code>MainChatViewController</code> as the <code>TWMChannelDelegate</code>, and here
 we implemented the following methods that listen to channel events:</p>
 <ul>
@@ -81,18 +81,18 @@ we implemented the following methods that listen to channel events:</p>
 </ul>
 <p>As you may have noticed, each one of these methods include useful objects
 as parameters, such as the actual message that was added to the channel.</p>
-</div><div data-title="Joining Other Channels" data-file="twiliochat/MainChatViewController.swift" data-highlight="90-115" class="step"><h2 id="joining-other-channels">Joining Other Channels</h2>
+</div><div data-title="Joining Other Channels" data-file="twiliochat/MainChatViewController.swift" data-highlight="131-146" class="step"><h2 id="joining-other-channels">Joining Other Channels</h2>
 <p>The application uses <a href="//github.com/John-Lluch/SWRevealViewController">SWRevealViewController</a>
 to show a sidebar that contains a list of the channels created for that Twilio account.</p>
 <p>When you tap on the name of a channel from the sidebar, that channel is set
-on the <code>MainChatViewController</code>. The <code>setChannel</code> method takes care of joining
+on the <code>MainChatViewController</code>. The <code>joinChannel</code> method takes care of joining
 to the selected channel and loading the messages.</p>
-</div><div data-title="Creating a Channel" data-file="twiliochat/ChannelManager.swift" data-highlight="131-156" class="step"><h2 id="creating-a-channel">Creating a Channel</h2>
+</div><div data-title="Creating a Channel" data-file="twiliochat/ChannelManager.swift" data-highlight="122-143" class="step"><h2 id="creating-a-channel">Creating a Channel</h2>
 <p>We use an input dialog so the user can type the name of the new channel.
 The only restriction here, is that the user can&#39;t create a channel called
 &quot;General Channel&quot;. Other than that, creating a channel is as simple as calling
 <code>createChannelWithFriendlyName</code></p>
-</div><div data-title="Deleting a Channel" data-file="twiliochat/MenuViewController.swift" data-highlight="83-95" class="step"><h2 id="deleting-a-channel">Deleting a Channel</h2>
+</div><div data-title="Deleting a Channel" data-file="twiliochat/MenuViewController.swift" data-highlight="163-178" class="step"><h2 id="deleting-a-channel">Deleting a Channel</h2>
 <p>Deleting a channel is as simple as creating one. We&#39;ll use the <code>UITableView</code>
 hability to delete a cell. Once you have figured out what channel is meant
 to be deleted (from the selected cell index path), deleting it is as simple
