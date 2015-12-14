@@ -17,6 +17,7 @@ class MainChatViewController: SLKTextViewController {
     set(channel) {
       _channel = channel
       title = _channel.friendlyName
+      _channel.delegate = self
 
       if _channel == ChannelManager.sharedManager.generalChannel {
         navigationItem.rightBarButtonItem = nil
@@ -130,7 +131,6 @@ class MainChatViewController: SLKTextViewController {
   func joinChannel() {
     if channel.status == .Joined {
       loadMessages()
-      channel.delegate = self
       return
     }
 
@@ -138,13 +138,9 @@ class MainChatViewController: SLKTextViewController {
     textInputbarHidden = true
 
     channel.joinWithCompletion { result in
-      dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-        self.loadMessages()
-        dispatch_async(dispatch_get_main_queue(), {
-          self.channel.delegate = self
-          UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-          self.setTextInputbarHidden(false, animated: true)
-        })
+      dispatch_async(dispatch_get_main_queue(), {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        self.setTextInputbarHidden(false, animated: true)
       })
     }
   }
@@ -223,5 +219,19 @@ extension MainChatViewController : TWMChannelDelegate {
 
   func ipMessagingClient(client: TwilioIPMessagingClient!, channel: TWMChannel!, memberLeft member: TWMMember!) {
     addMessages([StatusMessage(member:member, status:.Left)])
+  }
+
+  func ipMessagingClient(client: TwilioIPMessagingClient!, channelHistoryLoaded channel: TWMChannel!) {
+    loadMessages()
+    tableView.reloadData()
+  }
+
+  func ipMessagingClient(client: TwilioIPMessagingClient!, channelDeleted channel: TWMChannel!) {
+    dispatch_async(dispatch_get_main_queue(), {
+      if channel == self.channel {
+        self.revealViewController().rearViewController
+          .performSegueWithIdentifier(MainChatViewController.TWCOpenGeneralChannelSegue, sender: nil)
+      }
+    })
   }
 }
