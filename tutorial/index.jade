@@ -31,7 +31,7 @@
       * [Twilio IP Messaging Client Reference](//media.twiliocdn.com/sdk/rtc/ios/ip-messaging/releases/0.13.3.b181-17abeb8/docs/)
       * [Twilio Common Reference](//media.twiliocdn.com/sdk/rtc/ios/common/releases/0.1.7.b23-4ca8945/docs/)
 
-  .step(data-title='Initializing the Client', data-file='twiliochat/IPMessagingManager.swift', data-highlight='109-156')
+  .step(data-title='Initializing the Client', data-file='twiliochat/IPMessagingManager.swift', data-highlight='98-145')
     :markdown
       ## Initializing the IP Messaging Client
 
@@ -49,7 +49,7 @@
       **See Also:**
       * [Parse cloud code webhooks](//parse.com/docs/cloudcode/guide#cloud-code-advanced-cloud-code-webhooks)
 
-  .step(data-title='Getting the Channel List', data-file='twiliochat/ChannelManager.swift', data-highlight='81-119')
+  .step(data-title='Getting the Channel List', data-file='twiliochat/ChannelManager.swift', data-highlight='71-112')
     :markdown
       ## Getting the Channel List
 
@@ -63,7 +63,7 @@
       finishes successfully, call the method `allObjects` on the same object, to
       get an array of channels.
 
-  .step(data-title='Join the General Channel', data-file='twiliochat/ChannelManager.swift', data-highlight='33-77')
+  .step(data-title='Join the General Channel', data-file='twiliochat/ChannelManager.swift', data-highlight='20-67')
     :markdown
       ## Join the General Channel
 
@@ -77,7 +77,7 @@
       so you can start listening to events such as `messageAdded` or `memberJoined`.
       We'll show you how to do this in the next step.
 
-  .step(data-title='Listen to Channel Events', data-file='twiliochat/MainChatViewController.swift', data-highlight='228-265')
+  .step(data-title='Listen to Channel Events', data-file='twiliochat/MainChatViewController.swift', data-highlight='209-237')
     :markdown
       ## Listen to Channel Events
 
@@ -92,7 +92,7 @@
       As you may have noticed, each one of these methods include useful objects
       as parameters, such as the actual message that was added to the channel.
 
-  .step(data-title='Joining Other Channels', data-file='twiliochat/MainChatViewController.swift', data-highlight='90-115')
+  .step(data-title='Joining Other Channels', data-file='twiliochat/MainChatViewController.swift', data-highlight='131-146')
     :markdown
       ## Joining Other Channels
 
@@ -100,10 +100,10 @@
       to show a sidebar that contains a list of the channels created for that Twilio account.
 
       When you tap on the name of a channel from the sidebar, that channel is set
-      on the `MainChatViewController`. The `setChannel` method takes care of joining
+      on the `MainChatViewController`. The `joinChannel` method takes care of joining
       to the selected channel and loading the messages.
 
-  .step(data-title='Creating a Channel', data-file='twiliochat/ChannelManager.swift', data-highlight='131-156')
+  .step(data-title='Creating a Channel', data-file='twiliochat/ChannelManager.swift', data-highlight='122-143')
     :markdown
       ## Creating a Channel
 
@@ -112,7 +112,7 @@
       "General Channel". Other than that, creating a channel is as simple as calling
       `createChannelWithFriendlyName`
 
-  .step(data-title='Deleting a Channel', data-file='twiliochat/MenuViewController.swift', data-highlight='83-95')
+  .step(data-title='Deleting a Channel', data-file='twiliochat/MenuViewController.swift', data-highlight='163-178')
     :markdown
       ## Deleting a Channel
 
