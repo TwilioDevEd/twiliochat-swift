@@ -16,7 +16,6 @@
 		59AE1CCC1C08F4960008B10B /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AE1CCB1C08F4960008B10B /* ForgotPasswordViewController.swift */; };
 		59AE1CCE1C0C8C280008B10B /* TextFieldFormHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AE1CCD1C0C8C280008B10B /* TextFieldFormHandler.swift */; };
 		59AE1CD21C0D03820008B10B /* IPMessagingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AE1CD11C0D03820008B10B /* IPMessagingManager.swift */; };
-		59AE1CD71C0D09840008B10B /* TwilioIPMessagingClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59AE1CD31C0D079E0008B10B /* TwilioIPMessagingClient.framework */; };
 		59F208FE1C04C06800CC2392 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F208FD1C04C06800CC2392 /* AppDelegate.swift */; };
 		59F209031C04C06800CC2392 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59F209011C04C06800CC2392 /* Main.storyboard */; };
 		59F209051C04C06800CC2392 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59F209041C04C06800CC2392 /* Assets.xcassets */; };
@@ -100,7 +99,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				59AE1CD71C0D09840008B10B /* TwilioIPMessagingClient.framework in Frameworks */,
 				4EFFB5BC993A26D4561D24EC /* Pods_twiliochat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -634,9 +632,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Pods/TwilioIPMessagingClient",
+					"\"${PODS_ROOT}/Headers/Public\"",
 				);
 				INFOPLIST_FILE = twiliochat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
@@ -653,9 +652,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Pods/TwilioIPMessagingClient",
+					"\"${PODS_ROOT}/Headers/Public\"",
 				);
 				INFOPLIST_FILE = twiliochat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
