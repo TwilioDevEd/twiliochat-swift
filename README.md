@@ -58,7 +58,7 @@ to create a new app. The next step is to get your parse `Application ID` and
 ID portion of it:
 
 ```
-https://www.parse.com/apps/<your_app_id>/edit#keys
+https://www.parse.com/apps/<your_app_name>/settings/keys
 ```
 
 You will need both of these keys to configure the Twilio Chat Application.
