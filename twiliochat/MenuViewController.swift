@@ -1,5 +1,4 @@
 import UIKit
-import Parse
 
 class MenuViewController: UIViewController {
   static let TWCOpenChannelSegue = "OpenChat"

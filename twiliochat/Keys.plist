@@ -2,9 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>ParseApplicationId</key>
-	<string>pm8LsyEBARxP8h6LstExlZGZceWFXMJgB3a8fNw2</string>
-	<key>ParseClientKey</key>
-	<string>nouM83wFyopn8Iqe3U4h7CH4RX38gStoGVay5MoO</string>
+	<key>TokenRequestUrl</key>
+	<string>http://localhost:8000/token</string>
 </dict>
 </plist>

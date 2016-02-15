@@ -1,5 +1,4 @@
 import UIKit
-import Parse
 
 class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
 
@@ -8,12 +7,12 @@ class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
   var client:TwilioIPMessagingClient?
   var connected = false
 
-  var userIdentity:String? {
-    return PFUser.currentUser()?.username
+  var userIdentity:String {
+    return SessionManager.getUsername()
   }
 
   var hasIdentity: Bool {
-    return PFUser.currentUser() != nil && PFUser.currentUser()!.authenticated
+    return SessionManager.isLoogedIn()
   }
 
   class func sharedManager() -> IPMessagingManager {
@@ -56,36 +55,14 @@ class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
 
   // MARK: User and session management
 
-  func registerWithUsername(username: String, password: String, fullName: String,
-    email: String, completion: (Bool, NSError?) -> Void) {
-      let user = PFUser()
-      user.username = username
-      user.email = email
-      user.password = password
-      user["fullName"] = fullName
-
-      user.signUpInBackgroundWithBlock { succeeded, error in
-        if succeeded {
-          self.connectClientWithCompletion(completion)
-          return
-        }
-        completion(succeeded, error)
-      }
-  }
-
-  func loginWithUsername(username: String, password: String,
+  func loginWithUsername(username: String,
     completion: (Bool, NSError?) -> Void) {
-      PFUser.logInWithUsernameInBackground(username, password: password) { user, error in
-        if let error = error {
-          completion(false, error)
-          return
-        }
-        self.connectClientWithCompletion(completion)
-      }
+      SessionManager.loginWithUsername(username)
+      connectClientWithCompletion(completion)
   }
 
   func logout() {
-    PFUser.logOut()
+    SessionManager.logout()
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
       self.client?.shutdown()
       self.client = nil
@@ -132,14 +109,10 @@ class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
 
   func requestTokenWithCompletion(completion:(Bool, String?) -> Void) {
     if let device = UIDevice.currentDevice().identifierForVendor?.UUIDString {
-      PFCloud.callFunctionInBackground(
-        "token",
-        withParameters: ["device": device]) { results, error in
-          var token: String?
-          if let params = results as? NSDictionary where error == nil {
-            token = params["token"] as? String
-          }
-          completion(token != nil, token)
+      TokenRequestHandler.fetchToken(["device": device, "identity":SessionManager.getUsername()]) {response,error in
+        var token: String?
+        token = response["token"] as? String
+        completion(token != nil, token)
       }
     }
   }
