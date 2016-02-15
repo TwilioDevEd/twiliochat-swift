@@ -1,28 +1,10 @@
 import UIKit
-import Parse
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
   var window: UIWindow?
 
-
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-    Parse.enableLocalDatastore()
-
-    if let filePath = NSBundle.mainBundle().pathForResource("Keys", ofType:"plist"),
-      dictionary = NSDictionary(contentsOfFile:filePath) as? [String: AnyObject],
-      parseApplicationId = dictionary["ParseApplicationId"] as? String,
-      parseClientKey = dictionary["ParseClientKey"] as? String {
-        Parse.setApplicationId(parseApplicationId,
-          clientKey:parseClientKey)
-    }
-
-
-    let defaultACL: PFACL = PFACL()
-    defaultACL.publicReadAccess = true
-    PFACL.setDefaultACL(defaultACL, withAccessForCurrentUser:true)
-
     IPMessagingManager.sharedManager().presentLaunchScreen()
     IPMessagingManager.sharedManager().presentRootViewController()
     return true
