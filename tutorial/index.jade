@@ -32,7 +32,7 @@
     :markdown
       ## Initializing the IP Messaging Client
 
-      The only thing you need to create a client, is an access token. This token
+      The only thing you need to create a client is an access token. This token
       holds information about your Twilio account and IP Messaging API keys. We have created a web
       version of Twilio chat in different languages. You can use any of these to generate the token:
 
@@ -59,9 +59,9 @@
       from the IP Messaging Client.
 
       Once we have a `TWMChannelList` object, we can fetch the actual channels using the
-      `channelsList's` method `loadChannelsWithCompletion`. Once that operation
-      finishes successfully, call the method `allObjects` on the same object, to
-      get an array of channels.
+      `channelsList's` method `loadChannelsWithCompletion`. When the operation
+      finishes successfully, in order to get an array of channels, call the
+      method `allObjects` on the same object.
 
   .step(data-title='Listen to Client Events',
         data-file='twiliochat/ChannelManager.swift',
@@ -69,14 +69,14 @@
     :markdown
       ## Listen to Client Events
 
-      The IP Messaging Client will trigger events such as `channelAdded` or `channelDeleted`.
-      In our application, given the event that a channel is deleted or created, we'll reload the
+      The IP Messaging Client will trigger events such as `channelAdded` or `channelDeleted`
+      on our application. Given the creation or deletion of a channel, we'll reload the
       channel list in the reveal controller. If a channel is deleted and we were currently joined to that
       channel, the application will automatically join the general channel.
 
       `ChannelManager` is our `TwilioIPMessagingClientDelegate`. In this class we
-      implement the delegate methods, but we also allow another class to be a delegate of ChannelManager,
-      so this class can listen to the events too (MainChatViewController) in this case.
+      implement the delegate methods, but we also allow `MainChatViewController`
+      class to be a delegate of ChannelManager, so it can listen to client events too.
 
       ---
 
@@ -88,7 +88,7 @@
       ## Join the General Channel
 
       This application will try to join a channel called "General Channel" when it starts.
-      If the channel doesn't exist, we'll create one with that name. The scope of
+      If the channel doesn't exist, it'll create one with that name. The scope of
       this example application will show you how to work only with public channels,
       but the IP Messaging client allows you to create private channels and handle
       invitations.
@@ -110,7 +110,7 @@
       * `memberLeft`: When someone leaves the channel.
       
       As you may have noticed, each one of these methods include useful objects
-      as parameters, such as the actual message that was added to the channel.
+      as parameters. One example is the actual message that was added to the channel.
 
   .step(data-title='Joining Other Channels', data-file='twiliochat/MainChatViewController.swift', data-highlight='131-146')
     :markdown
@@ -128,7 +128,7 @@
       ## Creating a Channel
 
       We use an input dialog so the user can type the name of the new channel.
-      The only restriction here, is that the user can't create a channel called
+      The only restriction here is that the user can't create a channel called
       "General Channel". Other than that, creating a channel is as simple as calling
       `createChannelWithFriendlyName`
 
@@ -136,7 +136,7 @@
     :markdown
       ## Deleting a Channel
 
-      Deleting a channel is as simple as creating one. We'll use the `UITableView`
+      Deleting a channel is easier than creating one. We'll use the `UITableView`
       hability to delete a cell. Once you have figured out what channel is meant
       to be deleted (from the selected cell index path), deleting it is as simple
       as calling the channel's method `destroyWithCompletion`.
