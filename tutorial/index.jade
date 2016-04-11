@@ -1,5 +1,7 @@
 .chapter(data-title='Twilio Chat Swift')
-  .step(data-title='Introduction', data-file='twiliochat/AppDelegate.swift')
+  .step(data-title='Introduction',
+        data-file='twiliochat/AppDelegate.swift',
+        data-mode="swift")
     :markdown
       ## Introduction
 
@@ -28,7 +30,10 @@
       * [Twilio IP Messaging Client Reference](//media.twiliocdn.com/sdk/rtc/ios/ip-messaging/releases/0.13.5.b191-9dfea4a/docs/)
       * [Twilio Common Reference](//media.twiliocdn.com/sdk/ios/common/releases/0.2.0/docs/)
 
-  .step(data-title='Initializing the Client', data-file='twiliochat/IPMessagingManager.swift', data-highlight='75-95,110-118')
+  .step(data-title='Initializing the Client',
+        data-file='twiliochat/IPMessagingManager.swift',
+        data-highlight='75-95,110-118',
+        data-mode="swift")
     :markdown
       ## Initializing the IP Messaging Client
 
@@ -49,7 +54,10 @@
       **See Also:**
       * [Alamofire HTTP Requests](//github.com/Alamofire/Alamofire)
 
-  .step(data-title='Getting the Channel List', data-file='twiliochat/ChannelManager.swift', data-highlight='71-112')
+  .step(data-title='Getting the Channel List',
+        data-file='twiliochat/ChannelManager.swift',
+        data-highlight='71-112',
+        data-mode="swift")
     :markdown
       ## Getting the Channel List
 
@@ -65,7 +73,8 @@
 
   .step(data-title='Listen to Client Events',
         data-file='twiliochat/ChannelManager.swift',
-        data-highlight='146-174')
+        data-highlight='146-174',
+        data-mode="swift")
     :markdown
       ## Listen to Client Events
 
@@ -83,7 +92,10 @@
       **See Also:**
       * [TwilioIPMessagingClientDelegate Protocol Reference](//media.twiliocdn.com/sdk/rtc/ios/ip-messaging/releases/0.13.5.b191-9dfea4a/docs/Protocols/TwilioIPMessagingClientDelegate.html)
 
-  .step(data-title='Join the General Channel', data-file='twiliochat/ChannelManager.swift', data-highlight='20-67')
+  .step(data-title='Join the General Channel',
+        data-file='twiliochat/ChannelManager.swift',
+        data-highlight='20-67',
+        data-mode="swift")
     :markdown
       ## Join the General Channel
 
@@ -97,7 +109,10 @@
       so you can start listening to events such as `messageAdded` or `memberJoined`.
       We'll show you how to do this in the next step.
 
-  .step(data-title='Listen to Channel Events', data-file='twiliochat/MainChatViewController.swift', data-highlight='209-237')
+  .step(data-title='Listen to Channel Events',
+        data-file='twiliochat/MainChatViewController.swift',
+        data-highlight='209-237',
+        data-mode="swift")
     :markdown
       ## Listen to Channel Events
 
@@ -112,7 +127,10 @@
       As you may have noticed, each one of these methods include useful objects
       as parameters. One example is the actual message that was added to the channel.
 
-  .step(data-title='Joining Other Channels', data-file='twiliochat/MainChatViewController.swift', data-highlight='131-146')
+  .step(data-title='Joining Other Channels',
+        data-file='twiliochat/MainChatViewController.swift',
+        data-highlight='131-146',
+        data-mode="swift")
     :markdown
       ## Joining Other Channels
 
@@ -123,7 +141,10 @@
       on the `MainChatViewController`. The `joinChannel` method takes care of joining
       to the selected channel and loading the messages.
 
-  .step(data-title='Creating a Channel', data-file='twiliochat/ChannelManager.swift', data-highlight='122-143')
+  .step(data-title='Creating a Channel',
+        data-file='twiliochat/ChannelManager.swift',
+        data-highlight='122-143',
+        data-mode="swift")
     :markdown
       ## Creating a Channel
 
@@ -132,7 +153,10 @@
       "General Channel". Other than that, creating a channel is as simple as calling
       `createChannelWithFriendlyName`
 
-  .step(data-title='Deleting a Channel', data-file='twiliochat/MenuViewController.swift', data-highlight='162-177')
+  .step(data-title='Deleting a Channel',
+        data-file='twiliochat/MenuViewController.swift',
+        data-highlight='162-177',
+        data-mode="swift")
     :markdown
       ## Deleting a Channel
 
