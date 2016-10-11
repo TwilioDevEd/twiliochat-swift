@@ -22,6 +22,7 @@
 		59F209321C050EF700CC2392 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F209311C050EF700CC2392 /* LoginViewController.swift */; };
 		59F5EDB01C6E925500CE7D32 /* TokenRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F5EDAF1C6E925500CE7D32 /* TokenRequestHandler.swift */; };
 		59F5EDB31C720E1200CE7D32 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F5EDB21C720E1200CE7D32 /* SessionManager.swift */; };
+		6A4F0364109EA5EC97EE576A /* Pods_twiliochatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 137EB4CC066B6566E219239B /* Pods_twiliochatTests.framework */; };
 		877109151C10EF4F004C57D3 /* ChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877109141C10EF4F004C57D3 /* ChannelManager.swift */; };
 		877109171C15E55E004C57D3 /* MenuTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877109161C15E55E004C57D3 /* MenuTableCell.swift */; };
 		8771091A1C162FC8004C57D3 /* ChatStatusTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 877109181C162FC8004C57D3 /* ChatStatusTableCell.xib */; };
@@ -33,6 +34,7 @@
 		87F895F21C0CF3CE00754007 /* AlertDialogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F895F11C0CF3CE00754007 /* AlertDialogController.swift */; };
 		87F895F61C0E044300754007 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F895F51C0E044300754007 /* MenuViewController.swift */; };
 		87F895F81C0E045F00754007 /* MainChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F895F71C0E045F00754007 /* MainChatViewController.swift */; };
+		CF928D548D061A8AA2B25C70 /* Pods_twiliochatUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A632A40A820E0010EABFCF87 /* Pods_twiliochatUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		09ECCDDBE5FE1DE05EB95826 /* Pods-twiliochatTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-twiliochatTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-twiliochatTests/Pods-twiliochatTests.release.xcconfig"; sourceTree = "<group>"; };
+		137EB4CC066B6566E219239B /* Pods_twiliochatTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_twiliochatTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		193BD9643B84DE4BD973D5D1 /* Pods-twiliochatUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-twiliochatUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-twiliochatUITests/Pods-twiliochatUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		27E99713CF958079C32FA7A9 /* Pods-twiliochatTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-twiliochatTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-twiliochatTests/Pods-twiliochatTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2AA560C65D3EFE31A77E1582 /* Pods-twiliochat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-twiliochat.release.xcconfig"; path = "Pods/Target Support Files/Pods-twiliochat/Pods-twiliochat.release.xcconfig"; sourceTree = "<group>"; };
 		59A866DC1C1B5E8100525F07 /* MockAlertDialogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAlertDialogController.swift; sourceTree = "<group>"; };
 		59A866DE1C1B6C0900525F07 /* LoginViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewControllerTests.swift; sourceTree = "<group>"; };
@@ -88,6 +94,8 @@
 		87F895F51C0E044300754007 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		87F895F71C0E045F00754007 /* MainChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainChatViewController.swift; sourceTree = "<group>"; };
 		9CD950001C6E991D2EC43869 /* Pods-twiliochat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-twiliochat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-twiliochat/Pods-twiliochat.debug.xcconfig"; sourceTree = "<group>"; };
+		A632A40A820E0010EABFCF87 /* Pods_twiliochatUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_twiliochatUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB93390FBA31DBC1606B543F /* Pods-twiliochatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-twiliochatUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-twiliochatUITests/Pods-twiliochatUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +111,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A4F0364109EA5EC97EE576A /* Pods_twiliochatTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,6 +119,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF928D548D061A8AA2B25C70 /* Pods_twiliochatUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,6 +130,8 @@
 			isa = PBXGroup;
 			children = (
 				82EC391710DF37EFB323C5DA /* Pods_twiliochat.framework */,
+				137EB4CC066B6566E219239B /* Pods_twiliochatTests.framework */,
+				A632A40A820E0010EABFCF87 /* Pods_twiliochatUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -254,6 +266,10 @@
 			children = (
 				9CD950001C6E991D2EC43869 /* Pods-twiliochat.debug.xcconfig */,
 				2AA560C65D3EFE31A77E1582 /* Pods-twiliochat.release.xcconfig */,
+				27E99713CF958079C32FA7A9 /* Pods-twiliochatTests.debug.xcconfig */,
+				09ECCDDBE5FE1DE05EB95826 /* Pods-twiliochatTests.release.xcconfig */,
+				193BD9643B84DE4BD973D5D1 /* Pods-twiliochatUITests.debug.xcconfig */,
+				DB93390FBA31DBC1606B543F /* Pods-twiliochatUITests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -284,12 +300,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 59F209221C04C06800CC2392 /* Build configuration list for PBXNativeTarget "twiliochat" */;
 			buildPhases = (
-				B4DA9BBC3EB298E4EFA04918 /* Check Pods Manifest.lock */,
+				B4DA9BBC3EB298E4EFA04918 /* [CP] Check Pods Manifest.lock */,
 				59F208F61C04C06800CC2392 /* Sources */,
 				59F208F71C04C06800CC2392 /* Frameworks */,
 				59F208F81C04C06800CC2392 /* Resources */,
-				9785D95EAE7C333D7258BA48 /* Embed Pods Frameworks */,
-				B708D2CD8FA046EBE0084EE0 /* Copy Pods Resources */,
+				9785D95EAE7C333D7258BA48 /* [CP] Embed Pods Frameworks */,
+				B708D2CD8FA046EBE0084EE0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -304,9 +320,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 59F209251C04C06800CC2392 /* Build configuration list for PBXNativeTarget "twiliochatTests" */;
 			buildPhases = (
+				AC99985F6B681623E5091B05 /* [CP] Check Pods Manifest.lock */,
 				59F2090A1C04C06800CC2392 /* Sources */,
 				59F2090B1C04C06800CC2392 /* Frameworks */,
 				59F2090C1C04C06800CC2392 /* Resources */,
+				627A9442CE781663D9A680DB /* [CP] Embed Pods Frameworks */,
+				C8AEED3224884DC11D1487CB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -322,9 +341,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 59F209281C04C06800CC2392 /* Build configuration list for PBXNativeTarget "twiliochatUITests" */;
 			buildPhases = (
+				40F4A384D1484B9883B399F3 /* [CP] Check Pods Manifest.lock */,
 				59F209151C04C06800CC2392 /* Sources */,
 				59F209161C04C06800CC2392 /* Frameworks */,
 				59F209171C04C06800CC2392 /* Resources */,
+				274914052FE7F34B985530AF /* [CP] Embed Pods Frameworks */,
+				2897C8608AE8474219F77A07 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -348,10 +370,12 @@
 				TargetAttributes = {
 					59F208F91C04C06800CC2392 = {
 						CreatedOnToolsVersion = 7.1.1;
+						LastSwiftMigration = 0800;
 					};
 					59F2090D1C04C06800CC2392 = {
 						CreatedOnToolsVersion = 7.1.1;
 						DevelopmentTeam = P6XPYQYTHH;
+						LastSwiftMigration = 0800;
 						TestTargetID = 59F208F91C04C06800CC2392;
 					};
 					59F209181C04C06800CC2392 = {
@@ -412,14 +436,74 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		9785D95EAE7C333D7258BA48 /* Embed Pods Frameworks */ = {
+		274914052FE7F34B985530AF /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-twiliochatUITests/Pods-twiliochatUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2897C8608AE8474219F77A07 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-twiliochatUITests/Pods-twiliochatUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		40F4A384D1484B9883B399F3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		627A9442CE781663D9A680DB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-twiliochatTests/Pods-twiliochatTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9785D95EAE7C333D7258BA48 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -427,34 +511,64 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-twiliochat/Pods-twiliochat-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B4DA9BBC3EB298E4EFA04918 /* Check Pods Manifest.lock */ = {
+		AC99985F6B681623E5091B05 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		B708D2CD8FA046EBE0084EE0 /* Copy Pods Resources */ = {
+		B4DA9BBC3EB298E4EFA04918 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		B708D2CD8FA046EBE0084EE0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-twiliochat/Pods-twiliochat-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C8AEED3224884DC11D1487CB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-twiliochatTests/Pods-twiliochatTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -633,11 +747,12 @@
 					"\"${PODS_ROOT}/Headers/Public\"",
 				);
 				INFOPLIST_FILE = twiliochat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = twilio.twiliochat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "twiliochat/twiliochat-Bridging-Header.h";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -654,16 +769,18 @@
 					"\"${PODS_ROOT}/Headers/Public\"",
 				);
 				INFOPLIST_FILE = twiliochat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = twilio.twiliochat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "twiliochat/twiliochat-Bridging-Header.h";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
 		59F209261C04C06800CC2392 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 27E99713CF958079C32FA7A9 /* Pods-twiliochatTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = twiliochatTests/Info.plist;
@@ -671,12 +788,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = twilio.twiliochatTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/twiliochat.app/twiliochat";
 			};
 			name = Debug;
 		};
 		59F209271C04C06800CC2392 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 09ECCDDBE5FE1DE05EB95826 /* Pods-twiliochatTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = twiliochatTests/Info.plist;
@@ -684,12 +803,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = twilio.twiliochatTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/twiliochat.app/twiliochat";
 			};
 			name = Release;
 		};
 		59F209291C04C06800CC2392 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 193BD9643B84DE4BD973D5D1 /* Pods-twiliochatUITests.debug.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = twiliochatUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -702,6 +823,7 @@
 		};
 		59F2092A1C04C06800CC2392 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DB93390FBA31DBC1606B543F /* Pods-twiliochatUITests.release.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = twiliochatUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

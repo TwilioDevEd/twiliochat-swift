@@ -20,12 +20,12 @@ class MenuViewController: UIViewController {
 
     refreshControl = UIRefreshControl()
     tableView.addSubview(refreshControl)
-    refreshControl.addTarget(self, action: "refreshChannels", forControlEvents: .ValueChanged)
+    refreshControl.addTarget(self, action: #selector(MenuViewController.refreshChannels), forControlEvents: .ValueChanged)
     refreshControl.tintColor = UIColor.whiteColor()
 
     self.refreshControl.frame.origin.x -= MenuViewController.TWCRefreshControlXOffset
     ChannelManager.sharedManager.delegate = self
-    self.populateChannels()
+    reloadChannelList()
   }
 
   // MARK: - Internal methods
@@ -46,21 +46,14 @@ class MenuViewController: UIViewController {
     return menuCell
   }
 
-  func populateChannels() {
-    ChannelManager.sharedManager.populateChannelsWithCompletion { success in
-      if !success {
-        AlertDialogController.showAlertWithMessage("Failed to load channels",
-          title: "IP Messaging Demo",
-          presenter: self)
-      }
-      self.tableView.reloadData()
-      self.refreshControl.endRefreshing()
-    }
+  func reloadChannelList() {
+    tableView.reloadData()
+    refreshControl.endRefreshing()
   }
 
   func refreshChannels() {
     refreshControl.beginRefreshing()
-    populateChannels()
+    reloadChannelList()
   }
 
   func deselectSelectedChannel() {
@@ -166,7 +159,7 @@ extension MenuViewController : UITableViewDataSource {
       }
       if let channel = ChannelManager.sharedManager.channels?.objectAtIndex(indexPath.row) {
         channel.destroyWithCompletion { result in
-          if result == .Success {
+          if result.isSuccessful() {
             tableView.reloadData()
           }
           else {

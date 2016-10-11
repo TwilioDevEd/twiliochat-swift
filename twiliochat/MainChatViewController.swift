@@ -38,7 +38,7 @@ class MainChatViewController: SLKTextViewController {
 
     if (revealViewController() != nil) {
       revealButtonItem.target = revealViewController()
-      revealButtonItem.action = "revealToggle:"
+      revealButtonItem.action = #selector(SWRevealViewController.revealToggle(_:))
       navigationController?.navigationBar.addGestureRecognizer(revealViewController().panGestureRecognizer())
       revealViewController().rearViewRevealOverdraw = 0
     }
@@ -50,10 +50,10 @@ class MainChatViewController: SLKTextViewController {
     inverted = true
 
     let cellNib = UINib(nibName: MainChatViewController.TWCChatCellIdentifier, bundle: nil)
-    tableView.registerNib(cellNib, forCellReuseIdentifier:MainChatViewController.TWCChatCellIdentifier)
+    tableView!.registerNib(cellNib, forCellReuseIdentifier:MainChatViewController.TWCChatCellIdentifier)
 
     let cellStatusNib = UINib(nibName: MainChatViewController.TWCChatStatusCellIdentifier, bundle: nil)
-    tableView.registerNib(cellStatusNib, forCellReuseIdentifier:MainChatViewController.TWCChatStatusCellIdentifier)
+    tableView!.registerNib(cellStatusNib, forCellReuseIdentifier:MainChatViewController.TWCChatStatusCellIdentifier)
 
     textInputbar.autoHideRightButton = true
     textInputbar.maxCharCount = 256
@@ -69,10 +69,10 @@ class MainChatViewController: SLKTextViewController {
       navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: font]
     }
 
-    tableView.allowsSelection = false
-    tableView.estimatedRowHeight = 70
-    tableView.rowHeight = UITableViewAutomaticDimension
-    tableView.separatorStyle = .None
+    tableView!.allowsSelection = false
+    tableView!.estimatedRowHeight = 70
+    tableView!.rowHeight = UITableViewAutomaticDimension
+    tableView!.separatorStyle = .None
 
     if channel == nil {
       channel = ChannelManager.sharedManager.generalChannel
@@ -124,25 +124,37 @@ class MainChatViewController: SLKTextViewController {
 
     let label = cell.viewWithTag(MainChatViewController.TWCLabelTag) as! UILabel
     let memberStatus = (message.status! == .Joined) ? "joined" : "left"
-    label.text = "User \(message.member.identity()) has \(memberStatus)"
+    label.text = "User \(message.member.userInfo.identity) has \(memberStatus)"
     return cell
   }
 
   func joinChannel() {
-    if channel.status == .Joined {
+    setViewOnHold(true)
+
+    if channel.status != .Joined {
+      channel.joinWithCompletion { result in
+        print("Channel Joined")
+      }
+    }
+
+    if channel.synchronizationStatus != .All {
+      channel.synchronizeWithCompletion { result in
+        if result.isSuccessful() {
+          print("Synchronization started. Delegate method will load messages")
+        }
+      }
+    }
+    else {
       loadMessages()
-      return
+      setViewOnHold(false)
     }
 
-    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    textInputbarHidden = true
+  }
 
-    channel.joinWithCompletion { result in
-      dispatch_async(dispatch_get_main_queue(), {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        self.setTextInputbarHidden(false, animated: true)
-      })
-    }
+  // Disable user input and show activity indicator
+  func setViewOnHold(onHold: Bool) {
+    self.textInputbarHidden = onHold;
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = onHold;
   }
 
   override func didPressRightButton(sender: AnyObject!) {
@@ -162,7 +174,7 @@ class MainChatViewController: SLKTextViewController {
     messages =  messages.union(newMessages)
     sortMessages()
     dispatch_async(dispatch_get_main_queue(), {
-      self.tableView.reloadData()
+      self.tableView!.reloadData()
       if self.messages.count > 0 {
         self.scrollToBottom()
       }
@@ -175,19 +187,21 @@ class MainChatViewController: SLKTextViewController {
 
   func loadMessages() {
     messages.removeAll()
-    addMessages(channel.messages.allObjects())
+    if channel.synchronizationStatus == .All {
+      addMessages(channel.messages.allObjects())
+    }
   }
 
   func scrollToBottom() {
     if messages.count > 0 {
       let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-      tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: true)
+      tableView!.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: true)
     }
   }
 
   func leaveChannel() {
     channel.leaveWithCompletion { result in
-      if result == .Success {
+      if result.isSuccessful() {
         let menuViewController = self.revealViewController().rearViewController as! MenuViewController
         menuViewController.deselectSelectedChannel()
         self.revealViewController().rearViewController.performSegueWithIdentifier(MainChatViewController.TWCOpenGeneralChannelSegue, sender: nil)
@@ -221,11 +235,6 @@ extension MainChatViewController : TWMChannelDelegate {
     addMessages([StatusMessage(member:member, status:.Left)])
   }
 
-  func ipMessagingClient(client: TwilioIPMessagingClient!, channelHistoryLoaded channel: TWMChannel!) {
-    loadMessages()
-    tableView.reloadData()
-  }
-
   func ipMessagingClient(client: TwilioIPMessagingClient!, channelDeleted channel: TWMChannel!) {
     dispatch_async(dispatch_get_main_queue(), {
       if channel == self.channel {
@@ -233,5 +242,15 @@ extension MainChatViewController : TWMChannelDelegate {
           .performSegueWithIdentifier(MainChatViewController.TWCOpenGeneralChannelSegue, sender: nil)
       }
     })
+  }
+
+  func ipMessagingClient(client: TwilioIPMessagingClient!, channel: TWMChannel!, synchronizationStatusChanged status: TWMChannelSynchronizationStatus) {
+    if status == .All {
+      loadMessages()
+      dispatch_async(dispatch_get_main_queue(), {
+        self.tableView?.reloadData()
+        self.setViewOnHold(false)
+      })
+    }
   }
 }
