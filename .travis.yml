@@ -8,6 +8,7 @@ before_install:
 
 install:
   # - travis_wait pod install
+  - echo "Do not install"
 
 script:
   # - xctool -sdk iphonesimulator -workspace twiliochat.xcworkspace -scheme twiliochat test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
