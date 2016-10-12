@@ -1,10 +1,11 @@
 import UIKit
 
-class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
+class IPMessagingManager: NSObject {
 
   static let _sharedManager = IPMessagingManager()
 
   var client:TwilioIPMessagingClient?
+  var delegate:ChannelManager?
   var connected = false
 
   var userIdentity:String {
@@ -13,6 +14,11 @@ class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
 
   var hasIdentity: Bool {
     return SessionManager.isLoogedIn()
+  }
+  
+  override init() {
+    super.init()
+    delegate = ChannelManager.sharedManager
   }
 
   class func sharedManager() -> IPMessagingManager {
@@ -27,8 +33,7 @@ class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
 
     if (!connected) {
       connectClientWithCompletion { success, error in
-        let viewController = success ? "RevealViewController" : "LoginViewController"
-        self.presentViewControllerByName(viewController)
+        print("Delegate method will load views when sync is complete")
       }
       return
     }
@@ -70,7 +75,7 @@ class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
     self.connected = false
   }
 
-  // MARK: Twilio Client
+//  // MARK: Twilio Client
 
   func connectClientWithCompletion(completion: (Bool, NSError?) -> Void) {
     if (client != nil) {
@@ -80,7 +85,6 @@ class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
     requestTokenWithCompletion { succeeded, token in
       if let token = token where succeeded {
         self.initializeClientWithToken(token)
-        self.loadGeneralChatRoomWithCompletion(completion)
       }
       else {
         let error = self.errorWithDescription("Could not get access token", code:301)
@@ -91,13 +95,14 @@ class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
 
   func initializeClientWithToken(token: String) {
     let accessManager = TwilioAccessManager(token:token, delegate:self)
-    client = TwilioIPMessagingClient.ipMessagingClientWithAccessManager(accessManager, delegate: nil)
+    client = TwilioIPMessagingClient.ipMessagingClientWithAccessManager(accessManager, properties: nil, delegate: self)
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    self.connected = true
   }
 
   func loadGeneralChatRoomWithCompletion(completion:(Bool, NSError?) -> Void) {
     ChannelManager.sharedManager.joinGeneralChatRoomWithCompletion { succeeded in
       if succeeded {
-        self.connected = true
         completion(succeeded, nil)
       }
       else {
@@ -121,9 +126,39 @@ class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
     let userInfo = [NSLocalizedDescriptionKey : description]
     return NSError(domain: "app", code: code, userInfo: userInfo)
   }
+}
 
-  // MARK: TwilioAccessManagerDelegate
+// MARK: - TwilioIPMessagingClientDelegate
+extension IPMessagingManager : TwilioIPMessagingClientDelegate {
+  func ipMessagingClient(client: TwilioIPMessagingClient!, channelAdded channel: TWMChannel!) {
+    self.delegate?.ipMessagingClient(client, channelAdded: channel)
+  }
+  
+  func ipMessagingClient(client: TwilioIPMessagingClient!, channelChanged channel: TWMChannel!) {
+    self.delegate?.ipMessagingClient(client, channelChanged: channel)
+  }
+  
+  func ipMessagingClient(client: TwilioIPMessagingClient!, channelDeleted channel: TWMChannel!) {
+    self.delegate?.ipMessagingClient(client, channelDeleted: channel)
+  }
+  
+  func ipMessagingClient(client: TwilioIPMessagingClient!, synchronizationStatusChanged status: TWMClientSynchronizationStatus) {
+    if status == TWMClientSynchronizationStatus.Completed {
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+      ChannelManager.sharedManager.channelsList = client.channelsList()
+      ChannelManager.sharedManager.populateChannels()
+      loadGeneralChatRoomWithCompletion { success, error in
+        if success {
+          self.presentRootViewController()
+        }
+      }
+    }
+    self.delegate?.ipMessagingClient(client, synchronizationStatusChanged: status)
+  }
+}
 
+// MARK: - TwilioAccessManagerDelegate
+extension IPMessagingManager : TwilioAccessManagerDelegate {
   func accessManagerTokenExpired(accessManager: TwilioAccessManager!) {
     requestTokenWithCompletion { succeeded, token in
       if (succeeded) {
@@ -134,7 +169,7 @@ class IPMessagingManager: NSObject, TwilioAccessManagerDelegate {
       }
     }
   }
-
+  
   func accessManager(accessManager: TwilioAccessManager!, error: NSError!) {
     print("Access manager error: \(error.localizedDescription)")
   }
