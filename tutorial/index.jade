@@ -12,11 +12,11 @@
       we'll be using to handle all the chat functionality.
 
       1. We use a server side app to generate [user access
-      tokens](//www.twilio.com/docs/api/ip-messaging/guides/identity) which contains
+      tokens](//www.twilio.com/docs/api/ip-messaging/guides/identity#server-create-an-access-token) which contains
       all your Twilio account information. The IP Messaging Client uses this token
       to connect with the API
 
-      1. [Twilio Common](//media.twiliocdn.com/sdk/ios/common/releases/0.2.0/docs/)
+      1. [Twilio Common](//media.twiliocdn.com/sdk/ios/common/v0.3/docs/)
       is the part of the SDK than handles access tokens and even refreshes them upon token
       expiration.
 
@@ -27,12 +27,12 @@
       * [iOS QuickStart](//www.twilio.com/docs/api/ip-messaging/guides/quickstart-ios)
       * [Channels and Messages](//www.twilio.com/docs/api/ip-messaging/guides/channels)
       * [User Identity & Access Tokens](//www.twilio.com/docs/api/ip-messaging/guides/channels)
-      * [Twilio IP Messaging Client Reference](//media.twiliocdn.com/sdk/rtc/ios/ip-messaging/releases/0.13.5.b191-9dfea4a/docs/)
-      * [Twilio Common Reference](//media.twiliocdn.com/sdk/ios/common/releases/0.2.0/docs/)
+      * [Twilio IP Messaging Client Reference](//media.twiliocdn.com/sdk/ios/ip-messaging/v0.15/docs/)
+      * [Twilio Common Reference](//media.twiliocdn.com/sdk/ios/common/v0.3/docs/)
 
   .step(data-title='Initializing the Client',
         data-file='twiliochat/IPMessagingManager.swift',
-        data-highlight='75-95,110-118',
+        data-highlight='92-123',
         data-mode="swift")
     :markdown
       ## Initializing the IP Messaging Client
@@ -54,26 +54,46 @@
       **See Also:**
       * [Alamofire HTTP Requests](//github.com/Alamofire/Alamofire)
 
+  .step(data-title='Synchronizing the Client',
+        data-file='twiliochat/IPMessagingManager.swift',
+        data-highlight='145-157',
+        data-mode="swift")
+    :markdown
+      ## Synchronizing the IP Messaging Client
+
+      In the previous step we initialized the
+      [IP Messaging client](//media.twiliocdn.com/sdk/ios/ip-messaging/releases/0.15.1/docs/Classes/TwilioIPMessagingClient.html)
+      with an [access manager](//media.twiliocdn.com/sdk/ios/common/releases/0.3.3/docs/Classes/TwilioAccessManager.html)
+      and set the client's delegate to the shared instance of our `IPMessagingManager`.
+
+      The `synchronizationStatusChanged`
+      [delegate](//media.twiliocdn.com/sdk/ios/ip-messaging/releases/0.15.1/docs/Protocols/TwilioIPMessagingClientDelegate.html)
+      method will allow us to know when the client has loaded all the required information.
+      You can change the default initialization values for the client using a
+      [TwilioIPMessagingClientProperties](//media.twiliocdn.com/sdk/ios/ip-messaging/releases/0.15.1/docs/Classes/TwilioIPMessagingClientProperties.html)
+      instance as the `options` parameter in the previews step.
+
+      We need the client to be synchronized before trying to get the channel list (next step).
+      Otherwise, calling [client.channelsList()](//media.twiliocdn.com/sdk/ios/ip-messaging/releases/0.15.1/docs/Classes/TwilioIPMessagingClient.html#//api/name/channelsList)
+      will return `nil`.
+
   .step(data-title='Getting the Channel List',
         data-file='twiliochat/ChannelManager.swift',
-        data-highlight='71-112',
+        data-highlight='73-89',
         data-mode="swift")
     :markdown
       ## Getting the Channel List
 
       Our `ChannelManager` class takes care of everything related to channels.
-      The first thing we need to do when the class is initialized, is to store
-      a list of channels of type `TWMChannelList` that we get by calling the method `channelsListWithCompletion`
-      from the IP Messaging Client.
-
-      Once we have a `TWMChannelList` object, we can fetch the actual channels using the
-      `channelsList's` method `loadChannelsWithCompletion`. When the operation
-      finishes successfully, in order to get an array of channels, call the
-      method `allObjects` on the same object.
+      In the previous step, we waited for the client to synchronize channel information,
+      and assigned an instance of
+      [TWMChannelList](//media.twiliocdn.com/sdk/ios/ip-messaging/releases/0.15.1/docs/Classes/TWMChannels.html)
+      to our `ChannelManager`. Now we must get an actual array of channels using
+      the `allObjects()` method.
 
   .step(data-title='Listen to Client Events',
         data-file='twiliochat/ChannelManager.swift',
-        data-highlight='146-174',
+        data-highlight='111-138',
         data-mode="swift")
     :markdown
       ## Listen to Client Events
@@ -83,18 +103,18 @@
       channel list in the reveal controller. If a channel is deleted and we were currently joined to that
       channel, the application will automatically join the general channel.
 
-      `ChannelManager` is our `TwilioIPMessagingClientDelegate`. In this class we
-      implement the delegate methods, but we also allow `MainChatViewController`
+      `ChannelManager` is a `TwilioIPMessagingClientDelegate`. In this class we
+      implement the delegate methods, but we also allow `MenuViewController`
       class to be a delegate of ChannelManager, so it can listen to client events too.
 
       ---
 
       **See Also:**
-      * [TwilioIPMessagingClientDelegate Protocol Reference](//media.twiliocdn.com/sdk/rtc/ios/ip-messaging/releases/0.13.5.b191-9dfea4a/docs/Protocols/TwilioIPMessagingClientDelegate.html)
+      * [TwilioIPMessagingClientDelegate Protocol Reference](//media.twiliocdn.com/sdk/ios/ip-messaging/releases/0.15.1/docs/Protocols/TwilioIPMessagingClientDelegate.html)
 
   .step(data-title='Join the General Channel',
         data-file='twiliochat/ChannelManager.swift',
-        data-highlight='20-67',
+        data-highlight='22-69',
         data-mode="swift")
     :markdown
       ## Join the General Channel
@@ -111,7 +131,7 @@
 
   .step(data-title='Listen to Channel Events',
         data-file='twiliochat/MainChatViewController.swift',
-        data-highlight='209-237',
+        data-highlight='223-256',
         data-mode="swift")
     :markdown
       ## Listen to Channel Events
@@ -123,13 +143,14 @@
       * `channelDeleted`: When someone deletes a channel.
       * `memberJoined`: When someone joins the channel.
       * `memberLeft`: When someone leaves the channel.
-      
+      * `synchronizationStatusChanged`: When channel synchronization status changes.
+
       As you may have noticed, each one of these methods include useful objects
       as parameters. One example is the actual message that was added to the channel.
 
   .step(data-title='Joining Other Channels',
         data-file='twiliochat/MainChatViewController.swift',
-        data-highlight='131-146',
+        data-highlight='131-152',
         data-mode="swift")
     :markdown
       ## Joining Other Channels
@@ -143,7 +164,7 @@
 
   .step(data-title='Creating a Channel',
         data-file='twiliochat/ChannelManager.swift',
-        data-highlight='122-143',
+        data-highlight='93-107',
         data-mode="swift")
     :markdown
       ## Creating a Channel
@@ -151,11 +172,11 @@
       We use an input dialog so the user can type the name of the new channel.
       The only restriction here is that the user can't create a channel called
       "General Channel". Other than that, creating a channel is as simple as calling
-      `createChannelWithFriendlyName`
+      `createChannelWithOptions` and passing a dictionary with the new channel information.
 
   .step(data-title='Deleting a Channel',
         data-file='twiliochat/MenuViewController.swift',
-        data-highlight='162-177',
+        data-highlight='155-170',
         data-mode="swift")
     :markdown
       ## Deleting a Channel
@@ -170,7 +191,19 @@
       ## Where to Next?
 
       That's it! We've just implemented a simple chat application using Swift.
+      If you are am iOS developer working with Twilio, you might want
+      to check out these other projects:
 
-      Thanks for checking out this tutorial! If you have any feedback
-      to share with us, we'd love to hear it.
-      [Contact support](//www.twilio.com/help/contact) to let us know what you think.
+      [**Client Quickstart**](//github.com/TwilioDevEd/client-quickstart-swift)
+
+      Twilio Client for iOS Quickstart using Swift
+
+      [**Notifications Quickstart**](//github.com/TwilioDevEd/notifications-quickstart-swift)
+
+      Twilio Notifications for iOS Quickstart using Swift
+
+      ## Did this help?
+
+      Thanks for checking this tutorial out! If you have any feedback to share with us,
+      we'd love to hear it. [Contact the Twilio Developer Education Team](mailto:deved-oss@twilio.com)
+      to let us know what you think.
