@@ -75,7 +75,7 @@ class IPMessagingManager: NSObject {
     self.connected = false
   }
 
-//  // MARK: Twilio Client
+  // MARK: Twilio Client
 
   func connectClientWithCompletion(completion: (Bool, NSError?) -> Void) {
     if (client != nil) {
