@@ -30,12 +30,14 @@ class DateTodayFormatter {
 }
 
 extension NSDate {
-  class func dateWithISO8601String(var dateString: String) -> NSDate? {
+  class func dateWithISO8601String(dateString: String) -> NSDate? {
+    var formattedDateString = dateString
+
     if dateString.hasSuffix("Z") {
       let lastIndex = dateString.characters.indices.last!
-      dateString = dateString.substringToIndex(lastIndex) + "-000"
+      formattedDateString = dateString.substringToIndex(lastIndex) + "-000"
     }
-    return dateFromString(dateString, withFormat:"yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    return dateFromString(formattedDateString, withFormat:"yyyy-MM-dd'T'HH:mm:ss.SSSZ")
   }
 
   class func dateFromString(str: String, withFormat dateFormat: String) -> NSDate? {

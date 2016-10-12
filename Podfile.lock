@@ -1,28 +1,25 @@
 PODS:
-  - Alamofire (3.2.0)
-  - SlackTextViewController (1.9)
+  - Alamofire (3.5.1)
+  - SlackTextViewController (1.9.5)
   - SWRevealViewController (2.3.0)
-  - TwilioCommon (0.2.0)
-  - TwilioIPMessagingClient (0.13.5)
+  - TwilioCommon (0.3.3)
+  - TwilioIPMessagingClient (0.15.1):
+    - TwilioCommon (~> 0.3.3)
 
 DEPENDENCIES:
   - Alamofire (~> 3.0)
   - SlackTextViewController (~> 1.7)
   - SWRevealViewController (~> 2.3)
-  - TwilioCommon (from `https://media.twiliocdn.com/sdk/ios/common/v0.2/TwilioCommon.podspec`)
-  - TwilioIPMessagingClient (from `https://media.twiliocdn.com/sdk/rtc/ios/ip-messaging/v0.13/TwilioIPMessagingClient.podspec`)
-
-EXTERNAL SOURCES:
-  TwilioCommon:
-    :podspec: https://media.twiliocdn.com/sdk/ios/common/v0.2/TwilioCommon.podspec
-  TwilioIPMessagingClient:
-    :podspec: https://media.twiliocdn.com/sdk/rtc/ios/ip-messaging/v0.13/TwilioIPMessagingClient.podspec
+  - TwilioCommon (~> 0.3.3)
+  - TwilioIPMessagingClient (~> 0.15.1)
 
 SPEC CHECKSUMS:
-  Alamofire: 4da478599fccddff361205c8929333d7fe18dceb
-  SlackTextViewController: d51503f7be846cb9976a273499dc90f2445e9447
+  Alamofire: 0dfba1184a543e2aa160f4e39cac4e8aba48d223
+  SlackTextViewController: fbcdadbb8090673f604484ff5b6eb8d77baed42a
   SWRevealViewController: 6d3fd97f70112fd7cef9de14df4260eacce4c63a
-  TwilioCommon: 998046c2eb8dcf6fca38ada9a9b4c06ab3516957
-  TwilioIPMessagingClient: 97f2f8aa7fdcab675db51a0d77850492a3ba63f1
+  TwilioCommon: e4da91e627fb6d926b366f39d59699a9282afd77
+  TwilioIPMessagingClient: fafe6e53949c8a0ab97f4258ed5b34cedf95154a
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: f4fcca54dc084e6c09b686ae896d0d6dc3b15fcd
+
+COCOAPODS: 1.1.0.rc.3

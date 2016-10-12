@@ -29,7 +29,7 @@ class InputDialogController: NSObject {
       alert.addTextFieldWithConfigurationHandler { textField in
         textField.placeholder = placeholder
         NSNotificationCenter.defaultCenter().addObserver(self,
-          selector: "handleTextFieldTextDidChangeNotification:",
+          selector: #selector(InputDialogController.handleTextFieldTextDidChangeNotification(_:)),
           name: UITextFieldTextDidChangeNotification,
           object: nil)
       }

@@ -4,19 +4,20 @@
 Swift implementation of Twilio Chat
 
 ### Running the Application
-1. Clone the repository and `cd` into it.
+
+1. Clone the repository and `cd` into it
 1. Install the application's dependencies with [CocoaPods](https://cocoapods.org/)
 
    ```bash
    $ pod install
    ```
-1. Open the project with `XCode`, but don't use `twiliochat.xcodeproj` file, for
-   CocoaPods dependencies to work, you must use `twiliochat.xcworkspace`.
+1. Open the project with `XCode` but don't use `twiliochat.xcodeproj` file. For
+   CocoaPods dependencies to work you must use `twiliochat.xcworkspace`.
 1. [Twilio's IP Messaging Client](https://www.twilio.com/docs/api/ip-messaging) requires an
    [access token](https://www.twilio.com/docs/api/ip-messaging/guides/identity) generated using your
-   Twilio credentials in order to connect. First, we need to setup a server that will generate this token
+   Twilio credentials in order to connect. First we need to setup a server that will generate this token
    for the mobile application to use. We have created web versions of Twilio Chat, you can use any of these
-   applications to generate the token that this mobile app requires, just pick you favourite flavour:
+   applications to generate the token that this mobile app requires. Just pick your favorite flavor:
 
    * [PHP - Laravel](https://github.com/TwilioDevEd/twiliochat-laravel)
    * [C# - .NET MVC](https://github.com/TwilioDevEd/twiliochat-csharp)
@@ -31,14 +32,15 @@ Swift implementation of Twilio Chat
    ```
    ProjectRoot -> twiliochat -> resources -> Keys.plist
    ```
-   This file contains the `TokenRequestUrl` key. The default values is `http://localhost:8000/token`. This
+   This file contains the `TokenRequestUrl` key. The default value is `http://localhost:8000/token`. This
    address refers to the host machine loopback interface when running this application
    in the iOS simulator. You must change this value to match the address of your server running
    the token generation application. We are using the [PHP - Laravel](https://github.com/TwilioDevEd/twiliochat-laravel)
    version in this case, that's why we use port 8000.
 
    ***Note:*** In some operating systems you need to specify the address for the development server
-   when you run the Laravel application, like this:
+   when you run the Laravel application, here's an example:
+
    ```
    $ php artisan serve --host=127.0.0.1
    ```
@@ -53,6 +55,3 @@ Swift implementation of Twilio Chat
    TokenRequestUrl -> http://<your_subdomain>.ngrok.io/token
    ```
    No need to specify the port in this url, as ngrok will forward the request to the specified port.
-
-***Note:*** The current version of the app uses a fixed version of Twilio SDK (included in the
-repository). This version only work for arm devices as the SDK includes some native code.
