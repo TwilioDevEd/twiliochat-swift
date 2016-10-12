@@ -15,7 +15,7 @@ class IPMessagingManager: NSObject {
   var hasIdentity: Bool {
     return SessionManager.isLoogedIn()
   }
-  
+
   override init() {
     super.init()
     delegate = ChannelManager.sharedManager
@@ -77,6 +77,18 @@ class IPMessagingManager: NSObject {
 
   // MARK: Twilio Client
 
+  func loadGeneralChatRoomWithCompletion(completion:(Bool, NSError?) -> Void) {
+    ChannelManager.sharedManager.joinGeneralChatRoomWithCompletion { succeeded in
+      if succeeded {
+        completion(succeeded, nil)
+      }
+      else {
+        let error = self.errorWithDescription("Could not join General channel", code: 300)
+        completion(succeeded, error)
+      }
+    }
+  }
+
   func connectClientWithCompletion(completion: (Bool, NSError?) -> Void) {
     if (client != nil) {
       logout()
@@ -100,18 +112,6 @@ class IPMessagingManager: NSObject {
     self.connected = true
   }
 
-  func loadGeneralChatRoomWithCompletion(completion:(Bool, NSError?) -> Void) {
-    ChannelManager.sharedManager.joinGeneralChatRoomWithCompletion { succeeded in
-      if succeeded {
-        completion(succeeded, nil)
-      }
-      else {
-        let error = self.errorWithDescription("Could not join General channel", code: 300)
-        completion(succeeded, error)
-      }
-    }
-  }
-
   func requestTokenWithCompletion(completion:(Bool, String?) -> Void) {
     if let device = UIDevice.currentDevice().identifierForVendor?.UUIDString {
       TokenRequestHandler.fetchToken(["device": device, "identity":SessionManager.getUsername()]) {response,error in
@@ -133,15 +133,15 @@ extension IPMessagingManager : TwilioIPMessagingClientDelegate {
   func ipMessagingClient(client: TwilioIPMessagingClient!, channelAdded channel: TWMChannel!) {
     self.delegate?.ipMessagingClient(client, channelAdded: channel)
   }
-  
+
   func ipMessagingClient(client: TwilioIPMessagingClient!, channelChanged channel: TWMChannel!) {
     self.delegate?.ipMessagingClient(client, channelChanged: channel)
   }
-  
+
   func ipMessagingClient(client: TwilioIPMessagingClient!, channelDeleted channel: TWMChannel!) {
     self.delegate?.ipMessagingClient(client, channelDeleted: channel)
   }
-  
+
   func ipMessagingClient(client: TwilioIPMessagingClient!, synchronizationStatusChanged status: TWMClientSynchronizationStatus) {
     if status == TWMClientSynchronizationStatus.Completed {
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -169,7 +169,7 @@ extension IPMessagingManager : TwilioAccessManagerDelegate {
       }
     }
   }
-  
+
   func accessManager(accessManager: TwilioAccessManager!, error: NSError!) {
     print("Access manager error: \(error.localizedDescription)")
   }
