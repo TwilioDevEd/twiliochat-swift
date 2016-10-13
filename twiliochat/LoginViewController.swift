@@ -16,7 +16,6 @@ class LoginViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-
     initializeTextFields()
   }
 
@@ -57,7 +56,7 @@ class LoginViewController: UIViewController {
   // MARK: - Login
 
   func loginUser() {
-    if (validateUserData()) {
+    if (validUserData()) {
       view.userInteractionEnabled = false
       activityIndicator.startAnimating()
 
@@ -68,7 +67,7 @@ class LoginViewController: UIViewController {
     }
   }
 
-  func validateUserData() -> Bool {
+  func validUserData() -> Bool {
     if let usernameEmpty = usernameTextField.text?.isEmpty where !usernameEmpty {
       return true
     }
@@ -82,10 +81,7 @@ class LoginViewController: UIViewController {
 
   func handleResponse(succeeded: Bool, error: NSError?) {
     self.activityIndicator.stopAnimating()
-    if succeeded {
-      ipMessagingClientClass.sharedManager().presentRootViewController()
-    }
-    else if let error = error {
+    if let error = error where !succeeded {
       self.showError(error.localizedDescription)
     }
     self.view.userInteractionEnabled = true

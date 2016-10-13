@@ -61,8 +61,8 @@ public class TextFieldFormHandler: NSObject {
   }
 
   func initializeObservers() {
-    NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-    let tapRecognizer = UITapGestureRecognizer(target: self, action: "backgroundTap:")
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TextFieldFormHandler.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+    let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(TextFieldFormHandler.backgroundTap(_:)))
     self.topContainer.addGestureRecognizer(tapRecognizer)
   }
 
