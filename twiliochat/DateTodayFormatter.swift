@@ -6,10 +6,10 @@ class DateTodayFormatter {
       return nil
     }
 
-    let messageDate = roundDateToDay(date)
-    let todayDate = roundDateToDay(NSDate())
+    let messageDate = roundDateToDay(date: date)
+    let todayDate = roundDateToDay(date: NSDate())
 
-    let formatter = NSDateFormatter()
+    let formatter = DateFormatter()
 
     if messageDate == todayDate {
       formatter.dateFormat = "'Today' - hh:mma"
@@ -18,14 +18,15 @@ class DateTodayFormatter {
       formatter.dateFormat = "MMM. dd - hh:mma"
     }
 
-    return formatter.stringFromDate(date)
+    return formatter.string(from: date as Date)
   }
 
   func roundDateToDay(date: NSDate) -> NSDate {
-    let calendar  = NSCalendar.currentCalendar()
-    let flags: NSCalendarUnit = [.Day, .Month, .Year]
-    let components = calendar.components(flags, fromDate: date)
-    return calendar.dateFromComponents(components)!
+    let calendar  = Calendar.current
+    let flags = Set<Calendar.Component>([.day, .month, .year])
+    let components = calendar.dateComponents(flags, from: date as Date)
+
+    return calendar.date(from:components)! as NSDate
   }
 }
 
@@ -35,15 +36,15 @@ extension NSDate {
 
     if dateString.hasSuffix("Z") {
       let lastIndex = dateString.characters.indices.last!
-      formattedDateString = dateString.substringToIndex(lastIndex) + "-000"
+      formattedDateString = dateString.substring(to: lastIndex) + "-000"
     }
-    return dateFromString(formattedDateString, withFormat:"yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    return dateFromString(str: formattedDateString, withFormat:"yyyy-MM-dd'T'HH:mm:ss.SSSZ")
   }
 
   class func dateFromString(str: String, withFormat dateFormat: String) -> NSDate? {
-    let formatter = NSDateFormatter()
+    let formatter = DateFormatter()
     formatter.dateFormat = dateFormat
-    formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-    return formatter.dateFromString(str)
+    formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX") as Locale!
+    return formatter.date(from: str) as NSDate?
   }
 }

@@ -45,25 +45,25 @@ class MainChatViewController: SLKTextViewController {
 
     bounces = true
     shakeToClearEnabled = true
-    keyboardPanningEnabled = true
+    isKeyboardPanningEnabled = true
     shouldScrollToBottomAfterKeyboardShows = false
-    inverted = true
+    isInverted = true
 
     let cellNib = UINib(nibName: MainChatViewController.TWCChatCellIdentifier, bundle: nil)
-    tableView!.registerNib(cellNib, forCellReuseIdentifier:MainChatViewController.TWCChatCellIdentifier)
+    tableView!.register(cellNib, forCellReuseIdentifier:MainChatViewController.TWCChatCellIdentifier)
 
     let cellStatusNib = UINib(nibName: MainChatViewController.TWCChatStatusCellIdentifier, bundle: nil)
-    tableView!.registerNib(cellStatusNib, forCellReuseIdentifier:MainChatViewController.TWCChatStatusCellIdentifier)
+    tableView!.register(cellStatusNib, forCellReuseIdentifier:MainChatViewController.TWCChatStatusCellIdentifier)
 
     textInputbar.autoHideRightButton = true
     textInputbar.maxCharCount = 256
-    textInputbar.counterStyle = .Split
-    textInputbar.counterPosition = .Top
+    textInputbar.counterStyle = .split
+    textInputbar.counterPosition = .top
 
     let font = UIFont(name:"Avenir-Light", size:14)
     textView.font = font
 
-    rightButton.setTitleColor(UIColor(red:0.973, green:0.557, blue:0.502, alpha:1), forState: .Normal)
+    rightButton.setTitleColor(UIColor(red:0.973, green:0.557, blue:0.502, alpha:1), for: .normal)
 
     if let font = UIFont(name:"Avenir-Heavy", size:17) {
       navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: font]
@@ -72,55 +72,55 @@ class MainChatViewController: SLKTextViewController {
     tableView!.allowsSelection = false
     tableView!.estimatedRowHeight = 70
     tableView!.rowHeight = UITableViewAutomaticDimension
-    tableView!.separatorStyle = .None
+    tableView!.separatorStyle = .none
 
     if channel == nil {
       channel = ChannelManager.sharedManager.generalChannel
     }
   }
 
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     scrollToBottom()
   }
 
-  override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+  override func numberOfSections(in tableView: UITableView) -> Int {
     return 1
   }
-
-  override func tableView(tableView: UITableView, numberOfRowsInSection section: NSInteger) -> Int {
+    
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: NSInteger) -> Int {
     return messages.count
   }
 
-  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     var cell:UITableViewCell
 
     let message = sortedMessages[indexPath.row]
 
     if let statusMessage = message as? StatusMessage {
-      cell = getStatusCellForTableView(tableView, forIndexPath:indexPath, message:statusMessage)
+      cell = getStatusCellForTableView(tableView: tableView, forIndexPath:indexPath, message:statusMessage)
     }
     else {
-      cell = getChatCellForTableView(tableView, forIndexPath:indexPath, message:message)
+      cell = getChatCellForTableView(tableView: tableView, forIndexPath:indexPath, message:message)
     }
 
     cell.transform = tableView.transform
     return cell
   }
 
-  func getChatCellForTableView(tableView: UITableView, forIndexPath indexPath:NSIndexPath, message: TWMMessage) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(MainChatViewController.TWCChatCellIdentifier, forIndexPath:indexPath)
+  func getChatCellForTableView(tableView: UITableView, forIndexPath indexPath:IndexPath, message: TWMMessage) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: MainChatViewController.TWCChatCellIdentifier, for:indexPath as IndexPath)
 
     let chatCell: ChatTableCell = cell as! ChatTableCell
-    let timestamp = DateTodayFormatter().stringFromDate(NSDate.dateWithISO8601String(message.timestamp))
+    let timestamp = DateTodayFormatter().stringFromDate(date: NSDate.dateWithISO8601String(dateString: message.timestamp))
 
-    chatCell.setUser(message.author ?? "[Unknown author]", message: message.body, date: timestamp ?? "[Unknown date]")
+    chatCell.setUser(user: message.author ?? "[Unknown author]", message: message.body, date: timestamp ?? "[Unknown date]")
 
     return chatCell
   }
 
-  func getStatusCellForTableView(tableView: UITableView, forIndexPath indexPath:NSIndexPath, message: StatusMessage) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(MainChatViewController.TWCChatStatusCellIdentifier, forIndexPath:indexPath)
+  func getStatusCellForTableView(tableView: UITableView, forIndexPath indexPath:IndexPath, message: StatusMessage) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: MainChatViewController.TWCChatStatusCellIdentifier, for:indexPath as IndexPath)
 
     let label = cell.viewWithTag(MainChatViewController.TWCLabelTag) as! UILabel
     let memberStatus = (message.status! == .Joined) ? "joined" : "left"
@@ -129,128 +129,128 @@ class MainChatViewController: SLKTextViewController {
   }
 
   func joinChannel() {
-    setViewOnHold(true)
+    setViewOnHold(onHold: true)
 
-    if channel.status != .Joined {
-      channel.joinWithCompletion { result in
+    if channel.status != .joined {
+      channel.join { result in
         print("Channel Joined")
       }
     }
 
-    if channel.synchronizationStatus != .All {
-      channel.synchronizeWithCompletion { result in
-        if result.isSuccessful() {
+    if channel.synchronizationStatus != .all {
+      channel.synchronize { result in
+        if (result?.isSuccessful())! {
           print("Synchronization started. Delegate method will load messages")
         }
       }
     }
     else {
       loadMessages()
-      setViewOnHold(false)
+      setViewOnHold(onHold: false)
     }
 
   }
 
   // Disable user input and show activity indicator
   func setViewOnHold(onHold: Bool) {
-    self.textInputbarHidden = onHold;
-    UIApplication.sharedApplication().networkActivityIndicatorVisible = onHold;
+    self.isTextInputbarHidden = onHold;
+    UIApplication.shared.isNetworkActivityIndicatorVisible = onHold;
   }
 
-  override func didPressRightButton(sender: AnyObject!) {
+  override func didPressRightButton(_ sender: Any!) {
     textView.refreshFirstResponder()
-    sendMessage(textView.text)
+    sendMessage(inputMessage: textView.text)
     super.didPressRightButton(sender)
   }
 
   // MARK: - Chat Service
 
   func sendMessage(inputMessage: String) {
-    let message = channel.messages.createMessageWithBody(inputMessage)
-    channel.messages.sendMessage(message, completion: nil)
+    let message = channel.messages.createMessage(withBody: inputMessage)
+    channel.messages.send(message, completion: nil)
   }
 
   func addMessages(newMessages:[TWMMessage]) {
     messages =  messages.union(newMessages)
     sortMessages()
-    dispatch_async(dispatch_get_main_queue(), {
+    DispatchQueue.main.async {
       self.tableView!.reloadData()
       if self.messages.count > 0 {
         self.scrollToBottom()
       }
-    })
+    }
   }
 
   func sortMessages() {
-    sortedMessages = messages.sort { a, b in a.timestamp > b.timestamp }
+    sortedMessages = messages.sorted { a, b in a.timestamp > b.timestamp }
   }
 
   func loadMessages() {
     messages.removeAll()
-    if channel.synchronizationStatus == .All {
-      addMessages(channel.messages.allObjects())
+    if channel.synchronizationStatus == .all {
+      addMessages(newMessages: channel.messages.allObjects())
     }
   }
 
   func scrollToBottom() {
     if messages.count > 0 {
-      let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-      tableView!.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: true)
+      let indexPath = IndexPath(row: 0, section: 0)
+      tableView!.scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
   }
 
   func leaveChannel() {
-    channel.leaveWithCompletion { result in
-      if result.isSuccessful() {
+    channel.leave { result in
+      if (result?.isSuccessful())! {
         let menuViewController = self.revealViewController().rearViewController as! MenuViewController
         menuViewController.deselectSelectedChannel()
-        self.revealViewController().rearViewController.performSegueWithIdentifier(MainChatViewController.TWCOpenGeneralChannelSegue, sender: nil)
+        self.revealViewController().rearViewController.performSegue(withIdentifier: MainChatViewController.TWCOpenGeneralChannelSegue, sender: nil)
       }
     }
   }
 
   // MARK: - Actions
 
-  @IBAction func actionButtonTouched(sender: UIBarButtonItem) {
+  @IBAction func actionButtonTouched(_ sender: UIBarButtonItem) {
     leaveChannel()
   }
 
-  @IBAction func revealButtonTouched(sender: AnyObject) {
-    revealViewController().revealToggleAnimated(true)
+  @IBAction func revealButtonTouched(_ sender: AnyObject) {
+    revealViewController().revealToggle(animated: true)
   }
 }
 
 extension MainChatViewController : TWMChannelDelegate {
-  func ipMessagingClient(client: TwilioIPMessagingClient!, channel: TWMChannel!, messageAdded message: TWMMessage!) {
+  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channel: TWMChannel!, messageAdded message: TWMMessage!) {
     if !messages.contains(message) {
-      addMessages([message])
+      addMessages(newMessages: [message])
     }
   }
 
-  func ipMessagingClient(client: TwilioIPMessagingClient!, channel: TWMChannel!, memberJoined member: TWMMember!) {
-    addMessages([StatusMessage(member:member, status:.Joined)])
+  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channel: TWMChannel!, memberJoined member: TWMMember!) {
+    addMessages(newMessages: [StatusMessage(member:member, status:.Joined)])
   }
 
-  func ipMessagingClient(client: TwilioIPMessagingClient!, channel: TWMChannel!, memberLeft member: TWMMember!) {
-    addMessages([StatusMessage(member:member, status:.Left)])
+  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channel: TWMChannel!, memberLeft member: TWMMember!) {
+    addMessages(newMessages: [StatusMessage(member:member, status:.Left)])
   }
 
-  func ipMessagingClient(client: TwilioIPMessagingClient!, channelDeleted channel: TWMChannel!) {
-    dispatch_async(dispatch_get_main_queue(), {
-      if channel == self.channel {
-        self.revealViewController().rearViewController
-          .performSegueWithIdentifier(MainChatViewController.TWCOpenGeneralChannelSegue, sender: nil)
-      }
-    })
+  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channelDeleted channel: TWMChannel!) {
+    DispatchQueue.main.async {
+        if channel == self.channel {
+            self.revealViewController().rearViewController
+                .performSegue(withIdentifier: MainChatViewController.TWCOpenGeneralChannelSegue, sender: nil)
+        }
+    }
   }
 
-  func ipMessagingClient(client: TwilioIPMessagingClient!, channel: TWMChannel!, synchronizationStatusChanged status: TWMChannelSynchronizationStatus) {
-    if status == .All {
+  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channel: TWMChannel!, synchronizationStatusChanged status: TWMChannelSynchronizationStatus) {
+    if status == .all {
       loadMessages()
-      dispatch_async(dispatch_get_main_queue(), {
+      DispatchQueue.main.async {
         self.tableView?.reloadData()
-        self.setViewOnHold(false)
-      })
+        self.setViewOnHold(onHold: false)
+      }
     }
   }
 }

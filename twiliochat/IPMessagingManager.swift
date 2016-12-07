@@ -27,7 +27,7 @@ class IPMessagingManager: NSObject {
 
   func presentRootViewController() {
     if (!hasIdentity) {
-      presentViewControllerByName("LoginViewController")
+      presentViewControllerByName(viewController: "LoginViewController")
       return
     }
 
@@ -38,37 +38,37 @@ class IPMessagingManager: NSObject {
       return
     }
 
-    presentViewControllerByName("RevealViewController")
+    presentViewControllerByName(viewController: "RevealViewController")
   }
 
   func presentViewControllerByName(viewController: String) {
-    presentViewController(storyBoardWithName("Main").instantiateViewControllerWithIdentifier(viewController))
+    presentViewController(controller: storyBoardWithName(name: "Main").instantiateViewController(withIdentifier: viewController))
   }
 
   func presentLaunchScreen() {
-    presentViewController(storyBoardWithName("LaunchScreen").instantiateInitialViewController()!)
+    presentViewController(controller: storyBoardWithName(name: "LaunchScreen").instantiateInitialViewController()!)
   }
 
   func presentViewController(controller: UIViewController) {
-    let window = UIApplication.sharedApplication().delegate!.window!!
+    let window = UIApplication.shared.delegate!.window!!
     window.rootViewController = controller
   }
 
   func storyBoardWithName(name:String) -> UIStoryboard {
-    return UIStoryboard(name:name, bundle: NSBundle.mainBundle())
+    return UIStoryboard(name:name, bundle: Bundle.main)
   }
 
   // MARK: User and session management
 
   func loginWithUsername(username: String,
-    completion: (Bool, NSError?) -> Void) {
-      SessionManager.loginWithUsername(username)
-      connectClientWithCompletion(completion)
+    completion: @escaping (Bool, NSError?) -> Void) {
+      SessionManager.loginWithUsername(username: username)
+      connectClientWithCompletion(completion: completion)
   }
 
   func logout() {
     SessionManager.logout()
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+    DispatchQueue.global(qos: .userInitiated).async {
       self.client?.shutdown()
       self.client = nil
     }
@@ -77,29 +77,29 @@ class IPMessagingManager: NSObject {
 
   // MARK: Twilio Client
 
-  func loadGeneralChatRoomWithCompletion(completion:(Bool, NSError?) -> Void) {
+  func loadGeneralChatRoomWithCompletion(completion:@escaping (Bool, NSError?) -> Void) {
     ChannelManager.sharedManager.joinGeneralChatRoomWithCompletion { succeeded in
       if succeeded {
         completion(succeeded, nil)
       }
       else {
-        let error = self.errorWithDescription("Could not join General channel", code: 300)
+        let error = self.errorWithDescription(description: "Could not join General channel", code: 300)
         completion(succeeded, error)
       }
     }
   }
 
-  func connectClientWithCompletion(completion: (Bool, NSError?) -> Void) {
+  func connectClientWithCompletion(completion: @escaping (Bool, NSError?) -> Void) {
     if (client != nil) {
       logout()
     }
 
     requestTokenWithCompletion { succeeded, token in
-      if let token = token where succeeded {
-        self.initializeClientWithToken(token)
+      if let token = token, succeeded {
+        self.initializeClientWithToken(token: token)
       }
       else {
-        let error = self.errorWithDescription("Could not get access token", code:301)
+        let error = self.errorWithDescription(description: "Could not get access token", code:301)
         completion(succeeded, error)
       }
     }
@@ -107,14 +107,14 @@ class IPMessagingManager: NSObject {
 
   func initializeClientWithToken(token: String) {
     let accessManager = TwilioAccessManager(token:token, delegate:self)
-    client = TwilioIPMessagingClient.ipMessagingClientWithAccessManager(accessManager, properties: nil, delegate: self)
-    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    client = TwilioIPMessagingClient(accessManager: accessManager, properties: nil, delegate: self)
+    UIApplication.shared.isNetworkActivityIndicatorVisible = true
     self.connected = true
   }
 
-  func requestTokenWithCompletion(completion:(Bool, String?) -> Void) {
-    if let device = UIDevice.currentDevice().identifierForVendor?.UUIDString {
-      TokenRequestHandler.fetchToken(["device": device, "identity":SessionManager.getUsername()]) {response,error in
+  func requestTokenWithCompletion(completion:@escaping (Bool, String?) -> Void) {
+    if let device = UIDevice.current.identifierForVendor?.uuidString {
+      TokenRequestHandler.fetchToken(params: ["device": device, "identity":SessionManager.getUsername()]) {response,error in
         var token: String?
         token = response["token"] as? String
         completion(token != nil, token)
@@ -130,21 +130,21 @@ class IPMessagingManager: NSObject {
 
 // MARK: - TwilioIPMessagingClientDelegate
 extension IPMessagingManager : TwilioIPMessagingClientDelegate {
-  func ipMessagingClient(client: TwilioIPMessagingClient!, channelAdded channel: TWMChannel!) {
+  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channelAdded channel: TWMChannel!) {
     self.delegate?.ipMessagingClient(client, channelAdded: channel)
   }
 
-  func ipMessagingClient(client: TwilioIPMessagingClient!, channelChanged channel: TWMChannel!) {
+  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channelChanged channel: TWMChannel!) {
     self.delegate?.ipMessagingClient(client, channelChanged: channel)
   }
 
-  func ipMessagingClient(client: TwilioIPMessagingClient!, channelDeleted channel: TWMChannel!) {
+  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channelDeleted channel: TWMChannel!) {
     self.delegate?.ipMessagingClient(client, channelDeleted: channel)
   }
 
-  func ipMessagingClient(client: TwilioIPMessagingClient!, synchronizationStatusChanged status: TWMClientSynchronizationStatus) {
-    if status == TWMClientSynchronizationStatus.Completed {
-      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+  func ipMessagingClient(_ client: TwilioIPMessagingClient!, synchronizationStatusChanged status: TWMClientSynchronizationStatus) {
+    if status == TWMClientSynchronizationStatus.completed {
+      UIApplication.shared.isNetworkActivityIndicatorVisible = false
       ChannelManager.sharedManager.channelsList = client.channelsList()
       ChannelManager.sharedManager.populateChannels()
       loadGeneralChatRoomWithCompletion { success, error in
@@ -159,7 +159,7 @@ extension IPMessagingManager : TwilioIPMessagingClientDelegate {
 
 // MARK: - TwilioAccessManagerDelegate
 extension IPMessagingManager : TwilioAccessManagerDelegate {
-  func accessManagerTokenExpired(accessManager: TwilioAccessManager!) {
+  func accessManagerTokenExpired(_ accessManager: TwilioAccessManager!) {
     requestTokenWithCompletion { succeeded, token in
       if (succeeded) {
         accessManager.updateToken(token)
@@ -170,7 +170,7 @@ extension IPMessagingManager : TwilioAccessManagerDelegate {
     }
   }
 
-  func accessManager(accessManager: TwilioAccessManager!, error: NSError!) {
+  func accessManager(_ accessManager: TwilioAccessManager!, error: Error!) {
     print("Access manager error: \(error.localizedDescription)")
   }
 }

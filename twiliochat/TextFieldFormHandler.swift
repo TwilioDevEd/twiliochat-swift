@@ -1,7 +1,7 @@
 import UIKit
 
 @objc public protocol TextFieldFormHandlerDelegate {
-  optional func textFieldFormHandlerDoneEnteringData(handler: TextFieldFormHandler)
+  @objc optional func textFieldFormHandlerDoneEnteringData(handler: TextFieldFormHandler)
 }
 
 public class TextFieldFormHandler: NSObject {
@@ -17,15 +17,15 @@ public class TextFieldFormHandler: NSObject {
     }
     set (newValue){
       if let textField = _lastTextField {
-        setTextField(textField, returnKeyType: .Next)
+        setTextField(textField: textField, returnKeyType: .next)
       }
       _lastTextField = newValue
 
       if let textField = newValue {
-        setTextField(textField, returnKeyType: .Done)
+        setTextField(textField: textField, returnKeyType: .done)
       }
       else if let textField = textFields.last {
-        setTextField(textField, returnKeyType: .Done)
+        setTextField(textField: textField, returnKeyType: .done)
       }
     }
   }
@@ -34,13 +34,13 @@ public class TextFieldFormHandler: NSObject {
 
   public var firstResponderIndex: Int? {
     if let firstResponder = self.firstResponder {
-      return self.textFields.indexOf(firstResponder)
+      return self.textFields.index(of: firstResponder)
     }
     return nil
   }
 
   public var firstResponder: UITextField? {
-    return self.textFields.filter { textField in textField.isFirstResponder() }.first
+    return self.textFields.filter { textField in textField.isFirstResponder }.first
   }
 
   // MARK: - Initialization
@@ -54,15 +54,15 @@ public class TextFieldFormHandler: NSObject {
   }
 
   func initializeTextFields() {
-    for (index, textField) in self.textFields.enumerate() {
+    for (index, textField) in self.textFields.enumerated() {
       textField.delegate = self
-      setTextField(textField, returnKeyType: (index == self.textFields.count - 1 ? .Done : .Next))
+      setTextField(textField: textField, returnKeyType: (index == self.textFields.count - 1 ? .done : .next))
     }
   }
 
   func initializeObservers() {
-    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TextFieldFormHandler.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-    let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(TextFieldFormHandler.backgroundTap(_:)))
+    NotificationCenter.default.addObserver(self, selector: #selector(TextFieldFormHandler.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+    let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(TextFieldFormHandler.backgroundTap(sender:)))
     self.topContainer.addGestureRecognizer(tapRecognizer)
   }
 
@@ -70,7 +70,7 @@ public class TextFieldFormHandler: NSObject {
 
   public func resetScroll() {
     if let firstResponder = self.firstResponder {
-      setAnimationOffsetForTextField(firstResponder)
+      setAnimationOffsetForTextField(textField: firstResponder)
       moveScreenUp()
     }
   }
@@ -80,7 +80,7 @@ public class TextFieldFormHandler: NSObject {
   }
 
   public func cleanUp() {
-    NSNotificationCenter.defaultCenter().removeObserver(self)
+    NotificationCenter.default.removeObserver(self)
   }
 
   // MARK: - Private Methods
@@ -88,18 +88,18 @@ public class TextFieldFormHandler: NSObject {
   func doneEnteringData() {
     topContainer.endEditing(true)
     moveScreenDown()
-    delegate?.textFieldFormHandlerDoneEnteringData?(self)
+    delegate?.textFieldFormHandlerDoneEnteringData?(handler: self)
   }
 
   func moveScreenUp() {
-    shiftScreenYPosition(-keyboardSize - animationOffset, duration: 0.3, curve: .EaseInOut)
+    shiftScreenYPosition(position: -keyboardSize - animationOffset, duration: 0.3, curve: .easeInOut)
   }
 
   func moveScreenDown() {
-    shiftScreenYPosition(0, duration: 0.2, curve: .EaseInOut)
+    shiftScreenYPosition(position: 0, duration: 0.2, curve: .easeInOut)
   }
 
-  func shiftScreenYPosition(position: CGFloat, duration: NSTimeInterval, curve: UIViewAnimationCurve) {
+  func shiftScreenYPosition(position: CGFloat, duration: TimeInterval, curve: UIViewAnimationCurve) {
     UIView.beginAnimations("moveView", context: nil)
     UIView.setAnimationCurve(curve)
     UIView.setAnimationDuration(duration)
@@ -115,7 +115,7 @@ public class TextFieldFormHandler: NSObject {
 
   func keyboardWillShow(notification: NSNotification) {
     if (keyboardSize == 0) {
-      if let keyboardRect = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+      if let keyboardRect = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
         keyboardSize = min(keyboardRect.height, keyboardRect.width)
       }
     }
@@ -123,15 +123,15 @@ public class TextFieldFormHandler: NSObject {
   }
 
   func setAnimationOffsetForTextField(textField: UITextField) {
-    let screenHeight = UIScreen.mainScreen().bounds.size.height
+    let screenHeight = UIScreen.main.bounds.size.height
     let textFieldHeight = textField.frame.size.height
-    let textFieldY = textField.convertPoint(CGPointZero, toView: topContainer).y
+    let textFieldY = textField.convert(CGPoint.zero, to: topContainer).y
 
     animationOffset = -screenHeight + textFieldY + textFieldHeight
   }
 
   func setTextField(textField: UITextField, returnKeyType type: UIReturnKeyType) {
-    if (textField.isFirstResponder()) {
+    if (textField.isFirstResponder) {
       textField.resignFirstResponder()
       textField.returnKeyType = type
       textField.becomeFirstResponder()
@@ -147,24 +147,24 @@ public class TextFieldFormHandler: NSObject {
 }
 
 extension TextFieldFormHandler : UITextFieldDelegate {
-  public func textFieldShouldReturn(textField: UITextField) -> Bool {
-    if let lastTextField = self.lastTextField where textField == lastTextField {
+  public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    if let lastTextField = self.lastTextField, textField == lastTextField {
       doneEnteringData()
       return true
     }
-    else if let lastTextField = self.textFields.last where lastTextField == textField {
+    else if let lastTextField = self.textFields.last, lastTextField == textField {
       doneEnteringData()
       return true
     }
 
-    let index = self.textFields.indexOf(textField)
+    let index = self.textFields.index(of: textField)
     let nextTextField = self.textFields[index! + 1]
     nextTextField.becomeFirstResponder()
     return true
   }
 
-  public func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-    setAnimationOffsetForTextField(textField)
+  public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+    setAnimationOffsetForTextField(textField: textField)
     return true
   }
 }
