@@ -3,23 +3,23 @@ import UIKit
 class SessionManager {
   static let UsernameKey: String = "username"
   static let IsLoggedInKey: String = "loggedIn"
-  static let defaults = NSUserDefaults.standardUserDefaults()
+  static let defaults = UserDefaults.standard
 
   class func loginWithUsername(username:String) {
-    defaults.setObject(username, forKey: UsernameKey)
-    defaults.setBool(true, forKey: IsLoggedInKey)
+    defaults.set(username, forKey: UsernameKey)
+    defaults.set(true, forKey: IsLoggedInKey)
 
     defaults.synchronize()
   }
 
   class func logout() {
-    defaults.setObject("", forKey: UsernameKey)
-    defaults.setBool(false, forKey: IsLoggedInKey)
+    defaults.set("", forKey: UsernameKey)
+    defaults.set(false, forKey: IsLoggedInKey)
     defaults.synchronize()
   }
 
   class func isLoogedIn() -> Bool {
-    let isLoggedIn = defaults.boolForKey(IsLoggedInKey)
+    let isLoggedIn = defaults.bool(forKey: IsLoggedInKey)
     if (isLoggedIn) {
       return true
     }
@@ -27,7 +27,7 @@ class SessionManager {
   }
 
   class func getUsername() -> String {
-    if let username = defaults.objectForKey(UsernameKey) as? String {
+    if let username = defaults.object(forKey: UsernameKey) as? String {
       return username
     }
     return ""

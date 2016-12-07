@@ -20,8 +20,8 @@ class MenuViewController: UIViewController {
 
     refreshControl = UIRefreshControl()
     tableView.addSubview(refreshControl)
-    refreshControl.addTarget(self, action: #selector(MenuViewController.refreshChannels), forControlEvents: .ValueChanged)
-    refreshControl.tintColor = UIColor.whiteColor()
+    refreshControl.addTarget(self, action: #selector(MenuViewController.refreshChannels), for: .valueChanged)
+    refreshControl.tintColor = UIColor.white
 
     self.refreshControl.frame.origin.x -= MenuViewController.TWCRefreshControlXOffset
     ChannelManager.sharedManager.delegate = self
@@ -31,18 +31,18 @@ class MenuViewController: UIViewController {
   // MARK: - Internal methods
 
   func loadingCellForTableView(tableView: UITableView) -> UITableViewCell {
-    return tableView.dequeueReusableCellWithIdentifier("loadingCell")!
+    return tableView.dequeueReusableCell(withIdentifier: "loadingCell")!
   }
 
   func channelCellForTableView(tableView: UITableView, atIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let menuCell = tableView.dequeueReusableCellWithIdentifier("channelCell", forIndexPath: indexPath) as! MenuTableCell
+    let menuCell = tableView.dequeueReusableCell(withIdentifier: "channelCell", for: indexPath as IndexPath) as! MenuTableCell
 
     let channel = ChannelManager.sharedManager.channels![indexPath.row]
-    var friendlyName = channel.friendlyName
-    if let name = channel.friendlyName where name.isEmpty {
+    var friendlyName = (channel as! TWMChannel).friendlyName
+    if let name = (channel as AnyObject).friendlyName, name.isEmpty {
       friendlyName = name
     }
-    menuCell.channelName = friendlyName
+    menuCell.channelName = friendlyName!
     return menuCell
   }
 
@@ -59,34 +59,34 @@ class MenuViewController: UIViewController {
   func deselectSelectedChannel() {
     let selectedRow = tableView.indexPathForSelectedRow
     if let row = selectedRow {
-      tableView.deselectRowAtIndexPath(row, animated: true)
+      tableView.deselectRow(at: row, animated: true)
     }
   }
 
   // MARK: - Channel
 
   func createNewChannelDialog() {
-    InputDialogController.showWithTitle("New Channel",
+    InputDialogController.showWithTitle(title: "New Channel",
       message: "Enter a name for this channel",
       placeholder: "Name",
       presenter: self) { text in
-        ChannelManager.sharedManager.createChannelWithName(text, completion: { _,_ in })
+        ChannelManager.sharedManager.createChannelWithName(name: text, completion: { _,_ in })
     }
   }
 
   // MARK: Logout
 
   func promptLogout() {
-    let alert = UIAlertController(title: nil, message: "You are about to Logout", preferredStyle: .Alert)
+    let alert = UIAlertController(title: nil, message: "You are about to Logout", preferredStyle: .alert)
 
-    let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-    let confirmAction = UIAlertAction(title: "Confirm", style: .Default) { action in
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    let confirmAction = UIAlertAction(title: "Confirm", style: .default) { action in
       self.logOut()
     }
 
     alert.addAction(cancelAction)
     alert.addAction(confirmAction)
-    presentViewController(alert, animated: true, completion: nil)
+    present(alert, animated: true, completion: nil)
   }
 
   func logOut() {
@@ -96,74 +96,74 @@ class MenuViewController: UIViewController {
 
   // MARK: - Actions
 
-  @IBAction func logoutButtonTouched(sender: UIButton) {
+  @IBAction func logoutButtonTouched(_ sender: UIButton) {
     promptLogout()
   }
 
-  @IBAction func newChannelButtonTouched(sender: UIButton) {
+  @IBAction func newChannelButtonTouched(_ sender: UIButton) {
     createNewChannelDialog()
   }
 
   // MARK: - Navigation
 
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == MenuViewController.TWCOpenChannelSegue {
       let indexPath = sender as! NSIndexPath
       let channel = ChannelManager.sharedManager.channels![indexPath.row] as! TWMChannel
-      let navigationController = segue.destinationViewController as! UINavigationController
+      let navigationController = segue.destination as! UINavigationController
       (navigationController.visibleViewController as! MainChatViewController).channel = channel
     }
   }
 
   // MARK: - Style
 
-  override func preferredStatusBarStyle() -> UIStatusBarStyle {
-    return .LightContent
+  override var preferredStatusBarStyle: UIStatusBarStyle {
+    return .lightContent
   }
 }
 
 // MARK: - UITableViewDataSource
 extension MenuViewController : UITableViewDataSource {
-  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if let channels = ChannelManager.sharedManager.channels {
       return channels.count
     }
     return 1
   }
 
-  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell: UITableViewCell
 
     if ChannelManager.sharedManager.channels == nil {
-      cell = loadingCellForTableView(tableView)
+      cell = loadingCellForTableView(tableView: tableView)
     }
     else {
-      cell = channelCellForTableView(tableView, atIndexPath: indexPath)
+      cell = channelCellForTableView(tableView: tableView, atIndexPath: indexPath as NSIndexPath)
     }
 
     cell.layoutIfNeeded()
     return cell
   }
 
-  func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-    if let channel = ChannelManager.sharedManager.channels?.objectAtIndex(indexPath.row) as? TWMChannel {
+  func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    if let channel = ChannelManager.sharedManager.channels?.object(at: indexPath.row) as? TWMChannel {
       return channel != ChannelManager.sharedManager.generalChannel
     }
     return false
   }
 
-  func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle,
-    forRowAtIndexPath indexPath: NSIndexPath) {
-      if editingStyle != .Delete {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle,
+                   forRowAt indexPath: IndexPath) {
+      if editingStyle != .delete {
         return
       }
-      if let channel = ChannelManager.sharedManager.channels?.objectAtIndex(indexPath.row) {
-        channel.destroyWithCompletion { result in
-          if result.isSuccessful() {
+      if let channel = ChannelManager.sharedManager.channels?.object(at: indexPath.row) as? TWMChannel {
+        channel.destroy { result in
+          if (result?.isSuccessful())! {
             tableView.reloadData()
           }
           else {
-            AlertDialogController.showAlertWithMessage("You can not delete this channel", title: nil, presenter: self)
+            AlertDialogController.showAlertWithMessage(message: "You can not delete this channel", title: nil, presenter: self)
           }
         }
       }
@@ -172,22 +172,22 @@ extension MenuViewController : UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension MenuViewController : UITableViewDelegate {
-  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    performSegueWithIdentifier(MenuViewController.TWCOpenChannelSegue, sender: indexPath)
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    performSegue(withIdentifier: MenuViewController.TWCOpenChannelSegue, sender: indexPath)
   }
 }
 
 // MARK: - TwilioIPMessagingClientDelegate
 extension MenuViewController : TwilioIPMessagingClientDelegate {
-  func ipMessagingClient(client: TwilioIPMessagingClient!, channelAdded channel: TWMChannel!) {
+  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channelAdded channel: TWMChannel!) {
     tableView.reloadData()
   }
 
-  func ipMessagingClient(client: TwilioIPMessagingClient!, channelChanged channel: TWMChannel!) {
+  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channelChanged channel: TWMChannel!) {
     tableView.reloadData()
   }
 
-  func ipMessagingClient(client: TwilioIPMessagingClient!, channelDeleted channel: TWMChannel!) {
+  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channelDeleted channel: TWMChannel!) {
     tableView.reloadData()
   }
 }
