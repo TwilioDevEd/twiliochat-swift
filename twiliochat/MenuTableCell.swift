@@ -30,14 +30,14 @@ class MenuTableCell: UITableViewCell {
     label.textColor = labelTextColor
   }
 
-  override func setSelected(selected: Bool, animated: Bool) {
+  override func setSelected(_ selected: Bool, animated: Bool) {
     super.setSelected(selected, animated: animated)
     if (selected) {
       contentView.backgroundColor = selectedBackgroundColor
     }
   }
 
-  override func setHighlighted(highlighted: Bool, animated: Bool) {
+  override func setHighlighted(_ highlighted: Bool, animated: Bool) {
     super.setHighlighted(highlighted, animated: animated)
     if (highlighted) {
       contentView.backgroundColor = selectedBackgroundColor

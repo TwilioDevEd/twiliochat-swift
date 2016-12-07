@@ -6,7 +6,6 @@ platform :ios, '10.0'
 use_frameworks!
 
 target 'twiliochat' do
-  pod 'Alamofire', '~> 3.0'
   pod 'SWRevealViewController', '~> 2.3'
   pod 'SlackTextViewController', '~> 1.7'
   pod 'TwilioIPMessagingClient', '~> 0.15.1'

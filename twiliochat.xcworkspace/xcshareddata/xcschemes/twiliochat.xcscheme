@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0710"
+   LastUpgradeVersion = "0810"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -35,6 +35,16 @@
                BlueprintIdentifier = "59F2090D1C04C06800CC2392"
                BuildableName = "twiliochatTests.xctest"
                BlueprintName = "twiliochatTests"
+               ReferencedContainer = "container:twiliochat.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "59F209181C04C06800CC2392"
+               BuildableName = "twiliochatUITests.xctest"
+               BlueprintName = "twiliochatUITests"
                ReferencedContainer = "container:twiliochat.xcodeproj">
             </BuildableReference>
          </TestableReference>
