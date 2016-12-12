@@ -9,8 +9,8 @@ class MainChatViewController: SLKTextViewController {
   static let TWCOpenGeneralChannelSegue = "OpenGeneralChat"
   static let TWCLabelTag = 200
 
-  var _channel:TWMChannel!
-  var channel:TWMChannel! {
+  var _channel:TCHChannel!
+  var channel:TCHChannel! {
     get {
       return _channel
     }
@@ -27,8 +27,8 @@ class MainChatViewController: SLKTextViewController {
     }
   }
 
-  var messages:Set<TWMMessage> = Set<TWMMessage>()
-  var sortedMessages:[TWMMessage]!
+  var messages:Set<TCHMessage> = Set<TCHMessage>()
+  var sortedMessages:[TCHMessage]!
 
   @IBOutlet weak var revealButtonItem: UIBarButtonItem!
   @IBOutlet weak var actionButtonItem: UIBarButtonItem!
@@ -87,7 +87,7 @@ class MainChatViewController: SLKTextViewController {
   override func numberOfSections(in tableView: UITableView) -> Int {
     return 1
   }
-    
+
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: NSInteger) -> Int {
     return messages.count
   }
@@ -108,7 +108,7 @@ class MainChatViewController: SLKTextViewController {
     return cell
   }
 
-  func getChatCellForTableView(tableView: UITableView, forIndexPath indexPath:IndexPath, message: TWMMessage) -> UITableViewCell {
+  func getChatCellForTableView(tableView: UITableView, forIndexPath indexPath:IndexPath, message: TCHMessage) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: MainChatViewController.TWCChatCellIdentifier, for:indexPath as IndexPath)
 
     let chatCell: ChatTableCell = cell as! ChatTableCell
@@ -170,7 +170,7 @@ class MainChatViewController: SLKTextViewController {
     channel.messages.send(message, completion: nil)
   }
 
-  func addMessages(newMessages:[TWMMessage]) {
+  func addMessages(newMessages:Set<TCHMessage>) {
     messages =  messages.union(newMessages)
     sortMessages()
     DispatchQueue.main.async {
@@ -188,7 +188,9 @@ class MainChatViewController: SLKTextViewController {
   func loadMessages() {
     messages.removeAll()
     if channel.synchronizationStatus == .all {
-      addMessages(newMessages: channel.messages.allObjects())
+        channel.messages.getLastWithCount(100) { (result, items) in
+          self.addMessages(newMessages: Set(items!))
+        }
     }
   }
 
@@ -220,22 +222,22 @@ class MainChatViewController: SLKTextViewController {
   }
 }
 
-extension MainChatViewController : TWMChannelDelegate {
-  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channel: TWMChannel!, messageAdded message: TWMMessage!) {
+extension MainChatViewController : TCHChannelDelegate {
+  func chatClient(_ client: TwilioChatClient!, channel: TCHChannel!, messageAdded message: TCHMessage!) {
     if !messages.contains(message) {
       addMessages(newMessages: [message])
     }
   }
 
-  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channel: TWMChannel!, memberJoined member: TWMMember!) {
+  func chatClient(_ client: TwilioChatClient!, channel: TCHChannel!, memberJoined member: TCHMember!) {
     addMessages(newMessages: [StatusMessage(member:member, status:.Joined)])
   }
 
-  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channel: TWMChannel!, memberLeft member: TWMMember!) {
+  func chatClient(_ client: TwilioChatClient!, channel: TCHChannel!, memberLeft member: TCHMember!) {
     addMessages(newMessages: [StatusMessage(member:member, status:.Left)])
   }
 
-  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channelDeleted channel: TWMChannel!) {
+  func chatClient(_ client: TwilioChatClient!, channelDeleted channel: TCHChannel!) {
     DispatchQueue.main.async {
         if channel == self.channel {
             self.revealViewController().rearViewController
@@ -244,7 +246,7 @@ extension MainChatViewController : TWMChannelDelegate {
     }
   }
 
-  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channel: TWMChannel!, synchronizationStatusChanged status: TWMChannelSynchronizationStatus) {
+  func chatClient(_ client: TwilioChatClient!, channel: TCHChannel!, synchronizationStatusChanged status: TCHChannelSynchronizationStatus) {
     if status == .all {
       loadMessages()
       DispatchQueue.main.async {

@@ -6,8 +6,8 @@ enum TWCMemberStatus {
   case Left
 }
 
-class StatusMessage: TWMMessage {
-  var member: TWMMember! = nil
+class StatusMessage: TCHMessage {
+  var member: TCHMember! = nil
   var status: TWCMemberStatus! = nil
   var _timestamp: String = ""
   override var timestamp: String {
@@ -19,7 +19,7 @@ class StatusMessage: TWMMessage {
     }
   }
 
-  init(member: TWMMember, status: TWCMemberStatus) {
+  init(member: TCHMember, status: TWCMemberStatus) {
     super.init()
     self.member = member
     let dateFormatter = DateFormatter()
