@@ -750,9 +750,10 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}\"/**",
 				);
 				INFOPLIST_FILE = twiliochat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = twilio.twiliochat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -772,9 +773,10 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}\"/**",
 				);
 				INFOPLIST_FILE = twiliochat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = twilio.twiliochat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
