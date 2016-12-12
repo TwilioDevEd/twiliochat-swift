@@ -16,7 +16,7 @@ class MenuViewController: UIViewController {
     bgImage.frame = self.tableView.frame
     tableView.backgroundView = bgImage
 
-    usernameLabel.text = IPMessagingManager.sharedManager().userIdentity
+    usernameLabel.text = MessagingManager.sharedManager().userIdentity
 
     refreshControl = UIRefreshControl()
     tableView.addSubview(refreshControl)
@@ -36,9 +36,11 @@ class MenuViewController: UIViewController {
 
   func channelCellForTableView(tableView: UITableView, atIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let menuCell = tableView.dequeueReusableCell(withIdentifier: "channelCell", for: indexPath as IndexPath) as! MenuTableCell
-
+    
     let channel = ChannelManager.sharedManager.channels![indexPath.row]
-    var friendlyName = (channel as! TWMChannel).friendlyName
+    
+    var friendlyName = (channel as AnyObject).friendlyName
+    
     if let name = (channel as AnyObject).friendlyName, name.isEmpty {
       friendlyName = name
     }
@@ -70,7 +72,9 @@ class MenuViewController: UIViewController {
       message: "Enter a name for this channel",
       placeholder: "Name",
       presenter: self) { text in
-        ChannelManager.sharedManager.createChannelWithName(name: text, completion: { _,_ in })
+        ChannelManager.sharedManager.createChannelWithName(name: text, completion: { _,_ in
+          ChannelManager.sharedManager.populateChannels()
+        })
     }
   }
 
@@ -90,8 +94,8 @@ class MenuViewController: UIViewController {
   }
 
   func logOut() {
-    IPMessagingManager.sharedManager().logout()
-    IPMessagingManager.sharedManager().presentRootViewController()
+    MessagingManager.sharedManager().logout()
+    MessagingManager.sharedManager().presentRootViewController()
   }
 
   // MARK: - Actions
@@ -109,9 +113,12 @@ class MenuViewController: UIViewController {
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == MenuViewController.TWCOpenChannelSegue {
       let indexPath = sender as! NSIndexPath
-      let channel = ChannelManager.sharedManager.channels![indexPath.row] as! TWMChannel
+      let channelDescriptor = ChannelManager.sharedManager.channels![indexPath.row] as! TCHChannelDescriptor
       let navigationController = segue.destination as! UINavigationController
-      (navigationController.visibleViewController as! MainChatViewController).channel = channel
+      
+      channelDescriptor.channel { result, channel in
+        (navigationController.visibleViewController as! MainChatViewController).channel = channel
+      }
     }
   }
 
@@ -146,7 +153,7 @@ extension MenuViewController : UITableViewDataSource {
   }
 
   func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-    if let channel = ChannelManager.sharedManager.channels?.object(at: indexPath.row) as? TWMChannel {
+    if let channel = ChannelManager.sharedManager.channels?.object(at: indexPath.row) as? TCHChannel {
       return channel != ChannelManager.sharedManager.generalChannel
     }
     return false
@@ -157,7 +164,7 @@ extension MenuViewController : UITableViewDataSource {
       if editingStyle != .delete {
         return
       }
-      if let channel = ChannelManager.sharedManager.channels?.object(at: indexPath.row) as? TWMChannel {
+      if let channel = ChannelManager.sharedManager.channels?.object(at: indexPath.row) as? TCHChannel {
         channel.destroy { result in
           if (result?.isSuccessful())! {
             tableView.reloadData()
@@ -177,17 +184,17 @@ extension MenuViewController : UITableViewDelegate {
   }
 }
 
-// MARK: - TwilioIPMessagingClientDelegate
-extension MenuViewController : TwilioIPMessagingClientDelegate {
-  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channelAdded channel: TWMChannel!) {
+// MARK: - TwilioChatClientDelegate
+extension MenuViewController : TwilioChatClientDelegate {
+  func chatClient(_ client: TwilioChatClient!, channelAdded channel: TCHChannel!) {
     tableView.reloadData()
   }
 
-  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channelChanged channel: TWMChannel!) {
+  func chatClient(_ client: TwilioChatClient!, channelChanged channel: TCHChannel!) {
     tableView.reloadData()
   }
 
-  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channelDeleted channel: TWMChannel!) {
+  func chatClient(_ client: TwilioChatClient!, channelDeleted channel: TCHChannel!) {
     tableView.reloadData()
   }
 }

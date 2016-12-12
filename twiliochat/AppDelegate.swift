@@ -5,8 +5,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    IPMessagingManager.sharedManager().presentLaunchScreen()
-    IPMessagingManager.sharedManager().presentRootViewController()
+    MessagingManager.sharedManager().presentLaunchScreen()
+    MessagingManager.sharedManager().presentRootViewController()
     return true
   }
 

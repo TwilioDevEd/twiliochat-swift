@@ -10,9 +10,9 @@
 		4EFFB5BC993A26D4561D24EC /* Pods_twiliochat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EC391710DF37EFB323C5DA /* Pods_twiliochat.framework */; };
 		59A866DD1C1B5E8100525F07 /* MockAlertDialogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A866DC1C1B5E8100525F07 /* MockAlertDialogController.swift */; };
 		59A866DF1C1B6C0900525F07 /* LoginViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A866DE1C1B6C0900525F07 /* LoginViewControllerTests.swift */; };
-		59A866E11C1B7C0300525F07 /* MockIPMessagingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A866E01C1B7C0300525F07 /* MockIPMessagingManager.swift */; };
+		59A866E11C1B7C0300525F07 /* MockMessagingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A866E01C1B7C0300525F07 /* MockMessagingManager.swift */; };
 		59AE1CCE1C0C8C280008B10B /* TextFieldFormHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AE1CCD1C0C8C280008B10B /* TextFieldFormHandler.swift */; };
-		59AE1CD21C0D03820008B10B /* IPMessagingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AE1CD11C0D03820008B10B /* IPMessagingManager.swift */; };
+		59AE1CD21C0D03820008B10B /* MessagingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AE1CD11C0D03820008B10B /* MessagingManager.swift */; };
 		59F208FE1C04C06800CC2392 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F208FD1C04C06800CC2392 /* AppDelegate.swift */; };
 		59F209031C04C06800CC2392 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59F209011C04C06800CC2392 /* Main.storyboard */; };
 		59F209051C04C06800CC2392 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59F209041C04C06800CC2392 /* Assets.xcassets */; };
@@ -62,10 +62,9 @@
 		2AA560C65D3EFE31A77E1582 /* Pods-twiliochat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-twiliochat.release.xcconfig"; path = "Pods/Target Support Files/Pods-twiliochat/Pods-twiliochat.release.xcconfig"; sourceTree = "<group>"; };
 		59A866DC1C1B5E8100525F07 /* MockAlertDialogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAlertDialogController.swift; sourceTree = "<group>"; };
 		59A866DE1C1B6C0900525F07 /* LoginViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewControllerTests.swift; sourceTree = "<group>"; };
-		59A866E01C1B7C0300525F07 /* MockIPMessagingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockIPMessagingManager.swift; sourceTree = "<group>"; };
-		59A8671F1C1F250C00525F07 /* twiliochat-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "twiliochat-Bridging-Header.h"; sourceTree = "<group>"; };
+		59A866E01C1B7C0300525F07 /* MockMessagingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockMessagingManager.swift; sourceTree = "<group>"; };
 		59AE1CCD1C0C8C280008B10B /* TextFieldFormHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldFormHandler.swift; sourceTree = "<group>"; };
-		59AE1CD11C0D03820008B10B /* IPMessagingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPMessagingManager.swift; sourceTree = "<group>"; };
+		59AE1CD11C0D03820008B10B /* MessagingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingManager.swift; sourceTree = "<group>"; };
 		59F208FA1C04C06800CC2392 /* twiliochat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = twiliochat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59F208FD1C04C06800CC2392 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		59F209021C04C06800CC2392 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -140,7 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				59A866DC1C1B5E8100525F07 /* MockAlertDialogController.swift */,
-				59A866E01C1B7C0300525F07 /* MockIPMessagingManager.swift */,
+				59A866E01C1B7C0300525F07 /* MockMessagingManager.swift */,
 			);
 			name = Mocks;
 			sourceTree = "<group>";
@@ -160,7 +159,7 @@
 		59AE1CD01C0D034D0008B10B /* messaging */ = {
 			isa = PBXGroup;
 			children = (
-				59AE1CD11C0D03820008B10B /* IPMessagingManager.swift */,
+				59AE1CD11C0D03820008B10B /* MessagingManager.swift */,
 			);
 			name = messaging;
 			sourceTree = "<group>";
@@ -589,7 +588,7 @@
 				87F895F21C0CF3CE00754007 /* AlertDialogController.swift in Sources */,
 				59AE1CCE1C0C8C280008B10B /* TextFieldFormHandler.swift in Sources */,
 				59F208FE1C04C06800CC2392 /* AppDelegate.swift in Sources */,
-				59AE1CD21C0D03820008B10B /* IPMessagingManager.swift in Sources */,
+				59AE1CD21C0D03820008B10B /* MessagingManager.swift in Sources */,
 				59F5EDB01C6E925500CE7D32 /* TokenRequestHandler.swift in Sources */,
 				59F5EDB31C720E1200CE7D32 /* SessionManager.swift in Sources */,
 				87F895F61C0E044300754007 /* MenuViewController.swift in Sources */,
@@ -602,7 +601,7 @@
 			files = (
 				59A866DD1C1B5E8100525F07 /* MockAlertDialogController.swift in Sources */,
 				59F209131C04C06800CC2392 /* DateTodayFormatterTests.swift in Sources */,
-				59A866E11C1B7C0300525F07 /* MockIPMessagingManager.swift in Sources */,
+				59A866E11C1B7C0300525F07 /* MockMessagingManager.swift in Sources */,
 				59A866DF1C1B6C0900525F07 /* LoginViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
