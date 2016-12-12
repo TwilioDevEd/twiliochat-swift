@@ -1,5 +1,4 @@
 import UIKit
-import SWRevealViewController
 import SlackTextViewController
 
 class MainChatViewController: SLKTextViewController {
