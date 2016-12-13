@@ -244,8 +244,10 @@ extension MainChatViewController : TWMChannelDelegate {
     })
   }
 
-  func ipMessagingClient(client: TwilioIPMessagingClient!, channel: TWMChannel!, synchronizationStatusChanged status: TWMChannelSynchronizationStatus) {
-    if status == .All {
+  func chatClient(_ client: TwilioChatClient!,
+                  channel: TCHChannel!,
+                  synchronizationStatusChanged status: TCHChannelSynchronizationStatus) {
+    if status == .all {
       loadMessages()
       dispatch_async(dispatch_get_main_queue(), {
         self.tableView?.reloadData()
