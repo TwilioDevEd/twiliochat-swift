@@ -54,7 +54,10 @@ class ChannelManager: NSObject {
 
   func createGeneralChatRoomWithCompletion(completion: @escaping (Bool) -> Void) {
     let channelName = ChannelManager.defaultChannelName
-    let options:[NSObject : AnyObject] = [TCHChannelOptionFriendlyName as NSObject: channelName as AnyObject, TCHChannelOptionType as NSObject: TCHChannelType.public.rawValue as AnyObject]
+    let options:[NSObject : AnyObject] = [
+      TCHChannelOptionFriendlyName as NSObject: channelName as AnyObject,
+      TCHChannelOptionType as NSObject: TCHChannelType.public.rawValue as AnyObject
+    ]
     channelsList!.createChannel(options: options) { result, channel in
       if (result?.isSuccessful())! {
         self.generalChannel = channel
@@ -104,7 +107,8 @@ class ChannelManager: NSObject {
     }
 
     let channelOptions:[NSObject : AnyObject] = [
-      TCHChannelOptionFriendlyName as NSObject: name as AnyObject, TCHChannelOptionType as NSObject: TCHChannelType.public.rawValue as AnyObject
+      TCHChannelOptionFriendlyName as NSObject: name as AnyObject,
+      TCHChannelOptionType as NSObject: TCHChannelType.public.rawValue as AnyObject
     ]
     UIApplication.shared.isNetworkActivityIndicatorVisible = true;
     self.channelsList?.createChannel(options: channelOptions) { result, channel in

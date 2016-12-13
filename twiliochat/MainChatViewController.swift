@@ -245,7 +245,9 @@ extension MainChatViewController : TCHChannelDelegate {
     }
   }
 
-  func chatClient(_ client: TwilioChatClient!, channel: TCHChannel!, synchronizationStatusChanged status: TCHChannelSynchronizationStatus) {
+  func chatClient(_ client: TwilioChatClient!,
+                  channel: TCHChannel!,
+                  synchronizationStatusChanged status: TCHChannelSynchronizationStatus) {
     if status == .all {
       loadMessages()
       DispatchQueue.main.async {
