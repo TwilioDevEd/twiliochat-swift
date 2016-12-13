@@ -25,7 +25,7 @@ class ChannelManager: NSObject {
     if let channelsList = self.channelsList {
         channelsList.channel(withSidOrUniqueName: uniqueName) { result, channel in
           self.generalChannel = channel
-          
+
           if self.generalChannel != nil {
             self.joinGeneralChatRoomWithUniqueName(name: nil, completion: completion)
           } else {
@@ -34,7 +34,7 @@ class ChannelManager: NSObject {
                 self.joinGeneralChatRoomWithUniqueName(name: uniqueName, completion: completion)
                 return
               }
-              
+
               completion(false)
             }
           }
@@ -76,12 +76,12 @@ class ChannelManager: NSObject {
 
   func populateChannels() {
     channels = NSMutableOrderedSet()
-    
+
     channelsList?.userChannels { result, paginator in
       self.channels?.addObjects(from: paginator!.items())
       self.sortChannels()
     }
-    
+
     channelsList?.publicChannels { result, paginator in
       self.channels?.addObjects(from: paginator!.items())
       self.sortChannels()
