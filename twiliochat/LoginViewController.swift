@@ -8,7 +8,7 @@ class LoginViewController: UIViewController {
   // MARK: - Injectable Properties
 
   var alertDialogControllerClass = AlertDialogController.self
-  var ipMessagingClientClass = IPMessagingManager.self
+  var MessagingClientClass = MessagingManager.self
 
   // MARK: - Initialization
 
@@ -60,9 +60,9 @@ class LoginViewController: UIViewController {
       view.isUserInteractionEnabled = false
       activityIndicator.startAnimating()
 
-      let ipMessagingManager = ipMessagingClientClass.sharedManager()
+      let MessagingManager = MessagingClientClass.sharedManager()
       if let username = usernameTextField.text {
-        ipMessagingManager.loginWithUsername(username: username, completion: handleResponse)
+        MessagingManager.loginWithUsername(username: username, completion: handleResponse)
       }
     }
   }

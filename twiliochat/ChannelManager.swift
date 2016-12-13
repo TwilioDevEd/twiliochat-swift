@@ -8,9 +8,9 @@ class ChannelManager: NSObject {
 
   weak var delegate:MenuViewController?
 
-  var channelsList:TWMChannels?
+  var channelsList:TCHChannels?
   var channels:NSMutableOrderedSet?
-  var generalChannel:TWMChannel!
+  var generalChannel:TCHChannel!
 
   override init() {
     super.init()
@@ -23,21 +23,22 @@ class ChannelManager: NSObject {
 
     let uniqueName = ChannelManager.defaultChannelUniqueName
     if let channelsList = self.channelsList {
-      self.generalChannel = channelsList.channel(withUniqueName: uniqueName)
-    }
-
-    if self.generalChannel != nil {
-      self.joinGeneralChatRoomWithUniqueName(name: nil, completion: completion)
-      return
-    }
-
-    self.createGeneralChatRoomWithCompletion { succeeded in
-      if (succeeded) {
-        self.joinGeneralChatRoomWithUniqueName(name: uniqueName, completion: completion)
-        return
+        channelsList.channel(withSidOrUniqueName: uniqueName) { result, channel in
+          self.generalChannel = channel
+          
+          if self.generalChannel != nil {
+            self.joinGeneralChatRoomWithUniqueName(name: nil, completion: completion)
+          } else {
+            self.createGeneralChatRoomWithCompletion { succeeded in
+              if (succeeded) {
+                self.joinGeneralChatRoomWithUniqueName(name: uniqueName, completion: completion)
+                return
+              }
+              
+              completion(false)
+            }
+          }
       }
-
-      completion(false)
     }
   }
 
@@ -53,7 +54,10 @@ class ChannelManager: NSObject {
 
   func createGeneralChatRoomWithCompletion(completion: @escaping (Bool) -> Void) {
     let channelName = ChannelManager.defaultChannelName
-    let options:[NSObject : AnyObject] = [TWMChannelOptionFriendlyName as NSObject: channelName as AnyObject, TWMChannelOptionType as NSObject: TWMChannelType.public.rawValue as AnyObject]
+    let options:[NSObject : AnyObject] = [
+      TCHChannelOptionFriendlyName as NSObject: channelName as AnyObject,
+      TCHChannelOptionType as NSObject: TCHChannelType.public.rawValue as AnyObject
+    ]
     channelsList!.createChannel(options: options) { result, channel in
       if (result?.isSuccessful())! {
         self.generalChannel = channel
@@ -69,14 +73,20 @@ class ChannelManager: NSObject {
   }
 
   // MARK: - Populate channels
-  
+
   func populateChannels() {
     channels = NSMutableOrderedSet()
-    if let channels = channelsList?.allObjects() {
-      self.channels?.addObjects(from: channels)
-      sortChannels()
+    
+    channelsList?.userChannels { result, paginator in
+      self.channels?.addObjects(from: paginator!.items())
+      self.sortChannels()
     }
     
+    channelsList?.publicChannels { result, paginator in
+      self.channels?.addObjects(from: paginator!.items())
+      self.sortChannels()
+    }
+
     if self.delegate != nil {
       self.delegate!.reloadChannelList()
     }
@@ -90,14 +100,15 @@ class ChannelManager: NSObject {
 
   // MARK: - Create channel
 
-  func createChannelWithName(name: String, completion: @escaping (Bool, TWMChannel?) -> Void) {
+  func createChannelWithName(name: String, completion: @escaping (Bool, TCHChannel?) -> Void) {
     if (name == ChannelManager.defaultChannelName) {
       completion(false, nil)
       return
     }
 
     let channelOptions:[NSObject : AnyObject] = [
-      TWMChannelOptionFriendlyName as NSObject: name as AnyObject, TWMChannelOptionType as NSObject: TWMChannelType.public.rawValue as AnyObject
+      TCHChannelOptionFriendlyName as NSObject: name as AnyObject,
+      TCHChannelOptionType as NSObject: TCHChannelType.public.rawValue as AnyObject
     ]
     UIApplication.shared.isNetworkActivityIndicatorVisible = true;
     self.channelsList?.createChannel(options: channelOptions) { result, channel in
@@ -107,32 +118,32 @@ class ChannelManager: NSObject {
   }
 }
 
-// MARK: - TwilioIPMessagingClientDelegate
-extension ChannelManager : TwilioIPMessagingClientDelegate {
-  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channelAdded channel: TWMChannel!) {
+// MARK: - TwilioChatClientDelegate
+extension ChannelManager : TwilioChatClientDelegate {
+  func chatClient(_ client: TwilioChatClient!, channelAdded channel: TCHChannel!) {
     DispatchQueue.main.async {
       if self.channels != nil {
         self.channels!.add(channel)
         self.sortChannels()
       }
-      self.delegate?.ipMessagingClient(client, channelAdded: channel)
+      self.delegate?.chatClient(client, channelAdded: channel)
     }
   }
 
-  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channelChanged channel: TWMChannel!) {
-    self.delegate?.ipMessagingClient(client, channelChanged: channel)
+  func chatClient(_ client: TwilioChatClient!, channelChanged channel: TCHChannel!) {
+    self.delegate?.chatClient(client, channelChanged: channel)
   }
 
-  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channelDeleted channel: TWMChannel!) {
+  func chatClient(_ client: TwilioChatClient!, channelDeleted channel: TCHChannel!) {
     DispatchQueue.main.async {
       if self.channels != nil {
         self.channels?.remove(channel)
       }
-      self.delegate?.ipMessagingClient(client, channelDeleted: channel)
+      self.delegate?.chatClient(client, channelDeleted: channel)
     }
 
   }
 
-  func ipMessagingClient(_ client: TwilioIPMessagingClient!, synchronizationStatusChanged status: TWMClientSynchronizationStatus) {
+  func chatClient(_ client: TwilioChatClient!, synchronizationStatusChanged status: TCHClientSynchronizationStatus) {
   }
 }

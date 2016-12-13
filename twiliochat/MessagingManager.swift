@@ -1,10 +1,10 @@
 import UIKit
 
-class IPMessagingManager: NSObject {
+class MessagingManager: NSObject {
 
-  static let _sharedManager = IPMessagingManager()
+  static let _sharedManager = MessagingManager()
 
-  var client:TwilioIPMessagingClient?
+  var client:TwilioChatClient?
   var delegate:ChannelManager?
   var connected = false
 
@@ -13,7 +13,7 @@ class IPMessagingManager: NSObject {
   }
 
   var hasIdentity: Bool {
-    return SessionManager.isLoogedIn()
+    return SessionManager.isLoggedIn()
   }
 
   override init() {
@@ -21,7 +21,7 @@ class IPMessagingManager: NSObject {
     delegate = ChannelManager.sharedManager
   }
 
-  class func sharedManager() -> IPMessagingManager {
+  class func sharedManager() -> MessagingManager {
     return _sharedManager
   }
 
@@ -97,6 +97,7 @@ class IPMessagingManager: NSObject {
     requestTokenWithCompletion { succeeded, token in
       if let token = token, succeeded {
         self.initializeClientWithToken(token: token)
+        completion(succeeded, nil)
       }
       else {
         let error = self.errorWithDescription(description: "Could not get access token", code:301)
@@ -107,7 +108,7 @@ class IPMessagingManager: NSObject {
 
   func initializeClientWithToken(token: String) {
     let accessManager = TwilioAccessManager(token:token, delegate:self)
-    client = TwilioIPMessagingClient(accessManager: accessManager, properties: nil, delegate: self)
+    client = TwilioChatClient.init(token: token, properties: nil, delegate: self)
     UIApplication.shared.isNetworkActivityIndicatorVisible = true
     self.connected = true
   }
@@ -128,22 +129,22 @@ class IPMessagingManager: NSObject {
   }
 }
 
-// MARK: - TwilioIPMessagingClientDelegate
-extension IPMessagingManager : TwilioIPMessagingClientDelegate {
-  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channelAdded channel: TWMChannel!) {
-    self.delegate?.ipMessagingClient(client, channelAdded: channel)
+// MARK: - TwilioChatClientDelegate
+extension MessagingManager : TwilioChatClientDelegate {
+  func chatClient(_ client: TwilioChatClient!, channelAdded channel: TCHChannel!) {
+    self.delegate?.chatClient(client, channelAdded: channel)
   }
 
-  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channelChanged channel: TWMChannel!) {
-    self.delegate?.ipMessagingClient(client, channelChanged: channel)
+  func chatClient(_ client: TwilioChatClient!, channelChanged channel: TCHChannel!) {
+    self.delegate?.chatClient(client, channelChanged: channel)
   }
 
-  func ipMessagingClient(_ client: TwilioIPMessagingClient!, channelDeleted channel: TWMChannel!) {
-    self.delegate?.ipMessagingClient(client, channelDeleted: channel)
+  func chatClient(_ client: TwilioChatClient!, channelDeleted channel: TCHChannel!) {
+    self.delegate?.chatClient(client, channelDeleted: channel)
   }
 
-  func ipMessagingClient(_ client: TwilioIPMessagingClient!, synchronizationStatusChanged status: TWMClientSynchronizationStatus) {
-    if status == TWMClientSynchronizationStatus.completed {
+  func chatClient(_ client: TwilioChatClient!, synchronizationStatusChanged status: TCHClientSynchronizationStatus) {
+    if status == TCHClientSynchronizationStatus.completed {
       UIApplication.shared.isNetworkActivityIndicatorVisible = false
       ChannelManager.sharedManager.channelsList = client.channelsList()
       ChannelManager.sharedManager.populateChannels()
@@ -153,16 +154,16 @@ extension IPMessagingManager : TwilioIPMessagingClientDelegate {
         }
       }
     }
-    self.delegate?.ipMessagingClient(client, synchronizationStatusChanged: status)
+    self.delegate?.chatClient(client, synchronizationStatusChanged: status)
   }
 }
 
 // MARK: - TwilioAccessManagerDelegate
-extension IPMessagingManager : TwilioAccessManagerDelegate {
-  func accessManagerTokenExpired(_ accessManager: TwilioAccessManager!) {
+extension MessagingManager : TwilioAccessManagerDelegate {
+  func accessManagerTokenWillExpire(_ accessManager: TwilioAccessManager) {
     requestTokenWithCompletion { succeeded, token in
       if (succeeded) {
-        accessManager.updateToken(token)
+        accessManager.updateToken(token!)
       }
       else {
         print("Error while trying to get new access token")

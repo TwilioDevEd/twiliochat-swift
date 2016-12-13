@@ -18,7 +18,7 @@ class SessionManager {
     defaults.synchronize()
   }
 
-  class func isLoogedIn() -> Bool {
+  class func isLoggedIn() -> Bool {
     let isLoggedIn = defaults.bool(forKey: IsLoggedInKey)
     if (isLoggedIn) {
       return true
