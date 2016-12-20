@@ -1,21 +1,21 @@
 import UIKit
 @testable import twiliochat
 
-class MockIPMessagingManager: IPMessagingManager {
-  static let mockManager = MockIPMessagingManager()
+class MockMessagingManager: MessagingManager {
+  static let mockManager = MockMessagingManager()
 
   static var loginWithUsernameCalled = false
   static var registerWithUsernameCalled = false
   static var passwordUsed = ""
   static var usernameUsed = ""
 
-  override class func sharedManager() -> IPMessagingManager {
+  override class func sharedManager() -> MessagingManager {
     return mockManager
   }
 
   override func loginWithUsername(username: String,
     completion: (Bool, NSError?) -> Void) {
-      MockIPMessagingManager.loginWithUsernameCalled = true
-      MockIPMessagingManager.usernameUsed = username
+      MockMessagingManager.loginWithUsernameCalled = true
+      MockMessagingManager.usernameUsed = username
   }
 }

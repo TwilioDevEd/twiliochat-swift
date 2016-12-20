@@ -1,6 +1,8 @@
-#ifndef IPMQuickstart_Bridging_Header_h
-#define IPMQuickstart_Bridging_Header_h
+#ifndef twiliochat_Bridging_Header_h
+#define twiliochat_Bridging_Header_h
 
-#import <TwilioIPMessagingClient/TwilioIPMessagingClient.h>
+#import <TwilioChatClient/TwilioChatClient.h>
+#import <TwilioAccessManager/TwilioAccessManager.h>
+#import <SWRevealViewController/SWRevealViewController.h>
 
 #endif

@@ -1,25 +1,21 @@
 PODS:
-  - Alamofire (3.5.1)
   - SlackTextViewController (1.9.5)
   - SWRevealViewController (2.3.0)
-  - TwilioCommon (0.3.3)
-  - TwilioIPMessagingClient (0.15.1):
-    - TwilioCommon (~> 0.3.3)
+  - TwilioAccessManager (0.1.2)
+  - TwilioChatClient (0.16.0)
 
 DEPENDENCIES:
-  - Alamofire (~> 3.0)
   - SlackTextViewController (~> 1.7)
   - SWRevealViewController (~> 2.3)
-  - TwilioCommon (~> 0.3.3)
-  - TwilioIPMessagingClient (~> 0.15.1)
+  - TwilioAccessManager (~> 0.1.1)
+  - TwilioChatClient (~> 0.16.0)
 
 SPEC CHECKSUMS:
-  Alamofire: 0dfba1184a543e2aa160f4e39cac4e8aba48d223
   SlackTextViewController: fbcdadbb8090673f604484ff5b6eb8d77baed42a
   SWRevealViewController: 6d3fd97f70112fd7cef9de14df4260eacce4c63a
-  TwilioCommon: e4da91e627fb6d926b366f39d59699a9282afd77
-  TwilioIPMessagingClient: fafe6e53949c8a0ab97f4258ed5b34cedf95154a
+  TwilioAccessManager: 80aa24be7f44c9149a87468d3c4251e457d9110e
+  TwilioChatClient: 0241ea050d042395493dea8920d1fa1ac45ca478
 
-PODFILE CHECKSUM: f4fcca54dc084e6c09b686ae896d0d6dc3b15fcd
+PODFILE CHECKSUM: b3d0bce2962de677611992181c986c728e669812
 
-COCOAPODS: 1.1.0.rc.3
+COCOAPODS: 1.1.1

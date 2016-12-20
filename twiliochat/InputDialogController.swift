@@ -5,46 +5,46 @@ class InputDialogController: NSObject {
   var saveAction: UIAlertAction!
 
   class func showWithTitle(title: String, message: String,
-    placeholder: String, presenter: UIViewController, handler: String -> Void) {
-      InputDialogController().showWithTitle(title, message: message,
+    placeholder: String, presenter: UIViewController, handler: @escaping (String) -> Void) {
+      InputDialogController().showWithTitle(title: title, message: message,
         placeholder: placeholder, presenter: presenter, handler: handler)
   }
 
   func showWithTitle(title: String, message: String, placeholder: String,
-    presenter: UIViewController, handler: String -> Void) {
-      let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+    presenter: UIViewController, handler: @escaping (String) -> Void) {
+      let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
-      let defaultAction = UIAlertAction(title: "Cancel", style: .Cancel) { action in
+      let defaultAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
         self.removeTextFieldObserver()
       }
 
-      saveAction = UIAlertAction(title: "Save", style: .Default) { action in
+      saveAction = UIAlertAction(title: "Save", style: .default) { action in
         self.removeTextFieldObserver()
         let textFieldText = alert.textFields![0].text ?? String()
         handler(textFieldText)
       }
 
-      saveAction.enabled = false
+      saveAction.isEnabled = false
 
-      alert.addTextFieldWithConfigurationHandler { textField in
+      alert.addTextField { textField in
         textField.placeholder = placeholder
-        NSNotificationCenter.defaultCenter().addObserver(self,
-          selector: #selector(InputDialogController.handleTextFieldTextDidChangeNotification(_:)),
-          name: UITextFieldTextDidChangeNotification,
+        NotificationCenter.default.addObserver(self,
+          selector: #selector(InputDialogController.handleTextFieldTextDidChangeNotification(notification:)),
+          name: NSNotification.Name.UITextFieldTextDidChange,
           object: nil)
       }
 
       alert.addAction(defaultAction)
       alert.addAction(saveAction)
-      presenter.presentViewController(alert, animated: true, completion: nil)
+      presenter.present(alert, animated: true, completion: nil)
   }
 
   func handleTextFieldTextDidChangeNotification(notification: NSNotification) {
     let textField = notification.object as? UITextField
-    saveAction.enabled = !(textField!.text?.isEmpty ?? false)
+    saveAction.isEnabled = !(textField!.text?.isEmpty ?? false)
   }
 
   func removeTextFieldObserver() {
-    NSNotificationCenter.defaultCenter().removeObserver(self)
+    NotificationCenter.default.removeObserver(self)
   }
 }

@@ -14,37 +14,37 @@ class LoginViewControllerTests: XCTestCase {
 
   override func tearDown() {
     super.tearDown()
-    MockIPMessagingManager.loginWithUsernameCalled = false
-    MockIPMessagingManager.registerWithUsernameCalled = false
-    MockIPMessagingManager.usernameUsed = ""
-    MockIPMessagingManager.passwordUsed = ""
+    MockMessagingManager.loginWithUsernameCalled = false
+    MockMessagingManager.registerWithUsernameCalled = false
+    MockMessagingManager.usernameUsed = ""
+    MockMessagingManager.passwordUsed = ""
     MockAlertDialogController.showedAlertWithMessage = ""
   }
 
   func testLoginUser() {
     viewController.usernameTextField.text = "username"
-    viewController.ipMessagingClientClass = MockIPMessagingManager.self
+    viewController.MessagingClientClass = MockMessagingManager.self
 
     viewController.loginUser()
 
-    XCTAssertTrue(MockIPMessagingManager.loginWithUsernameCalled)
-    XCTAssertEqual(MockIPMessagingManager.usernameUsed, "username")
+    XCTAssertTrue(MockMessagingManager.loginWithUsernameCalled)
+    XCTAssertEqual(MockMessagingManager.usernameUsed, "username")
   }
 
   func testSignUpOrLoginEmptyFields() {
-    viewController.ipMessagingClientClass = MockIPMessagingManager.self
+    viewController.MessagingClientClass = MockMessagingManager.self
     viewController.alertDialogControllerClass = MockAlertDialogController.self
     viewController.loginUser()
 
     XCTAssertEqual(MockAlertDialogController.showedAlertWithMessage, "All fields are required")
-    XCTAssertFalse(MockIPMessagingManager.loginWithUsernameCalled)
+    XCTAssertFalse(MockMessagingManager.loginWithUsernameCalled)
   }
 
   func testSignUpOrLoginIsLoginIn() {
     viewController.usernameTextField.text = "username"
-    viewController.ipMessagingClientClass = MockIPMessagingManager.self
+    viewController.MessagingClientClass = MockMessagingManager.self
     viewController.loginUser()
 
-    XCTAssertTrue(MockIPMessagingManager.loginWithUsernameCalled)
+    XCTAssertTrue(MockMessagingManager.loginWithUsernameCalled)
   }
 }

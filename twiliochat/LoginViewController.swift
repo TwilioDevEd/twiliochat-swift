@@ -8,7 +8,7 @@ class LoginViewController: UIViewController {
   // MARK: - Injectable Properties
 
   var alertDialogControllerClass = AlertDialogController.self
-  var ipMessagingClientClass = IPMessagingManager.self
+  var MessagingClientClass = MessagingManager.self
 
   // MARK: - Initialization
 
@@ -30,7 +30,7 @@ class LoginViewController: UIViewController {
 
     if let index = self.textFieldFormHandler.firstResponderIndex {
       if (index > 1) {
-        textFieldFormHandler.setTextFieldAtIndexAsFirstResponder(1)
+        textFieldFormHandler.setTextFieldAtIndexAsFirstResponder(index: 1)
       }
       else {
         textFieldFormHandler.resetScroll()
@@ -38,7 +38,7 @@ class LoginViewController: UIViewController {
     }
   }
 
-  override func viewWillDisappear(animated: Bool) {
+  override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     textFieldFormHandler.cleanUp()
   }
@@ -49,7 +49,7 @@ class LoginViewController: UIViewController {
 
   // MARK: - Actions
 
-  @IBAction func loginButtonTouched(sender: UIButton) {
+  @IBAction func loginButtonTouched(_ sender: UIButton) {
     loginUser()
   }
 
@@ -57,55 +57,55 @@ class LoginViewController: UIViewController {
 
   func loginUser() {
     if (validUserData()) {
-      view.userInteractionEnabled = false
+      view.isUserInteractionEnabled = false
       activityIndicator.startAnimating()
 
-      let ipMessagingManager = ipMessagingClientClass.sharedManager()
+      let MessagingManager = MessagingClientClass.sharedManager()
       if let username = usernameTextField.text {
-        ipMessagingManager.loginWithUsername(username, completion: handleResponse)
+        MessagingManager.loginWithUsername(username: username, completion: handleResponse)
       }
     }
   }
 
   func validUserData() -> Bool {
-    if let usernameEmpty = usernameTextField.text?.isEmpty where !usernameEmpty {
+    if let usernameEmpty = usernameTextField.text?.isEmpty, !usernameEmpty {
       return true
     }
-    showError("All fields are required")
+    showError(message: "All fields are required")
     return false
   }
 
   func showError(message:String) {
-    alertDialogControllerClass.showAlertWithMessage(message, title: nil, presenter: self)
+    alertDialogControllerClass.showAlertWithMessage(message: message, title: nil, presenter: self)
   }
 
   func handleResponse(succeeded: Bool, error: NSError?) {
     self.activityIndicator.stopAnimating()
-    if let error = error where !succeeded {
-      self.showError(error.localizedDescription)
+    if let error = error, !succeeded {
+      self.showError(message: error.localizedDescription)
     }
-    self.view.userInteractionEnabled = true
+    self.view.isUserInteractionEnabled = true
   }
 
   // MARK: - Style
 
-  override func preferredStatusBarStyle() -> UIStatusBarStyle {
-    return .LightContent
+  override var preferredStatusBarStyle: UIStatusBarStyle {
+    return .lightContent
   }
 
-  override func shouldAutorotate() -> Bool {
+  override var shouldAutorotate: Bool {
     return true
   }
 
-  override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-    if (UI_USER_INTERFACE_IDIOM() == .Pad) {
-      return .All
+  override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+    if (UI_USER_INTERFACE_IDIOM() == .pad) {
+      return .all
     }
-    return .Portrait
+    return .portrait
   }
 
-  override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
-    return .Portrait
+  override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
+    return .portrait
   }
 }
 
