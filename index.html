@@ -60,14 +60,14 @@ instance as the <code>options</code> parameter in the previews step.</p>
 <p>We need the client to be synchronized before trying to get the channel list (next step).
 Otherwise, calling <a href="//media.twiliocdn.com/sdk/ios/chat/releases/0.16.0/docs/Classes/TwilioChatClient.html#//api/name/channelsList">client.channelsList()</a>
 will return <code>nil</code>.</p>
-</div><div data-title="Getting the Channel List" data-file="twiliochat/ChannelManager.swift" data-highlight="73-90" data-mode="swift" class="step"><h2 id="getting-the-channel-list">Getting the Channel List</h2>
+</div><div data-title="Getting the Channel List" data-file="twiliochat/ChannelManager.swift" data-highlight="75-93" data-mode="swift" class="step"><h2 id="getting-the-channel-list">Getting the Channel List</h2>
 <p>Our <code>ChannelManager</code> class takes care of everything related to channels.
 In the previous step, we waited for the client to synchronize channel information,
 and assigned an instance of
 <a href="//media.twiliocdn.com/sdk/ios/chat/releases/0.16.0/docs/Classes/TCHChannels.html">TCHChannels</a>
 to our <code>ChannelManager</code>. Now we must get an actual array of channels using
 the <code>userChannels()</code> method.</p>
-</div><div data-title="Listen to Client Events" data-file="twiliochat/ChannelManager.swift" data-highlight="117-145" data-mode="swift" class="step"><h2 id="listen-to-client-events">Listen to Client Events</h2>
+</div><div data-title="Listen to Client Events" data-file="twiliochat/ChannelManager.swift" data-highlight="121-149" data-mode="swift" class="step"><h2 id="listen-to-client-events">Listen to Client Events</h2>
 <p>The Programmable Chat Client will trigger events such as <code>channelAdded</code> or <code>channelDeleted</code>
 on our application. Given the creation or deletion of a channel, we&#39;ll reload the
 channel list in the reveal controller. If a channel is deleted and we were currently joined to that
@@ -89,7 +89,7 @@ invitations.</p>
 <p>Once you have joined a channel, you can register a class as the <code>TCHChannelDelegate</code>
 so you can start listening to events such as <code>messageAdded</code> or <code>memberJoined</code>.
 We&#39;ll show you how to do this in the next step.</p>
-</div><div data-title="Listen to Channel Events" data-file="twiliochat/MainChatViewController.swift" data-highlight="223-256" data-mode="swift" class="step"><h2 id="listen-to-channel-events">Listen to Channel Events</h2>
+</div><div data-title="Listen to Channel Events" data-file="twiliochat/MainChatViewController.swift" data-highlight="223-259" data-mode="swift" class="step"><h2 id="listen-to-channel-events">Listen to Channel Events</h2>
 <p>We registered <code>MainChatViewController</code> as the <code>TCHChannelDelegate</code>, and here
 we implemented the following methods that listen to channel events:</p>
 <ul>
