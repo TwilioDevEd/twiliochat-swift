@@ -11,7 +11,7 @@ class TokenRequestHandler {
                 if !data.isEmpty {
                     data = data + "&"
                 }
-                data = encodedKey + "=" + encodedValue;
+                data = data + encodedKey + "=" + encodedValue;
             }
         }
         
