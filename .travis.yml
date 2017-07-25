@@ -1,15 +1,15 @@
 language: objective-c
 osx_image: xcode8
+cache: cocoapods
 xcode_workspace: twiliochat.xcworkspace
 xcode_scheme: twiliochat
 
 before_install:
-  # - travis_wait pod repo update >/dev/null 2>&1
+  - travis_wait pod repo update >/dev/null 2>&1
 
 install:
-  # - travis_wait pod install
-  - echo "Do not install"
+  - travis_wait pod install
 
 script:
-  # - xctool -sdk iphonesimulator -workspace twiliochat.xcworkspace -scheme twiliochat test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
-  - echo "xctool doesn't support xcode8 currently. Will fix that later"
+  - xcodebuild -workspace twiliochat.xcworkspace -scheme twiliochat CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO clean build-for-testing | xcpretty
+  - xcodebuild -workspace twiliochat.xcworkspace -scheme twiliochat -destination 'platform=iOS Simulator,name=iPhone 6' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO clean test | xcpretty

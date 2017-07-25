@@ -14,54 +14,54 @@ class DateTodayFormatterTests: XCTestCase {
   }
 
   func testStringFromDate() {
-    let dateFormatter = NSDateFormatter()
+    let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd"
-    let date = dateFormatter.dateFromString("1990-05-14")
+    let date = dateFormatter.date(from: "1990-05-14")
 
-    let dateString = dateTodayFormatter.stringFromDate(date!)
+    let dateString = dateTodayFormatter.stringFromDate(date: date! as NSDate)
 
     XCTAssertEqual(dateString, "May. 14 - 12:00AM")
   }
 
   func testStringFromDateToday() {
     let dateToday = NSDate()
-    let dateFormatter = NSDateFormatter()
+    let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd"
-    let dateTodayString = dateFormatter.stringFromDate(dateToday)
-    let date = dateFormatter.dateFromString(dateTodayString)
-    let dateString = dateTodayFormatter.stringFromDate(date!)
+    let dateTodayString = dateFormatter.string(from: dateToday as Date)
+    let date = dateFormatter.date(from: dateTodayString)
+    let dateString = dateTodayFormatter.stringFromDate(date: date! as NSDate)
 
     XCTAssertEqual(dateString, "Today - 12:00AM")
   }
 
   func testDateFromString() {
-    let dateFormatter = NSDateFormatter()
+    let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
     let dateString = "1990-05-14 21:04:12"
 
-    let dateFromTestClass = NSDate.dateFromString(dateString, withFormat: "yyyy-MM-dd HH:mm:ss")
+    let dateFromTestClass = NSDate.dateFromString(str: dateString, withFormat: "yyyy-MM-dd HH:mm:ss")
 
-    XCTAssertEqual(dateFromTestClass, dateFormatter.dateFromString("1990-05-14 21:04:12"))
+    XCTAssertEqual(dateFromTestClass, dateFormatter.date(from: "1990-05-14 21:04:12")! as NSDate)
   }
 
   func testDateWithISO8601String() {
     let dateString = "1990-05-14T12:05:12.003"
-    let dateFormatter = NSDateFormatter()
+    let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-    let date = dateFormatter.dateFromString(dateString)
+    let date = dateFormatter.date(from: dateString)
 
-    let dateFromTestClass = NSDate.dateWithISO8601String(dateString)
+    let dateFromTestClass = NSDate.dateWithISO8601String(dateString: dateString)
 
-    XCTAssertEqual(dateFromTestClass, date)
+    XCTAssertEqual(dateFromTestClass, date as NSDate?)
   }
 
   func testDateWithISO8601StringWithSuffix() {
-    let dateFormatter = NSDateFormatter()
+    let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-    let date = dateFormatter.dateFromString("1990-05-14T12:05:12.003-00:00")
+    let date = dateFormatter.date(from: "1990-05-14T12:05:12.003-00:00")
 
-    let dateFromTestClass = NSDate.dateWithISO8601String("1990-05-14T12:05:12.003Z")
+    let dateFromTestClass = NSDate.dateWithISO8601String(dateString: "1990-05-14T12:05:12.003Z")
 
-    XCTAssertEqual(dateFromTestClass, date)
+    XCTAssertEqual(dateFromTestClass, date as NSDate?)
   }
 }

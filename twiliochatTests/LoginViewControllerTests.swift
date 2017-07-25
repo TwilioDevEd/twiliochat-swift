@@ -6,8 +6,8 @@ class LoginViewControllerTests: XCTestCase {
 
   override func setUp() {
     super.setUp()
-    let storyBoard = UIStoryboard(name:"Main", bundle: NSBundle.mainBundle())
-    viewController = storyBoard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
+    let storyBoard = UIStoryboard(name:"Main", bundle: Bundle.main)
+    viewController = storyBoard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
     viewController.loadView()
     viewController.viewDidLoad()
   }
