@@ -29,7 +29,8 @@ class TokenRequestHandler {
         request.httpBody = postString.data(using: .utf8)
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
-                print("error=\(error)")
+                print("error=\(String(describing: error))")
+                completion(NSDictionary(), error as NSError?)
                 return
             }
             

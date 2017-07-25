@@ -123,7 +123,7 @@ class MainChatViewController: SLKTextViewController {
 
     let label = cell.viewWithTag(MainChatViewController.TWCLabelTag) as! UILabel
     let memberStatus = (message.status! == .Joined) ? "joined" : "left"
-    label.text = "User \(message.member.userInfo.identity) has \(memberStatus)"
+    label.text = "User \(message.member.identity) has \(memberStatus)"
     return cell
   }
 
@@ -134,20 +134,11 @@ class MainChatViewController: SLKTextViewController {
       channel.join { result in
         print("Channel Joined")
       }
+      return
     }
-
-    if channel.synchronizationStatus != .all {
-      channel.synchronize { result in
-        if (result?.isSuccessful())! {
-          print("Synchronization started. Delegate method will load messages")
-        }
-      }
-    }
-    else {
-      loadMessages()
-      setViewOnHold(onHold: false)
-    }
-
+        
+    loadMessages()
+    setViewOnHold(onHold: false)
   }
 
   // Disable user input and show activity indicator
@@ -247,7 +238,7 @@ extension MainChatViewController : TCHChannelDelegate {
 
   func chatClient(_ client: TwilioChatClient!,
                   channel: TCHChannel!,
-                  synchronizationStatusChanged status: TCHChannelSynchronizationStatus) {
+                  synchronizationStatusUpdated status: TCHChannelSynchronizationStatus) {
     if status == .all {
       loadMessages()
       DispatchQueue.main.async {

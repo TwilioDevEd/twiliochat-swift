@@ -77,14 +77,14 @@ class ChannelManager: NSObject {
   func populateChannels() {
     channels = NSMutableOrderedSet()
     
-    channelsList?.userChannels { result, paginator in
-      self.channels?.addObjects(from: paginator!.items())
-      self.sortChannels()
+    channelsList?.userChannelDescriptors { result, paginator in
+        self.channels?.addObjects(from: paginator!.items())
+        self.sortChannels()
     }
     
-    channelsList?.publicChannels { result, paginator in
-      self.channels?.addObjects(from: paginator!.items())
-      self.sortChannels()
+    channelsList?.publicChannelDescriptors { result, paginator in
+        self.channels?.addObjects(from: paginator!.items())
+        self.sortChannels()
     }
 
     if self.delegate != nil {
@@ -144,6 +144,6 @@ extension ChannelManager : TwilioChatClientDelegate {
 
   }
 
-  func chatClient(_ client: TwilioChatClient!, synchronizationStatusChanged status: TCHClientSynchronizationStatus) {
+  func chatClient(_ client: TwilioChatClient!, synchronizationStatusUpdated status: TCHClientSynchronizationStatus) {
   }
 }
