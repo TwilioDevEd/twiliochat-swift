@@ -1,200 +1,200 @@
 import UIKit
 
 class MenuViewController: UIViewController {
-  static let TWCOpenChannelSegue = "OpenChat"
-  static let TWCRefreshControlXOffset: CGFloat = 120
-
-  @IBOutlet weak var tableView: UITableView!
-  @IBOutlet weak var usernameLabel: UILabel!
-
-  var refreshControl: UIRefreshControl!
-
-  override func viewDidLoad() {
-    super.viewDidLoad()
-
-    let bgImage = UIImageView(image: UIImage(named:"home-bg"))
-    bgImage.frame = self.tableView.frame
-    tableView.backgroundView = bgImage
-
-    usernameLabel.text = MessagingManager.sharedManager().userIdentity
-
-    refreshControl = UIRefreshControl()
-    tableView.addSubview(refreshControl)
-    refreshControl.addTarget(self, action: #selector(MenuViewController.refreshChannels), for: .valueChanged)
-    refreshControl.tintColor = UIColor.white
-
-    self.refreshControl.frame.origin.x -= MenuViewController.TWCRefreshControlXOffset
-    ChannelManager.sharedManager.delegate = self
-    reloadChannelList()
-  }
-
-  // MARK: - Internal methods
-
-  func loadingCellForTableView(tableView: UITableView) -> UITableViewCell {
-    return tableView.dequeueReusableCell(withIdentifier: "loadingCell")!
-  }
-
-  func channelCellForTableView(tableView: UITableView, atIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let menuCell = tableView.dequeueReusableCell(withIdentifier: "channelCell", for: indexPath as IndexPath) as! MenuTableCell
+    static let TWCOpenChannelSegue = "OpenChat"
+    static let TWCRefreshControlXOffset: CGFloat = 120
     
-    let channel = ChannelManager.sharedManager.channels![indexPath.row]
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var usernameLabel: UILabel!
     
-    var friendlyName = (channel as AnyObject).friendlyName
+    var refreshControl: UIRefreshControl!
     
-    if let name = (channel as AnyObject).friendlyName, name.isEmpty {
-      friendlyName = name
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let bgImage = UIImageView(image: UIImage(named:"home-bg"))
+        bgImage.frame = self.tableView.frame
+        tableView.backgroundView = bgImage
+        
+        usernameLabel.text = MessagingManager.sharedManager().userIdentity
+        
+        refreshControl = UIRefreshControl()
+        tableView.addSubview(refreshControl)
+        refreshControl.addTarget(self, action: #selector(MenuViewController.refreshChannels), for: .valueChanged)
+        refreshControl.tintColor = UIColor.white
+        
+        self.refreshControl.frame.origin.x -= MenuViewController.TWCRefreshControlXOffset
+        ChannelManager.sharedManager.delegate = self
+        reloadChannelList()
     }
-    menuCell.channelName = friendlyName!
-    return menuCell
-  }
-
-  func reloadChannelList() {
-    tableView.reloadData()
-    refreshControl.endRefreshing()
-  }
-
-  func refreshChannels() {
-    refreshControl.beginRefreshing()
-    reloadChannelList()
-  }
-
-  func deselectSelectedChannel() {
-    let selectedRow = tableView.indexPathForSelectedRow
-    if let row = selectedRow {
-      tableView.deselectRow(at: row, animated: true)
+    
+    // MARK: - Internal methods
+    
+    func loadingCellForTableView(tableView: UITableView) -> UITableViewCell {
+        return tableView.dequeueReusableCell(withIdentifier: "loadingCell")!
     }
-  }
-
-  // MARK: - Channel
-
-  func createNewChannelDialog() {
-    InputDialogController.showWithTitle(title: "New Channel",
-      message: "Enter a name for this channel",
-      placeholder: "Name",
-      presenter: self) { text in
-        ChannelManager.sharedManager.createChannelWithName(name: text, completion: { _,_ in
-          ChannelManager.sharedManager.populateChannels()
-        })
+    
+    func channelCellForTableView(tableView: UITableView, atIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let menuCell = tableView.dequeueReusableCell(withIdentifier: "channelCell", for: indexPath as IndexPath) as! MenuTableCell
+        
+        let channel = ChannelManager.sharedManager.channels![indexPath.row]
+        
+        var friendlyName = (channel as AnyObject).friendlyName
+        
+        if let name = (channel as AnyObject).friendlyName, name.isEmpty {
+            friendlyName = name
+        }
+        menuCell.channelName = friendlyName!
+        return menuCell
     }
-  }
-
-  // MARK: Logout
-
-  func promptLogout() {
-    let alert = UIAlertController(title: nil, message: "You are about to Logout", preferredStyle: .alert)
-
-    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-    let confirmAction = UIAlertAction(title: "Confirm", style: .default) { action in
-      self.logOut()
+    
+    func reloadChannelList() {
+        tableView.reloadData()
+        refreshControl.endRefreshing()
     }
-
-    alert.addAction(cancelAction)
-    alert.addAction(confirmAction)
-    present(alert, animated: true, completion: nil)
-  }
-
-  func logOut() {
-    MessagingManager.sharedManager().logout()
-    MessagingManager.sharedManager().presentRootViewController()
-  }
-
-  // MARK: - Actions
-
-  @IBAction func logoutButtonTouched(_ sender: UIButton) {
-    promptLogout()
-  }
-
-  @IBAction func newChannelButtonTouched(_ sender: UIButton) {
-    createNewChannelDialog()
-  }
-
-  // MARK: - Navigation
-
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == MenuViewController.TWCOpenChannelSegue {
-      let indexPath = sender as! NSIndexPath
-      let channelDescriptor = ChannelManager.sharedManager.channels![indexPath.row] as! TCHChannelDescriptor
-      let navigationController = segue.destination as! UINavigationController
-      
-      channelDescriptor.channel { result, channel in
-        (navigationController.visibleViewController as! MainChatViewController).channel = channel
-      }
+    
+    func refreshChannels() {
+        refreshControl.beginRefreshing()
+        reloadChannelList()
     }
-  }
-
-  // MARK: - Style
-
-  override var preferredStatusBarStyle: UIStatusBarStyle {
-    return .lightContent
-  }
+    
+    func deselectSelectedChannel() {
+        let selectedRow = tableView.indexPathForSelectedRow
+        if let row = selectedRow {
+            tableView.deselectRow(at: row, animated: true)
+        }
+    }
+    
+    // MARK: - Channel
+    
+    func createNewChannelDialog() {
+        InputDialogController.showWithTitle(title: "New Channel",
+                                            message: "Enter a name for this channel",
+                                            placeholder: "Name",
+                                            presenter: self) { text in
+                                                ChannelManager.sharedManager.createChannelWithName(name: text, completion: { _,_ in
+                                                    ChannelManager.sharedManager.populateChannels()
+                                                })
+        }
+    }
+    
+    // MARK: Logout
+    
+    func promptLogout() {
+        let alert = UIAlertController(title: nil, message: "You are about to Logout", preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let confirmAction = UIAlertAction(title: "Confirm", style: .default) { action in
+            self.logOut()
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(confirmAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func logOut() {
+        MessagingManager.sharedManager().logout()
+        MessagingManager.sharedManager().presentRootViewController()
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction func logoutButtonTouched(_ sender: UIButton) {
+        promptLogout()
+    }
+    
+    @IBAction func newChannelButtonTouched(_ sender: UIButton) {
+        createNewChannelDialog()
+    }
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == MenuViewController.TWCOpenChannelSegue {
+            let indexPath = sender as! NSIndexPath
+            let channelDescriptor = ChannelManager.sharedManager.channels![indexPath.row] as! TCHChannelDescriptor
+            let navigationController = segue.destination as! UINavigationController
+            
+            channelDescriptor.channel { result, channel in
+                (navigationController.visibleViewController as! MainChatViewController).channel = channel
+            }
+        }
+    }
+    
+    // MARK: - Style
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
 }
 
 // MARK: - UITableViewDataSource
 extension MenuViewController : UITableViewDataSource {
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if let channels = ChannelManager.sharedManager.channels {
-      return channels.count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let channels = ChannelManager.sharedManager.channels {
+            return channels.count
+        }
+        return 1
     }
-    return 1
-  }
-
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell: UITableViewCell
-
-    if ChannelManager.sharedManager.channels == nil {
-      cell = loadingCellForTableView(tableView: tableView)
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: UITableViewCell
+        
+        if ChannelManager.sharedManager.channels == nil {
+            cell = loadingCellForTableView(tableView: tableView)
+        }
+        else {
+            cell = channelCellForTableView(tableView: tableView, atIndexPath: indexPath as NSIndexPath)
+        }
+        
+        cell.layoutIfNeeded()
+        return cell
     }
-    else {
-      cell = channelCellForTableView(tableView: tableView, atIndexPath: indexPath as NSIndexPath)
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if let channel = ChannelManager.sharedManager.channels?.object(at: indexPath.row) as? TCHChannel {
+            return channel != ChannelManager.sharedManager.generalChannel
+        }
+        return false
     }
-
-    cell.layoutIfNeeded()
-    return cell
-  }
-
-  func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-    if let channel = ChannelManager.sharedManager.channels?.object(at: indexPath.row) as? TCHChannel {
-      return channel != ChannelManager.sharedManager.generalChannel
-    }
-    return false
-  }
-
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle,
                    forRowAt indexPath: IndexPath) {
-      if editingStyle != .delete {
-        return
-      }
-      if let channel = ChannelManager.sharedManager.channels?.object(at: indexPath.row) as? TCHChannel {
-        channel.destroy { result in
-          if (result?.isSuccessful())! {
-            tableView.reloadData()
-          }
-          else {
-            AlertDialogController.showAlertWithMessage(message: "You can not delete this channel", title: nil, presenter: self)
-          }
+        if editingStyle != .delete {
+            return
         }
-      }
-  }
+        if let channel = ChannelManager.sharedManager.channels?.object(at: indexPath.row) as? TCHChannel {
+            channel.destroy { result in
+                if (result?.isSuccessful())! {
+                    tableView.reloadData()
+                }
+                else {
+                    AlertDialogController.showAlertWithMessage(message: "You can not delete this channel", title: nil, presenter: self)
+                }
+            }
+        }
+    }
 }
 
 // MARK: - UITableViewDelegate
 extension MenuViewController : UITableViewDelegate {
-  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    performSegue(withIdentifier: MenuViewController.TWCOpenChannelSegue, sender: indexPath)
-  }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: MenuViewController.TWCOpenChannelSegue, sender: indexPath)
+    }
 }
 
 // MARK: - TwilioChatClientDelegate
 extension MenuViewController : TwilioChatClientDelegate {
-  func chatClient(_ client: TwilioChatClient!, channelAdded channel: TCHChannel!) {
-    tableView.reloadData()
-  }
-
-  func chatClient(_ client: TwilioChatClient!, channelChanged channel: TCHChannel!) {
-    tableView.reloadData()
-  }
-
-  func chatClient(_ client: TwilioChatClient!, channelDeleted channel: TCHChannel!) {
-    tableView.reloadData()
-  }
+    func chatClient(_ client: TwilioChatClient!, channelAdded channel: TCHChannel!) {
+        tableView.reloadData()
+    }
+    
+    func chatClient(_ client: TwilioChatClient!, channelChanged channel: TCHChannel!) {
+        tableView.reloadData()
+    }
+    
+    func chatClient(_ client: TwilioChatClient!, channelDeleted channel: TCHChannel!) {
+        tableView.reloadData()
+    }
 }
