@@ -37,14 +37,9 @@ class MenuViewController: UIViewController {
     func channelCellForTableView(tableView: UITableView, atIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let menuCell = tableView.dequeueReusableCell(withIdentifier: "channelCell", for: indexPath as IndexPath) as! MenuTableCell
         
-        let channel = ChannelManager.sharedManager.channels![indexPath.row]
+        let channel = ChannelManager.sharedManager.channels![indexPath.row] as! AnyObject
         
-        var friendlyName = (channel as AnyObject).friendlyName
-        
-        if let name = (channel as AnyObject).friendlyName, name.isEmpty {
-            friendlyName = name
-        }
-        menuCell.channelName = friendlyName!
+        menuCell.channelName = channel.friendlyName ?? "[Unknown channel name]"
         return menuCell
     }
     
@@ -166,7 +161,7 @@ extension MenuViewController : UITableViewDataSource {
         }
         if let channel = ChannelManager.sharedManager.channels?.object(at: indexPath.row) as? TCHChannel {
             channel.destroy { result in
-                if (result?.isSuccessful())! {
+                if (result.isSuccessful()) {
                     tableView.reloadData()
                 }
                 else {
@@ -186,7 +181,7 @@ extension MenuViewController : UITableViewDelegate {
 
 // MARK: - TwilioChatClientDelegate
 extension MenuViewController : TwilioChatClientDelegate {
-    func chatClient(_ client: TwilioChatClient!, channelAdded channel: TCHChannel!) {
+    func chatClient(_ client: TwilioChatClient, channelAdded channel: TCHChannel!) {
         tableView.reloadData()
     }
     

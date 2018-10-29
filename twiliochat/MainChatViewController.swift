@@ -78,6 +78,16 @@ class MainChatViewController: SLKTextViewController {
         }
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        // required for iOS 11
+        textInputbar.bringSubview(toFront: textInputbar.textView)
+        textInputbar.bringSubview(toFront: textInputbar.leftButton)
+        textInputbar.bringSubview(toFront: textInputbar.rightButton)
+        
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         scrollToBottom()
@@ -111,7 +121,8 @@ class MainChatViewController: SLKTextViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: MainChatViewController.TWCChatCellIdentifier, for:indexPath as IndexPath)
         
         let chatCell: ChatTableCell = cell as! ChatTableCell
-        let timestamp = DateTodayFormatter().stringFromDate(date: NSDate.dateWithISO8601String(dateString: message.timestamp))
+        let date = NSDate.dateWithISO8601String(dateString: message.timestamp ?? "")
+        let timestamp = DateTodayFormatter().stringFromDate(date: date)
         
         chatCell.setUser(user: message.author ?? "[Unknown author]", message: message.body, date: timestamp ?? "[Unknown date]")
         
@@ -123,7 +134,7 @@ class MainChatViewController: SLKTextViewController {
         
         let label = cell.viewWithTag(MainChatViewController.TWCLabelTag) as! UILabel
         let memberStatus = (message.status! == .Joined) ? "joined" : "left"
-        label.text = "User \(message.member.identity) has \(memberStatus)"
+        label.text = "User \(message.member.identity ?? "[Unknown user]") has \(memberStatus)"
         return cell
     }
     
@@ -156,8 +167,8 @@ class MainChatViewController: SLKTextViewController {
     // MARK: - Chat Service
     
     func sendMessage(inputMessage: String) {
-        let message = channel.messages.createMessage(withBody: inputMessage)
-        channel.messages.send(message, completion: nil)
+        let messageOptions = TCHMessageOptions().withBody(inputMessage)
+        channel.messages?.sendMessage(with: messageOptions, completion: nil)
     }
     
     func addMessages(newMessages:Set<TCHMessage>) {
@@ -172,13 +183,15 @@ class MainChatViewController: SLKTextViewController {
     }
     
     func sortMessages() {
-        sortedMessages = messages.sorted { a, b in a.timestamp > b.timestamp }
+        sortedMessages = messages.sorted { (a, b) -> Bool in
+            (a.timestamp ?? "") > (b.timestamp ?? "")
+        }
     }
     
     func loadMessages() {
         messages.removeAll()
         if channel.synchronizationStatus == .all {
-            channel.messages.getLastWithCount(100) { (result, items) in
+            channel.messages?.getLastWithCount(100) { (result, items) in
                 self.addMessages(newMessages: Set(items!))
             }
         }
@@ -193,7 +206,7 @@ class MainChatViewController: SLKTextViewController {
     
     func leaveChannel() {
         channel.leave { result in
-            if (result?.isSuccessful())! {
+            if (result.isSuccessful()) {
                 let menuViewController = self.revealViewController().rearViewController as! MenuViewController
                 menuViewController.deselectSelectedChannel()
                 self.revealViewController().rearViewController.performSegue(withIdentifier: MainChatViewController.TWCOpenGeneralChannelSegue, sender: nil)
@@ -213,21 +226,21 @@ class MainChatViewController: SLKTextViewController {
 }
 
 extension MainChatViewController : TCHChannelDelegate {
-    func chatClient(_ client: TwilioChatClient!, channel: TCHChannel!, messageAdded message: TCHMessage!) {
+    func chatClient(_ client: TwilioChatClient, channel: TCHChannel, messageAdded message: TCHMessage) {
         if !messages.contains(message) {
             addMessages(newMessages: [message])
         }
     }
     
-    func chatClient(_ client: TwilioChatClient!, channel: TCHChannel!, memberJoined member: TCHMember!) {
+    func chatClient(_ client: TwilioChatClient, channel: TCHChannel, memberJoined member: TCHMember) {
         addMessages(newMessages: [StatusMessage(member:member, status:.Joined)])
     }
     
-    func chatClient(_ client: TwilioChatClient!, channel: TCHChannel!, memberLeft member: TCHMember!) {
+    func chatClient(_ client: TwilioChatClient, channel: TCHChannel, memberLeft member: TCHMember) {
         addMessages(newMessages: [StatusMessage(member:member, status:.Left)])
     }
     
-    func chatClient(_ client: TwilioChatClient!, channelDeleted channel: TCHChannel!) {
+    func chatClient(_ client: TwilioChatClient, channelDeleted channel: TCHChannel) {
         DispatchQueue.main.async {
             if channel == self.channel {
                 self.revealViewController().rearViewController
@@ -236,8 +249,8 @@ extension MainChatViewController : TCHChannelDelegate {
         }
     }
     
-    func chatClient(_ client: TwilioChatClient!,
-                    channel: TCHChannel!,
+    func chatClient(_ client: TwilioChatClient,
+                    channel: TCHChannel,
                     synchronizationStatusUpdated status: TCHChannelSynchronizationStatus) {
         if status == .all {
             loadMessages()
