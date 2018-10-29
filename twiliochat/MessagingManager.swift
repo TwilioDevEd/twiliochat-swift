@@ -107,7 +107,9 @@ class MessagingManager: NSObject {
     }
     
     func initializeClientWithToken(token: String) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        DispatchQueue.main.async {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        }
         TwilioChatClient.chatClient(withToken: token, properties: nil, delegate: self) { [weak self] result, chatClient in
             guard (result.isSuccessful()) else { return }
             
