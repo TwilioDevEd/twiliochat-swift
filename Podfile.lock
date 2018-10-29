@@ -1,11 +1,11 @@
 PODS:
-  - SlackTextViewController (1.9.5)
+  - SlackTextViewController (1.9.6)
   - SWRevealViewController (2.3.0)
   - TwilioAccessManager (1.1.2)
   - TwilioChatClient (2.3.3)
 
 DEPENDENCIES:
-  - SlackTextViewController (~> 1.7)
+  - SlackTextViewController (= 1.9.6)
   - SWRevealViewController (~> 2.3)
   - TwilioAccessManager (~> 1.1)
   - TwilioChatClient (~> 2.3)
@@ -18,11 +18,11 @@ SPEC REPOS:
     - TwilioChatClient
 
 SPEC CHECKSUMS:
-  SlackTextViewController: fbcdadbb8090673f604484ff5b6eb8d77baed42a
+  SlackTextViewController: b854e62c1c156336bc4fd409c6ca79b5773e8f9d
   SWRevealViewController: 6d3fd97f70112fd7cef9de14df4260eacce4c63a
   TwilioAccessManager: f3b0d9edd2eb5a044e50ff78057ab13611a0baa1
   TwilioChatClient: 9e3562773da96cfd3f34b2112104ee76820f0ab3
 
-PODFILE CHECKSUM: 3bd92675044fd13e1f630f984259cc9d5ed1c9de
+PODFILE CHECKSUM: e91581ba06073050ed2230e4abd93b6f8adc9d67
 
 COCOAPODS: 1.5.3
