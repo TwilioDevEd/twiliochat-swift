@@ -44,31 +44,31 @@ class ChannelManager: NSObject {
     
     func joinGeneralChatRoomWithUniqueName(name: String?, completion: @escaping (Bool) -> Void) {
         generalChannel.join { result in
-            if ((result?.isSuccessful())! && name != nil) {
+            if ((result.isSuccessful()) && name != nil) {
                 self.setGeneralChatRoomUniqueNameWithCompletion(completion: completion)
                 return
             }
-            completion((result?.isSuccessful())!)
+            completion((result.isSuccessful()))
         }
     }
     
     func createGeneralChatRoomWithCompletion(completion: @escaping (Bool) -> Void) {
         let channelName = ChannelManager.defaultChannelName
-        let options:[NSObject : AnyObject] = [
-            TCHChannelOptionFriendlyName as NSObject: channelName as AnyObject,
-            TCHChannelOptionType as NSObject: TCHChannelType.public.rawValue as AnyObject
-        ]
+        let options = [
+            TCHChannelOptionFriendlyName: channelName,
+            TCHChannelOptionType: TCHChannelType.public.rawValue
+            ] as [String : Any]
         channelsList!.createChannel(options: options) { result, channel in
-            if (result?.isSuccessful())! {
+            if (result.isSuccessful()) {
                 self.generalChannel = channel
             }
-            completion((result?.isSuccessful())!)
+            completion((result.isSuccessful()))
         }
     }
     
     func setGeneralChatRoomUniqueNameWithCompletion(completion:@escaping (Bool) -> Void) {
         generalChannel.setUniqueName(ChannelManager.defaultChannelUniqueName) { result in
-            completion((result?.isSuccessful())!)
+            completion((result.isSuccessful()))
         }
     }
     
@@ -106,21 +106,21 @@ class ChannelManager: NSObject {
             return
         }
         
-        let channelOptions:[NSObject : AnyObject] = [
-            TCHChannelOptionFriendlyName as NSObject: name as AnyObject,
-            TCHChannelOptionType as NSObject: TCHChannelType.public.rawValue as AnyObject
-        ]
+        let channelOptions = [
+            TCHChannelOptionFriendlyName: name,
+            TCHChannelOptionType: TCHChannelType.public.rawValue
+        ] as [String : Any]
         UIApplication.shared.isNetworkActivityIndicatorVisible = true;
         self.channelsList?.createChannel(options: channelOptions) { result, channel in
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false;
-            completion((result?.isSuccessful())!, channel)
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            completion((result.isSuccessful()), channel)
         }
     }
 }
 
 // MARK: - TwilioChatClientDelegate
 extension ChannelManager : TwilioChatClientDelegate {
-    func chatClient(_ client: TwilioChatClient!, channelAdded channel: TCHChannel!) {
+    func chatClient(_ client: TwilioChatClient, channelAdded channel: TCHChannel) {
         DispatchQueue.main.async {
             if self.channels != nil {
                 self.channels!.add(channel)
@@ -134,7 +134,7 @@ extension ChannelManager : TwilioChatClientDelegate {
         self.delegate?.chatClient(client, channelChanged: channel)
     }
     
-    func chatClient(_ client: TwilioChatClient!, channelDeleted channel: TCHChannel!) {
+    func chatClient(_ client: TwilioChatClient, channelDeleted channel: TCHChannel) {
         DispatchQueue.main.async {
             if self.channels != nil {
                 self.channels?.remove(channel)
@@ -144,6 +144,6 @@ extension ChannelManager : TwilioChatClientDelegate {
         
     }
     
-    func chatClient(_ client: TwilioChatClient!, synchronizationStatusUpdated status: TCHClientSynchronizationStatus) {
+    func chatClient(_ client: TwilioChatClient, synchronizationStatusUpdated status: TCHClientSynchronizationStatus) {
     }
 }

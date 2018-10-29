@@ -107,10 +107,9 @@ class MessagingManager: NSObject {
     }
     
     func initializeClientWithToken(token: String) {
-        let accessManager = TwilioAccessManager(token:token, delegate:self)
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         TwilioChatClient.chatClient(withToken: token, properties: nil, delegate: self) { [weak self] result, chatClient in
-            guard (result?.isSuccessful() ?? false) else { return }
+            guard (result.isSuccessful()) else { return }
             
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
             self?.connected = true
@@ -136,7 +135,7 @@ class MessagingManager: NSObject {
 
 // MARK: - TwilioChatClientDelegate
 extension MessagingManager : TwilioChatClientDelegate {
-    func chatClient(_ client: TwilioChatClient!, channelAdded channel: TCHChannel!) {
+    func chatClient(_ client: TwilioChatClient, channelAdded channel: TCHChannel) {
         self.delegate?.chatClient(client, channelAdded: channel)
     }
     
@@ -144,11 +143,11 @@ extension MessagingManager : TwilioChatClientDelegate {
         self.delegate?.chatClient(client, channelChanged: channel)
     }
     
-    func chatClient(_ client: TwilioChatClient!, channelDeleted channel: TCHChannel!) {
+    func chatClient(_ client: TwilioChatClient, channelDeleted channel: TCHChannel) {
         self.delegate?.chatClient(client, channelDeleted: channel)
     }
     
-    func chatClient(_ client: TwilioChatClient!, synchronizationStatusUpdated status: TCHClientSynchronizationStatus) {
+    func chatClient(_ client: TwilioChatClient, synchronizationStatusUpdated status: TCHClientSynchronizationStatus) {
         if status == TCHClientSynchronizationStatus.completed {
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
             ChannelManager.sharedManager.channelsList = client.channelsList()
