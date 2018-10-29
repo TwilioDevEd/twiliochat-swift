@@ -78,6 +78,16 @@ class MainChatViewController: SLKTextViewController {
         }
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        // required for iOS 11
+        textInputbar.bringSubview(toFront: textInputbar.textView)
+        textInputbar.bringSubview(toFront: textInputbar.leftButton)
+        textInputbar.bringSubview(toFront: textInputbar.rightButton)
+        
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         scrollToBottom()
