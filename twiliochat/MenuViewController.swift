@@ -37,7 +37,7 @@ class MenuViewController: UIViewController {
     func channelCellForTableView(tableView: UITableView, atIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let menuCell = tableView.dequeueReusableCell(withIdentifier: "channelCell", for: indexPath as IndexPath) as! MenuTableCell
         
-        let channel = ChannelManager.sharedManager.channels![indexPath.row] as! TCHChannelDescriptor
+        let channel = ChannelManager.sharedManager.channels![indexPath.row] as! AnyObject
         
         menuCell.channelName = channel.friendlyName ?? "[Unknown channel name]"
         return menuCell
