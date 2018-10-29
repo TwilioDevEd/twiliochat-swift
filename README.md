@@ -1,4 +1,4 @@
-# twiliochat-swift
+# Twilio Chat Tutorial for Swift
 [![Build Status](https://travis-ci.org/TwilioDevEd/twiliochat-swift.svg?branch=master)](https://travis-ci.org/TwilioDevEd/twiliochat-swift)
 
 Swift implementation of Twilio Chat
@@ -11,10 +11,10 @@ Swift implementation of Twilio Chat
    ```bash
    $ pod install
    ```
-1. Open the project with `XCode` but don't use `twiliochat.xcodeproj` file. For
+1. Open the project with `Xcode` but don't use `twiliochat.xcodeproj` file. For
    CocoaPods dependencies to work you must use `twiliochat.xcworkspace`.
-1. [Twilio's IP Messaging Client](https://www.twilio.com/docs/api/ip-messaging) requires an
-   [access token](https://www.twilio.com/docs/api/ip-messaging/guides/identity) generated using your
+1. [Twilio Chat](https://www.twilio.com/docs/chat) requires an
+   [access token](https://www.twilio.com/docs/chat/identity) generated using your
    Twilio credentials in order to connect. First we need to setup a server that will generate this token
    for the mobile application to use. We have created web versions of Twilio Chat, you can use any of these
    applications to generate the token that this mobile app requires. Just pick your favorite flavor:
