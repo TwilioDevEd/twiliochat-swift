@@ -80,11 +80,13 @@ class LoginViewController: UIViewController {
     }
     
     func handleResponse(succeeded: Bool, error: NSError?) {
-        self.activityIndicator.stopAnimating()
-        if let error = error, !succeeded {
-            self.showError(message: error.localizedDescription)
+        DispatchQueue.main.async {
+            self.activityIndicator.stopAnimating()
+            if let error = error, !succeeded {
+                self.showError(message: error.localizedDescription)
+            }
+            self.view.isUserInteractionEnabled = true
         }
-        self.view.isUserInteractionEnabled = true
     }
     
     // MARK: - Style
