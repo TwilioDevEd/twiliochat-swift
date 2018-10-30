@@ -34,6 +34,11 @@ class MessagingManager: NSObject {
         if (!connected) {
             connectClientWithCompletion { success, error in
                 print("Delegate method will load views when sync is complete")
+                if (!success || error != nil) {
+                    DispatchQueue.main.async {
+                        self.presentViewControllerByName(viewController: "LoginViewController")
+                    }
+                }
             }
             return
         }
