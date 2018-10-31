@@ -130,8 +130,8 @@ extension ChannelManager : TwilioChatClientDelegate {
         }
     }
     
-    func chatClient(_ client: TwilioChatClient!, channelChanged channel: TCHChannel!) {
-        self.delegate?.chatClient(client, channelChanged: channel)
+    func chatClient(_ client: TwilioChatClient, channel: TCHChannel, updated: TCHChannelUpdate) {
+        self.delegate?.chatClient(client, channel: channel, updated: updated)
     }
     
     func chatClient(_ client: TwilioChatClient, channelDeleted channel: TCHChannel) {
