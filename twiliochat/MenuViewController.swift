@@ -181,15 +181,15 @@ extension MenuViewController : UITableViewDelegate {
 
 // MARK: - TwilioChatClientDelegate
 extension MenuViewController : TwilioChatClientDelegate {
-    func chatClient(_ client: TwilioChatClient, channelAdded channel: TCHChannel!) {
+    func chatClient(_ client: TwilioChatClient, channelAdded channel: TCHChannel) {
+        tableView.reloadData()
+    }
+
+    func chatClient(_ client: TwilioChatClient, channel: TCHChannel, updated: TCHChannelUpdate) {
         tableView.reloadData()
     }
     
-    func chatClient(_ client: TwilioChatClient!, channelChanged channel: TCHChannel!) {
-        tableView.reloadData()
-    }
-    
-    func chatClient(_ client: TwilioChatClient!, channelDeleted channel: TCHChannel!) {
+    func chatClient(_ client: TwilioChatClient, channelDeleted channel: TCHChannel) {
         tableView.reloadData()
     }
 }
