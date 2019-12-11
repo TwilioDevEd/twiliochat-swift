@@ -15,7 +15,11 @@ class MessagingManager: NSObject {
     var hasIdentity: Bool {
         return SessionManager.isLoggedIn()
     }
-    
+	
+	var currentUser: TWUser {
+		return TWUser(senderId: SessionManager.getUsername(), displayName: SessionManager.getUsername())
+	}
+	
     override init() {
         super.init()
         delegate = ChannelManager.sharedManager
@@ -43,7 +47,8 @@ class MessagingManager: NSObject {
             return
         }
         
-        presentViewControllerByName(viewController: "RevealViewController")
+        // presentViewControllerByName(viewController: "RevealViewController")
+		presentViewController(controller: MainChatViewController())
     }
     
     func presentViewControllerByName(viewController: String) {

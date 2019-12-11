@@ -112,7 +112,7 @@ class MenuViewController: UIViewController {
             let navigationController = segue.destination as! UINavigationController
             
             channelDescriptor.channel { result, channel in
-                (navigationController.visibleViewController as! MainChatViewController).channel = channel
+                // (navigationController.visibleViewController as! MainChatViewController).channel = channel
             }
         }
     }
