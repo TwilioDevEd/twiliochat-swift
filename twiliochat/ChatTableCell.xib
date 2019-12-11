@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="66" id="pdi-8Z-iYJ" customClass="ChatTableCell" customModule="twiliochat" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="66"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="142" id="pdi-8Z-iYJ" customClass="ChatTableCell" customModule="twiliochat" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="142"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pdi-8Z-iYJ" id="XFL-rP-lRI">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="142"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" tag="200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eIT-Kf-nWB">
-                        <rect key="frame" x="16" y="11" width="66" height="19.5"/>
+                        <rect key="frame" x="15" y="11" width="66" height="19.5"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="19.5" id="g6x-km-TWp"/>
                         </constraints>
@@ -28,30 +26,39 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" tag="201" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OtD-xS-RZk">
-                        <rect key="frame" x="90" y="12" width="26" height="16.5"/>
+                        <rect key="frame" x="89" y="12" width="26" height="16.5"/>
                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="12"/>
                         <color key="textColor" red="0.72941176470000002" green="0.61960784310000006" blue="0.61960784310000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" tag="202" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kb0-of-TZN">
-                        <rect key="frame" x="16" y="36" width="288" height="19"/>
+                        <rect key="frame" x="15" y="36" width="290" height="24"/>
                         <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="14"/>
                         <color key="textColor" red="0.35686274509999999" green="0.30980392159999998" blue="0.31764705879999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="203" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xcL-Oy-aOD">
+                        <rect key="frame" x="15" y="64" width="70" height="70"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="70" id="7f9-qf-T2Y"/>
+                            <constraint firstAttribute="width" secondItem="xcL-Oy-aOD" secondAttribute="height" multiplier="1:1" id="Kra-3v-GbP"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="eIT-Kf-nWB" firstAttribute="top" secondItem="XFL-rP-lRI" secondAttribute="topMargin" id="0eA-Wy-JxT"/>
                     <constraint firstItem="OtD-xS-RZk" firstAttribute="leading" secondItem="eIT-Kf-nWB" secondAttribute="trailing" constant="8" id="2DU-Ng-aS7"/>
                     <constraint firstItem="kb0-of-TZN" firstAttribute="top" secondItem="eIT-Kf-nWB" secondAttribute="bottom" constant="5.5" id="7Wg-Th-CgM"/>
                     <constraint firstItem="eIT-Kf-nWB" firstAttribute="leading" secondItem="XFL-rP-lRI" secondAttribute="leadingMargin" id="A0B-jc-aIt"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="kb0-of-TZN" secondAttribute="bottom" id="BMX-Fs-0gq"/>
                     <constraint firstAttribute="trailingMargin" secondItem="kb0-of-TZN" secondAttribute="trailing" id="Neu-Rw-UgK"/>
+                    <constraint firstItem="xcL-Oy-aOD" firstAttribute="top" secondItem="kb0-of-TZN" secondAttribute="bottom" constant="4" id="Z9f-Or-qVL"/>
+                    <constraint firstAttribute="bottom" secondItem="xcL-Oy-aOD" secondAttribute="bottom" constant="8" id="d1u-Mj-MXM"/>
                     <constraint firstItem="kb0-of-TZN" firstAttribute="leading" secondItem="XFL-rP-lRI" secondAttribute="leadingMargin" id="h1e-Km-f4p"/>
+                    <constraint firstItem="xcL-Oy-aOD" firstAttribute="leading" secondItem="kb0-of-TZN" secondAttribute="leading" id="h87-TW-6Ig"/>
                     <constraint firstItem="OtD-xS-RZk" firstAttribute="top" secondItem="XFL-rP-lRI" secondAttribute="topMargin" constant="1" id="mZg-54-dPu"/>
                 </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="519" y="10"/>
+            <point key="canvasLocation" x="518.39999999999998" y="44.07796101949026"/>
         </tableViewCell>
     </objects>
 </document>

@@ -65,26 +65,28 @@ class MainChatViewController: SLKTextViewController {
         rightButton.setTitleColor(UIColor(red:0.973, green:0.557, blue:0.502, alpha:1), for: .normal)
         
         if let font = UIFont(name:"Avenir-Heavy", size:17) {
-            navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: font]
+			navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: font]
         }
         
         tableView!.allowsSelection = false
         tableView!.estimatedRowHeight = 70
-        tableView!.rowHeight = UITableViewAutomaticDimension
+		tableView!.rowHeight = UITableView.automaticDimension
         tableView!.separatorStyle = .none
         
         if channel == nil {
             channel = ChannelManager.sharedManager.generalChannel
         }
+		
+		createPickerRightBarButton()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         // required for iOS 11
-        textInputbar.bringSubview(toFront: textInputbar.textView)
-        textInputbar.bringSubview(toFront: textInputbar.leftButton)
-        textInputbar.bringSubview(toFront: textInputbar.rightButton)
+		textInputbar.bringSubviewToFront(textInputbar.textView)
+		textInputbar.bringSubviewToFront(textInputbar.leftButton)
+		textInputbar.bringSubviewToFront(textInputbar.rightButton)
         
     }
     
@@ -93,6 +95,11 @@ class MainChatViewController: SLKTextViewController {
         scrollToBottom()
     }
     
+	private func createPickerRightBarButton() {
+		let rightBarB = UIBarButtonItem(title: "pics", style: .plain, target: self, action: #selector(addPics(_:)))
+		navigationItem.rightBarButtonItems?.append(rightBarB)
+	}
+	
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -116,6 +123,8 @@ class MainChatViewController: SLKTextViewController {
         cell.transform = tableView.transform
         return cell
     }
+	
+	var exampleMedia: UIImage?
     
     func getChatCellForTableView(tableView: UITableView, forIndexPath indexPath:IndexPath, message: TCHMessage) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MainChatViewController.TWCChatCellIdentifier, for:indexPath as IndexPath)
@@ -123,8 +132,14 @@ class MainChatViewController: SLKTextViewController {
         let chatCell: ChatTableCell = cell as! ChatTableCell
         let date = NSDate.dateWithISO8601String(dateString: message.timestamp ?? "")
         let timestamp = DateTodayFormatter().stringFromDate(date: date)
-        
-        chatCell.setUser(user: message.author ?? "[Unknown author]", message: message.body, date: timestamp ?? "[Unknown date]")
+		
+//		let image = UIImage(contentsOfFile: tempFilename)
+		
+		if message.hasMedia() {
+			chatCell.setUser(user: message.author ?? "[Unknown author]", message: message.body, date: timestamp ?? "[Unknown date]", image: exampleMedia)
+		} else {
+			chatCell.setUser(user: message.author ?? "[Unknown author]", message: message.body, date: timestamp ?? "[Unknown date]")
+		}
         
         return chatCell
     }
@@ -167,8 +182,43 @@ class MainChatViewController: SLKTextViewController {
     // MARK: - Chat Service
     
     func sendMessage(inputMessage: String) {
-        let messageOptions = TCHMessageOptions().withBody(inputMessage)
-        channel.messages?.sendMessage(with: messageOptions, completion: nil)
+		
+		// Send media message
+		guard let data = UIImage(named: "tree")?.pngData() else { return }
+		
+		let messageOptions = TCHMessageOptions()
+		let inputStream = InputStream(data: data)
+		
+		messageOptions.withMediaStream(inputStream,
+									   contentType: "image/jpeg",
+									   defaultFilename: "tree.jpg",
+									   onStarted: {
+										// Called when upload of media begins.
+										print("Media upload started")
+		},
+									   onProgress: { (bytes) in
+										// Called as upload progresses, with the current byte count.
+										print("Media upload progress: \(bytes)")
+		}) { (mediaSid) in
+			// Called when upload is completed, with the new mediaSid if successful.
+			// Full failure details will be provided through sendMessage's completion.
+			print("Media upload completed")
+			}
+		.withBody(inputMessage)
+		
+		// Trigger the sending of the message.
+		self.channel.messages?.sendMessage(with: messageOptions,
+										   completion: { (result, message) in
+											if !result.isSuccessful() {
+												print("Creation failed: \(String(describing: result.error))")
+											} else {
+												print("Creation successful")
+											}
+		})
+
+		
+//        let messageOptions = TCHMessageOptions().withBody(inputMessage)
+//        channel.messages?.sendMessage(with: messageOptions, completion: nil)
     }
     
     func addMessages(newMessages:Set<TCHMessage>) {
@@ -192,10 +242,53 @@ class MainChatViewController: SLKTextViewController {
         messages.removeAll()
         if channel.synchronizationStatus == .all {
             channel.messages?.getLastWithCount(100) { (result, items) in
+				
+				items?.forEach ({
+					// şuanda bu sorgunun bir önemi yok çünkü bir medyaya sahip olanların hepsi için aynı medyayı çekiyor.
+					if $0.hasMedia() {
+						// twilio aynı anda birden fazla request yapmamayı öneriyor
+						self.fetchMessageMedia(for: $0)
+					}
+				})
+				
                 self.addMessages(newMessages: Set(items!))
             }
         }
     }
+	
+	private func fetchMessageMedia(for message: TCHMessage) {
+		// Set up output stream for media content
+		let tempFilename = (NSTemporaryDirectory() as NSString).appendingPathComponent(message.mediaFilename ?? "file.dat")
+		let outputStream = OutputStream(toFileAtPath: tempFilename, append: false)
+		
+		// Request the start of the download
+		if let outputStream = outputStream {
+			message.getMediaWith(outputStream,
+								 onStarted: {
+									// Called when download of media begins.
+			},
+								 onProgress: { (bytes) in
+									// Called as download progresses, with the current byte count.
+			},
+								 onCompleted: { (mediaSid) in
+									// Called when download is completed, with the new mediaSid if successful.
+									// Full failure details will be provided through the completion block below.
+									
+									print(mediaSid)
+			}) { (result) in
+				
+				if !result.isSuccessful() {
+					print("Download failed: \(String(describing: result.error))")
+				} else {
+					print("Download successful")
+					
+					let image = UIImage(contentsOfFile: tempFilename)
+					self.exampleMedia = image
+					self.tableView?.reloadData()
+				}
+			}
+		}
+	}
     
     func scrollToBottom() {
         if messages.count > 0 {
@@ -223,11 +316,24 @@ class MainChatViewController: SLKTextViewController {
     @IBAction func revealButtonTouched(_ sender: AnyObject) {
         revealViewController().revealToggle(animated: true)
     }
+	
+	@objc func addPics(_ sender: UIBarButtonItem) {
+		print("kekkk")
+	}
 }
 
 extension MainChatViewController : TCHChannelDelegate {
     func chatClient(_ client: TwilioChatClient, channel: TCHChannel, messageAdded message: TCHMessage) {
         if !messages.contains(message) {
+			// Check if message has media.
+			
+		//	print(message.attributes())
+			
+			if message.hasMedia() {
+				print("mediaFilename: \(String(describing: message.mediaFilename)) (optional)")
+				print("mediaSize: \(message.mediaSize)")
+			}
+			
             addMessages(newMessages: [message])
         }
     }

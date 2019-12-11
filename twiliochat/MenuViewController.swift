@@ -37,7 +37,7 @@ class MenuViewController: UIViewController {
     func channelCellForTableView(tableView: UITableView, atIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let menuCell = tableView.dequeueReusableCell(withIdentifier: "channelCell", for: indexPath as IndexPath) as! MenuTableCell
         
-        let channel = ChannelManager.sharedManager.channels![indexPath.row] as! AnyObject
+		let channel = ChannelManager.sharedManager.channels![indexPath.row] as AnyObject
         
         menuCell.channelName = channel.friendlyName ?? "[Unknown channel name]"
         return menuCell
@@ -48,7 +48,7 @@ class MenuViewController: UIViewController {
         refreshControl.endRefreshing()
     }
     
-    func refreshChannels() {
+	@objc func refreshChannels() {
         refreshControl.beginRefreshing()
         reloadChannelList()
     }
@@ -154,7 +154,7 @@ extension MenuViewController : UITableViewDataSource {
         return false
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle,
+	private func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle,
                    forRowAt indexPath: IndexPath) {
         if editingStyle != .delete {
             return
