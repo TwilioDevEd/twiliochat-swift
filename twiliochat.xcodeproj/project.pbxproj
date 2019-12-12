@@ -36,7 +36,7 @@
 		8A07B2CB1F224CAD009F0836 /* MockMessagingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A07B2CA1F224CAD009F0836 /* MockMessagingManager.swift */; };
 		D9143EB223A10DC200987EEA /* TWMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9143EB123A10DC200987EEA /* TWMessage.swift */; };
 		D9143EB423A10F2A00987EEA /* TWUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9143EB323A10F2A00987EEA /* TWUser.swift */; };
-		D9143EB623A128D000987EEA /* BaseChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9143EB523A128D000987EEA /* BaseChatViewController.swift */; };
+		D9143EB623A128D000987EEA /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9143EB523A128D000987EEA /* ChatViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,7 +90,7 @@
 		A632A40A820E0010EABFCF87 /* Pods_twiliochatUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_twiliochatUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9143EB123A10DC200987EEA /* TWMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TWMessage.swift; sourceTree = "<group>"; };
 		D9143EB323A10F2A00987EEA /* TWUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TWUser.swift; sourceTree = "<group>"; };
-		D9143EB523A128D000987EEA /* BaseChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseChatViewController.swift; sourceTree = "<group>"; };
+		D9143EB523A128D000987EEA /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		DB93390FBA31DBC1606B543F /* Pods-twiliochatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-twiliochatUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-twiliochatUITests/Pods-twiliochatUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -259,7 +259,7 @@
 				87F895F71C0E045F00754007 /* MainChatViewController.swift */,
 				8771091E1C175AC2004C57D3 /* ChatTableCell.swift */,
 				877109201C1772C5004C57D3 /* StatusMessage.swift */,
-				D9143EB523A128D000987EEA /* BaseChatViewController.swift */,
+				D9143EB523A128D000987EEA /* ChatViewController.swift */,
 			);
 			name = chat;
 			sourceTree = "<group>";
@@ -500,7 +500,7 @@
 				8771091F1C175AC2004C57D3 /* ChatTableCell.swift in Sources */,
 				87F895F21C0CF3CE00754007 /* AlertDialogController.swift in Sources */,
 				59AE1CCE1C0C8C280008B10B /* TextFieldFormHandler.swift in Sources */,
-				D9143EB623A128D000987EEA /* BaseChatViewController.swift in Sources */,
+				D9143EB623A128D000987EEA /* ChatViewController.swift in Sources */,
 				59F208FE1C04C06800CC2392 /* AppDelegate.swift in Sources */,
 				59AE1CD21C0D03820008B10B /* MessagingManager.swift in Sources */,
 				59F5EDB01C6E925500CE7D32 /* TokenRequestHandler.swift in Sources */,

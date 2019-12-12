@@ -1,7 +1,21 @@
 import UIKit
 import MessageKit
+import InputBarAccessoryView
 
 final class MainChatViewController: ChatViewController {
+	
+    @IBOutlet weak var revealButtonItem: UIBarButtonItem!
+    @IBOutlet weak var actionButtonItem: UIBarButtonItem!
+	
+	
+	@IBAction func actionButtonTouched(_ sender: UIBarButtonItem) {
+        // leaveChannel()
+		print("kanaldan çık")
+    }
+    
+    @IBAction func revealButtonTouched(_ sender: AnyObject) {
+        revealViewController().revealToggle(animated: true)
+    }
 //
 //    var _channel:TCHChannel!
 //    var channel:TCHChannel! {

@@ -122,7 +122,81 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
             UIColor.primaryColor.withAlphaComponent(0.3),
             for: .highlighted
         )
+		
+		messageInputBar.isHidden = false
+		
+//
+//		messageInputBar.frame = CGRect(x: 0, y: view.frame.maxY - 80, width: view.frame.width, height: 80)
+//
+//		view.addSubview(messageInputBar)
+		
+//		messageInputBar.addConstraints([
+//			NSLayoutConstraint.init(item: messageInputBar, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 0, constant: 0),
+//						NSLayoutConstraint.init(item: messageInputBar, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 0, constant: 0),
+//						NSLayoutConstraint.init(item: messageInputBar, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 0, constant: 0)
+//			])
     }
+	
+//	func configureMessageInputBar() {
+//    //    super.configureMessageInputBar()
+//
+//        messageInputBar.isTranslucent = true
+//        messageInputBar.separatorLine.isHidden = true
+//        messageInputBar.inputTextView.tintColor = .primaryColor
+//        messageInputBar.inputTextView.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+//        messageInputBar.inputTextView.placeholderTextColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
+//        messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 36)
+//        messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 36)
+//        messageInputBar.inputTextView.layer.borderColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1).cgColor
+//        messageInputBar.inputTextView.layer.borderWidth = 1.0
+//        messageInputBar.inputTextView.layer.cornerRadius = 16.0
+//        messageInputBar.inputTextView.layer.masksToBounds = true
+//        messageInputBar.inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+//        configureInputBarItems()
+//    }
+//
+//    private func configureInputBarItems() {
+//        messageInputBar.setRightStackViewWidthConstant(to: 36, animated: false)
+//        messageInputBar.sendButton.imageView?.backgroundColor = UIColor(white: 0.85, alpha: 1)
+//        messageInputBar.sendButton.contentEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+//        messageInputBar.sendButton.setSize(CGSize(width: 36, height: 36), animated: false)
+//        // messageInputBar.sendButton.image = #imageLiteral(resourceName: "disclouser@2x.png")
+//        messageInputBar.sendButton.title = "Gönder"
+//        messageInputBar.sendButton.imageView?.layer.cornerRadius = 16
+//        messageInputBar.middleContentViewPadding.right = -38
+//        let charCountButton = InputBarButtonItem()
+//            .configure {
+//                $0.title = "0/140"
+//                $0.contentHorizontalAlignment = .right
+//                $0.setTitleColor(UIColor(white: 0.6, alpha: 1), for: .normal)
+//                $0.titleLabel?.font = UIFont.systemFont(ofSize: 10, weight: .bold)
+//                $0.setSize(CGSize(width: 50, height: 25), animated: false)
+//            }.onTextViewDidChange { (item, textView) in
+//                item.title = "\(textView.text.count)/140"
+//                let isOverLimit = textView.text.count > 140
+//                item.inputBarAccessoryView?.shouldManageSendButtonEnabledState = !isOverLimit // Disable automated management when over limit
+//                if isOverLimit {
+//                    item.inputBarAccessoryView?.sendButton.isEnabled = false
+//                }
+//                let color = isOverLimit ? .red : UIColor(white: 0.6, alpha: 1)
+//                item.setTitleColor(color, for: .normal)
+//        }
+//        let bottomItems = [.flexibleSpace, charCountButton]
+//        messageInputBar.middleContentViewPadding.bottom = 8
+//        messageInputBar.setStackViewItems(bottomItems, forStack: .bottom, animated: false)
+//
+//        // This just adds some more flare
+//        messageInputBar.sendButton
+//            .onEnabled { item in
+//                UIView.animate(withDuration: 0.3, animations: {
+//                    item.imageView?.backgroundColor = .primaryColor
+//                })
+//            }.onDisabled { item in
+//                UIView.animate(withDuration: 0.3, animations: {
+//                    item.imageView?.backgroundColor = UIColor(white: 0.85, alpha: 1)
+//                })
+//        }
+//    }
     
     // MARK: - Helpers
     

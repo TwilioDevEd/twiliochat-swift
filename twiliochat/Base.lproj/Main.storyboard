@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BPj-fC-Har">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BPj-fC-Har">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -47,7 +45,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J1I-LV-R1C">
-                                <rect key="frame" x="0.0" y="20" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-user" translatesAutoresizingMaskIntoConstraints="NO" id="Ra4-Qv-JeR">
                                         <rect key="frame" x="35" y="28" width="15" height="19"/>
@@ -125,7 +123,7 @@
                                 </constraints>
                             </view>
                             <tableView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nTF-pl-HbZ">
-                                <rect key="frame" x="0.0" y="84" width="375" height="529"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="549"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="channelCell" id="YbJ-AH-YSC" customClass="MenuTableCell" customModule="twiliochat" customModuleProvider="target">
@@ -257,10 +255,10 @@
         <!--Navigation Controller-->
         <scene sceneID="Rbs-Cl-6oV">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xa8-JC-Ynl" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="MainChatViewController" automaticallyAdjustsScrollViewInsets="NO" id="xa8-JC-Ynl" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="q8B-fT-AuX">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -288,7 +286,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="landing-logo" translatesAutoresizingMaskIntoConstraints="NO" id="Gwl-L2-m2b">
-                                <rect key="frame" x="42.5" y="77" width="290" height="145"/>
+                                <rect key="frame" x="42.5" y="57" width="290" height="145"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="194" id="B79-4E-afB"/>
                                     <constraint firstAttribute="height" constant="100" id="NNN-G7-jRi"/>
@@ -319,13 +317,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A simple chat app built using the" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wP3-hK-OdT">
-                                <rect key="frame" x="92" y="231" width="191.5" height="18"/>
+                                <rect key="frame" x="92" y="211" width="191.5" height="18"/>
                                 <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="13"/>
                                 <color key="textColor" red="0.96862745100000003" green="0.90196078430000004" blue="0.89411764709999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Twilio Chat API" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3S4-U3-ASz">
-                                <rect key="frame" x="143" y="253" width="89" height="18"/>
+                                <rect key="frame" x="143" y="233" width="89" height="18"/>
                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="13"/>
                                 <color key="textColor" red="0.96862745100000003" green="0.90196078430000004" blue="0.89411764709999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -371,7 +369,7 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Wbs-aJ-BcF">
-                                <rect key="frame" x="177.5" y="285" width="20" height="20"/>
+                                <rect key="frame" x="177.5" y="265" width="20" height="20"/>
                                 <color key="color" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                         </subviews>
@@ -416,12 +414,12 @@
     </scenes>
     <resources>
         <image name="add-channel-button" width="94" height="25"/>
-        <image name="home-bg" width="320" height="567"/>
-        <image name="icon-list" width="22" height="12"/>
+        <image name="home-bg" width="320.5" height="567.5"/>
+        <image name="icon-list" width="22.5" height="12.5"/>
         <image name="icon-list.png" width="321" height="568"/>
-        <image name="icon-user" width="14" height="18"/>
-        <image name="landing-logo" width="290" height="145"/>
-        <image name="username-field-bg" width="26" height="40"/>
+        <image name="icon-user" width="14.5" height="18.5"/>
+        <image name="landing-logo" width="290.5" height="145.5"/>
+        <image name="username-field-bg" width="26" height="40.5"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="UTt-MG-fSB"/>

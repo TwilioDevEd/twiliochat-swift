@@ -30,6 +30,11 @@ class MessagingManager: NSObject {
     }
     
     func presentRootViewController() {
+		
+		// presentViewController(controller: MainChatViewController())
+//		presentViewControllerByName(viewController: "MainChatViewController")
+//		return
+		
         if (!hasIdentity) {
             presentViewControllerByName(viewController: "LoginViewController")
             return
@@ -47,8 +52,8 @@ class MessagingManager: NSObject {
             return
         }
         
-        // presentViewControllerByName(viewController: "RevealViewController")
-		presentViewController(controller: MainChatViewController())
+		presentViewControllerByName(viewController: "RevealViewController")
+		//presentViewController(controller: MainChatViewController())
     }
     
     func presentViewControllerByName(viewController: String) {
@@ -160,17 +165,20 @@ extension MessagingManager : TwilioChatClientDelegate {
     }
     
     func chatClient(_ client: TwilioChatClient, synchronizationStatusUpdated status: TCHClientSynchronizationStatus) {
-        if status == TCHClientSynchronizationStatus.completed {
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            ChannelManager.sharedManager.channelsList = client.channelsList()
-            ChannelManager.sharedManager.populateChannels()
-            loadGeneralChatRoomWithCompletion { success, error in
-                if success {
-                    self.presentRootViewController()
-                }
-            }
-        }
-        self.delegate?.chatClient(client, synchronizationStatusUpdated: status)
+		
+		self.presentRootViewController()
+		
+//        if status == TCHClientSynchronizationStatus.completed {
+//            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+//            ChannelManager.sharedManager.channelsList = client.channelsList()
+//            ChannelManager.sharedManager.populateChannels()
+//            loadGeneralChatRoomWithCompletion { success, error in
+//                if success {
+//                    self.presentRootViewController()
+//                }
+//            }
+//        }
+//        self.delegate?.chatClient(client, synchronizationStatusUpdated: status)
     }
 }
 
