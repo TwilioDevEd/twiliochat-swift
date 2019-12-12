@@ -21,17 +21,14 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-    
-    /// The `BasicAudioController` controll the AVAudioPlayer state (play, pause, stop) and udpate audio cell UI accordingly.
-    // open lazy var audioController = BasicAudioController(messageCollectionView: messagesCollectionView)
-
+	
     var messageList: [TWMessage] = []
     
     let refreshControl = UIRefreshControl()
     
     let formatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateStyle = .medium
+		formatter.dateStyle = .long
         return formatter
     }()
     
@@ -60,11 +57,10 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         // MockSocket.shared.disconnect()
-        // audioController.stopAnyOngoingPlaying()
 		print("ChatVC - Disconnect here..")
     }
     
-    func loadFirstMessages() {
+	func loadFirstMessages(messages: [TWMessage]? = nil) {
         DispatchQueue.global(qos: .userInitiated).async {
 //            let count = UserDefaults.standard.mockMessagesCount()
 //            SampleData.shared.getMessages(count: count) { messages in
@@ -82,7 +78,7 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
 			]
 		
 			DispatchQueue.main.async {
-				self.messageList = dummyMessages
+				self.messageList = messages ?? dummyMessages
 				self.messagesCollectionView.reloadData()
 				self.messagesCollectionView.scrollToBottom()
 			}
@@ -114,27 +110,13 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
         refreshControl.addTarget(self, action: #selector(loadMoreMessages), for: .valueChanged)
     }
     
-    func configureMessageInputBar() {
-        messageInputBar.delegate = self
+	func configureMessageInputBar() {
         messageInputBar.inputTextView.tintColor = .primaryColor
         messageInputBar.sendButton.setTitleColor(.primaryColor, for: .normal)
         messageInputBar.sendButton.setTitleColor(
             UIColor.primaryColor.withAlphaComponent(0.3),
             for: .highlighted
         )
-		
-		messageInputBar.isHidden = false
-		
-//
-//		messageInputBar.frame = CGRect(x: 0, y: view.frame.maxY - 80, width: view.frame.width, height: 80)
-//
-//		view.addSubview(messageInputBar)
-		
-//		messageInputBar.addConstraints([
-//			NSLayoutConstraint.init(item: messageInputBar, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 0, constant: 0),
-//						NSLayoutConstraint.init(item: messageInputBar, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 0, constant: 0),
-//						NSLayoutConstraint.init(item: messageInputBar, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 0, constant: 0)
-//			])
     }
 	
 //	func configureMessageInputBar() {
@@ -256,8 +238,8 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
     }
     
     func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        
-        let dateString = formatter.string(from: message.sentDate)
+        // let dateString = formatter.string(from: message.sentDate)
+		let dateString = DateTodayFormatter().stringFromDate(date: message.sentDate as NSDate) ?? formatter.string(from: message.sentDate)
         return NSAttributedString(string: dateString, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption2)])
     }
     
@@ -290,44 +272,7 @@ extension ChatViewController: MessageCellDelegate {
     func didTapMessageBottomLabel(in cell: MessageCollectionViewCell) {
         print("Bottom label tapped")
     }
-
-    func didTapPlayButton(in cell: AudioMessageCell) {
-        guard let indexPath = messagesCollectionView.indexPath(for: cell),
-            let message = messagesCollectionView.messagesDataSource?.messageForItem(at: indexPath, in: messagesCollectionView) else {
-                print("Failed to identify message when audio cell receive tap gesture")
-                return
-        }
-//        guard audioController.state != .stopped else {
-//            // There is no audio sound playing - prepare to start playing for given audio message
-//            audioController.playSound(for: message, in: cell)
-//            return
-//        }
-//        if audioController.playingMessage?.messageId == message.messageId {
-//            // tap occur in the current cell that is playing audio sound
-//            if audioController.state == .playing {
-//                audioController.pauseSound(for: message, in: cell)
-//            } else {
-//                audioController.resumeSound()
-//            }
-//        } else {
-//            // tap occur in a difference cell that the one is currently playing sound. First stop currently playing and start the sound for given message
-//            audioController.stopAnyOngoingPlaying()
-//            audioController.playSound(for: message, in: cell)
-//        }
-    }
-
-    func didStartAudio(in cell: AudioMessageCell) {
-        print("Did start playing audio sound")
-    }
-
-    func didPauseAudio(in cell: AudioMessageCell) {
-        print("Did pause audio sound")
-    }
-
-    func didStopAudio(in cell: AudioMessageCell) {
-        print("Did stop audio sound")
-    }
-
+	
     func didTapAccessoryView(in cell: MessageCollectionViewCell) {
         print("Accessory view tapped")
     }
@@ -374,7 +319,7 @@ extension ChatViewController: MessageLabelDelegate {
 
 // MARK: - MessageInputBarDelegate
 
-extension ChatViewController: InputBarAccessoryViewDelegate {
+extension MainChatViewController: InputBarAccessoryViewDelegate {
 
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
 
@@ -395,16 +340,17 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         // Send button activity animation
         messageInputBar.sendButton.startAnimating()
         messageInputBar.inputTextView.placeholder = "Sending..."
-        DispatchQueue.global(qos: .default).async {
-            // fake send request task
-            sleep(1)
-            DispatchQueue.main.async { [weak self] in
+		
+		sendMessage(inputMessage: text) {
+			DispatchQueue.main.async { [weak self] in
                 self?.messageInputBar.sendButton.stopAnimating()
                 self?.messageInputBar.inputTextView.placeholder = "Aa"
-                self?.insertMessages(components)
+				
+				// Component kullanmadan sadece text'i insert ediyoruz.. bunu da Main Chat içerisindeki sendMessage'de yapıyor.. düzelt.
+				// self?.insertMessages(components)
                 self?.messagesCollectionView.scrollToBottom(animated: true)
             }
-        }
+		}
     }
 
     private func insertMessages(_ data: [Any]) {

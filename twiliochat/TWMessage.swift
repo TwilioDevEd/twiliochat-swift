@@ -43,12 +43,14 @@ struct TWMessage: MessageType, Hashable {
 		return lhs.messageId == rhs.messageId
 	}
 	
-	init(from tchMessage: TCHMessage, with kind: MessageKind, date: Date) {
+	init(from tchMessage: TCHMessage, with image: UIImage? = nil) {
+		let kind: MessageKind = image != nil ? .photo(ImageMediaItem(image: image!)) : .text(tchMessage.body ?? "")
+		
 		// TODO: Şimdilik senderID ve displayName aynı.. Değiştir
 		let user = TWUser(senderId: tchMessage.author ?? "senderID yok", displayName: tchMessage.author ?? "displayName yok")
 		
 		// messageID optional sağ tarafı uuid olabilir mi? ileride sıkıntı yaratır mı?
-		self.init(kind: kind, user: user, messageId: tchMessage.sid ?? UUID().uuidString, date: date)
+		self.init(kind: kind, user: user, messageId: tchMessage.sid ?? UUID().uuidString, date: tchMessage.timestampAsDate ?? Date())
 	}
     
 	init(custom: Any?, user: TWUser, messageId: String, date: Date) {
@@ -72,19 +74,10 @@ struct TWMessage: MessageType, Hashable {
         let mediaItem = ImageMediaItem(image: thumbnail)
         self.init(kind: .video(mediaItem), user: user, messageId: messageId, date: date)
     }
-
-//    convenience init(location: CLLocation, user: TWUser, messageId: String, date: Date) {
-//        let locationItem = CoordinateItem(location: location)
-//        self.init(kind: .location(locationItem), user: user, messageId: messageId, date: date)
-//    }
-
+	
 	init(emoji: String, user: TWUser, messageId: String, date: Date) {
         self.init(kind: .emoji(emoji), user: user, messageId: messageId, date: date)
     }
-
-//    convenience  init(contact: MockContactItem, user: TWUser, messageId: String, date: Date) {
-//        self.init(kind: .contact(contact), user: user, messageId: messageId, date: date)
-//    }
 }
 
 

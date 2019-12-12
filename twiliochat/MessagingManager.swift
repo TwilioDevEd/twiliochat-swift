@@ -166,19 +166,17 @@ extension MessagingManager : TwilioChatClientDelegate {
     
     func chatClient(_ client: TwilioChatClient, synchronizationStatusUpdated status: TCHClientSynchronizationStatus) {
 		
-		self.presentRootViewController()
-		
-//        if status == TCHClientSynchronizationStatus.completed {
-//            UIApplication.shared.isNetworkActivityIndicatorVisible = false
-//            ChannelManager.sharedManager.channelsList = client.channelsList()
-//            ChannelManager.sharedManager.populateChannels()
-//            loadGeneralChatRoomWithCompletion { success, error in
-//                if success {
-//                    self.presentRootViewController()
-//                }
-//            }
-//        }
-//        self.delegate?.chatClient(client, synchronizationStatusUpdated: status)
+        if status == TCHClientSynchronizationStatus.completed {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            ChannelManager.sharedManager.channelsList = client.channelsList()
+            ChannelManager.sharedManager.populateChannels()
+            loadGeneralChatRoomWithCompletion { success, error in
+                if success {
+                    self.presentRootViewController()
+                }
+            }
+        }
+        self.delegate?.chatClient(client, synchronizationStatusUpdated: status)
     }
 }
 
