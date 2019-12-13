@@ -9,12 +9,6 @@ final class MainChatViewController: ChatViewController {
 	
     @IBOutlet weak var revealButtonItem: UIBarButtonItem!
     @IBOutlet weak var actionButtonItem: UIBarButtonItem!
-	
-	override func configureMessageCollectionView() {
-		super.configureMessageCollectionView()
-		messagesCollectionView.messagesLayoutDelegate = self
-		messagesCollectionView.messagesDisplayDelegate = self
-	}
 
     var _channel:TCHChannel!
     var channel:TCHChannel! {
@@ -33,23 +27,28 @@ final class MainChatViewController: ChatViewController {
             joinChannel()
         }
     }
+	
+	/// The object that manages attachments
+	public lazy var attachmentManager: AttachmentManager = { [unowned self] in
+        let manager = AttachmentManager()
+        manager.delegate = self
+        return manager
+    }()
+	
+	var twInputBar: TWInputBarView!
 
 //    var messages:Set<TCHMessage> = Set<TCHMessage>()
 //	var messages: Set<TWMessage> = Set<TWMessage>()
 //    var sortedMessages:[TCHMessage]!
 //	var sortedMessages: [TWMessage]!
-
+//
 //	private func bringMessageType(from message: TCHMessage) -> MessageType {
 //		return MessageType
 //	}
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-		messageInputBar.delegate = self
-		messagesCollectionView.messagesDataSource = self
-		messagesCollectionView.messagesLayoutDelegate = self
-		messagesCollectionView.messagesDisplayDelegate = self
+		setupInputBar()
 
 //        if (revealViewController() != nil) {
 //            revealButtonItem.target = revealViewController()
@@ -103,7 +102,6 @@ final class MainChatViewController: ChatViewController {
 //		textInputbar.bringSubviewToFront(textInputbar.textView)
 //		textInputbar.bringSubviewToFront(textInputbar.leftButton)
 //		textInputbar.bringSubviewToFront(textInputbar.rightButton)
-
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -111,6 +109,27 @@ final class MainChatViewController: ChatViewController {
         // scrollToBottom()
     }
 
+	// MARK: - Setup
+	private func setupInputBar() {
+		twInputBar = TWInputBarView()
+		twInputBar.inputBarDelegate = self
+		twInputBar.inputPlugins = [attachmentManager]
+		messageInputBar = twInputBar
+		messageInputBar.delegate = self
+		
+		// MessagesCollectionView Setup
+		messagesCollectionView.messagesDataSource = self
+		messagesCollectionView.messagesLayoutDelegate = self
+		messagesCollectionView.messagesDisplayDelegate = self
+	}
+	
+	override func configureMessageCollectionView() {
+		super.configureMessageCollectionView()
+		messagesCollectionView.messagesLayoutDelegate = self
+		messagesCollectionView.messagesDisplayDelegate = self
+	}
+
+	
 
 //    override func numberOfSections(in tableView: UITableView) -> Int {
 //        return 1
@@ -135,9 +154,9 @@ final class MainChatViewController: ChatViewController {
 //        cell.transform = tableView.transform
 //        return cell
 //    }
-
+//
 //	var exampleMedia: UIImage?
-
+//
 //    func getChatCellForTableView(tableView: UITableView, forIndexPath indexPath:IndexPath, message: TCHMessage) -> UITableViewCell {
 //        let cell = tableView.dequeueReusableCell(withIdentifier: MainChatViewController.TWCChatCellIdentifier, for:indexPath as IndexPath)
 //
@@ -192,57 +211,68 @@ final class MainChatViewController: ChatViewController {
 //    }
 
     // MARK: - Chat Service
-
-	func sendMessage(inputMessage: String, completion: @escaping () -> Void) {
-
-		// Send media message
-		//guard let data = UIImage(named: "tree")?.pngData() else { return }
+	
+	var imagesWaitingToBeSent: [UIImage] = []
+	
+	func sendMessage(inputMessage: String, completion: @escaping (Bool) -> Void) {
 
 		let messageOptions = TCHMessageOptions()
-		//let inputStream = InputStream(data: data)
+		
+		if !inputMessage.isEmpty { imagesWaitingToBeSent.removeAll() }
+		let isImageMessage: Bool = !imagesWaitingToBeSent.isEmpty
+		
+		// Send media message
+//		if let data = imagesWaitingToBeSent.first?.pngData() {
+		if let data = imagesWaitingToBeSent.first?.jpegData(compressionQuality: 0.5) {
+			let inputStream = InputStream(data: data)
 
-//		messageOptions.withMediaStream(inputStream,
-//									   contentType: "image/jpeg",
-//									   defaultFilename: "tree.jpg",
-//									   onStarted: {
-//										// Called when upload of media begins.
-//										print("Media upload started")
-//		},
-//									   onProgress: { (bytes) in
-//										// Called as upload progresses, with the current byte count.
-//										print("Media upload progress: \(bytes)")
-//		}) { (mediaSid) in
-//			// Called when upload is completed, with the new mediaSid if successful.
-//			// Full failure details will be provided through sendMessage's completion.
-//			print("Media upload completed")
-//			}
-		messageOptions.withBody(inputMessage)
+			messageOptions.withMediaStream(inputStream,
+										   contentType: "image/jpeg",
+										   defaultFilename: "message.jpg",
+										   onStarted: {
+											// Called when upload of media begins.
+											print("Media upload started")
+			},
+										   onProgress: { (bytes) in
+											// Called as upload progresses, with the current byte count.
+											print("Media upload progress: \(bytes)")
+			}) { (mediaSid) in
+				// Called when upload is completed, with the new mediaSid if successful.
+				// Full failure details will be provided through sendMessage's completion.
+				print("Media upload completed")
+			}
+		} else {
+			messageOptions.withBody(inputMessage)
+		}
 
 		// Trigger the sending of the message.
 		self.channel.messages?.sendMessage(with: messageOptions,
 										   completion: { (result, message) in
 											if !result.isSuccessful() {
 												print("Creation failed: \(String(describing: result.error))")
+												// FIXME: delete here
+												completion(isImageMessage)
 											} else {
 												print("Creation successful")
-												completion()
+												completion(isImageMessage)
 											}
 		})
-
 
 //        let messageOptions = TCHMessageOptions().withBody(inputMessage)
 //        channel.messages?.sendMessage(with: messageOptions, completion: nil)
     }
+	
+	
 
     func addMessages(message:TCHMessage) {
         //messages =  messages.union(newMessages)
-		
+		//
 //		let twMessages = newMessages.map() {
 //			// TWMessage(from: $0, with: .text($0.body ?? ""), date: $0.timestampAsDate ?? Date())
 //			// TODO: image şimdilik nil döndür
 //			TWMessage(from: $0, with: $0.hasMedia() ? nil : nil)
 //		}
-		
+	//
 		// messages = messages.union(twMessages)
 		// insertMessage(newMess)
 		
@@ -262,12 +292,12 @@ final class MainChatViewController: ChatViewController {
 //        }
     }
 
-    func sortMessages() {
-        //sortedMessages = messages.sorted { (a, b) -> Bool in
-            // (a.timestamp ?? "") > (b.timestamp ?? "")
-        //}
-		// sortedMessages = messages.sorted { $0.timestamp > $1.timestamp }
-    }
+//    func sortMessages() {
+//        //sortedMessages = messages.sorted { (a, b) -> Bool in
+//            // (a.timestamp ?? "") > (b.timestamp ?? "")
+//        //}
+//		// sortedMessages = messages.sorted { $0.timestamp > $1.timestamp }
+//    }
 
     func loadMessages() {
         // messages.removeAll()
@@ -282,8 +312,21 @@ final class MainChatViewController: ChatViewController {
 //					}
 //				})
 				
-				let twMessages = items?.map() {
-					TWMessage(from: $0, with: $0.hasMedia() ? #imageLiteral(resourceName: "tree") : nil)
+				var twMessages: [TWMessage] = []
+				
+				items?.forEach() { message in
+					if message.hasMedia() {
+						self.fetchMessageMedia(for: message) { (success, image) in
+							if success {
+								DispatchQueue.main.async {
+									twMessages.append(TWMessage(from: message, with: image))
+									self.messagesCollectionView.reloadData()
+								}
+							}
+						}
+					} else {
+						twMessages.append(TWMessage(from: message))
+					}
 				}
 
                 // self.addMessages(newMessages: Set(items!))
@@ -292,7 +335,7 @@ final class MainChatViewController: ChatViewController {
         }
     }
 
-	private func fetchMessageMedia(for message: TCHMessage) {
+	private func fetchMessageMedia(for message: TCHMessage, completion: @escaping (Bool, UIImage?) -> ()) {
 		// Set up output stream for media content
 		let tempFilename = (NSTemporaryDirectory() as NSString).appendingPathComponent(message.mediaFilename ?? "file.dat")
 		let outputStream = OutputStream(toFileAtPath: tempFilename, append: false)
@@ -314,24 +357,18 @@ final class MainChatViewController: ChatViewController {
 			}) { (result) in
 
 				if !result.isSuccessful() {
-					print("Download failed: \(String(describing: result.error))")
+					print("Download  failed: \(String(describing: result.error))")
+					completion(false, nil)
 				} else {
 					print("Download successful")
-
-					//let image = UIImage(contentsOfFile: tempFilename)
+					let image = UIImage(contentsOfFile: tempFilename)
+					completion(true, image)
 					// self.exampleMedia = image
 					//self.tableView?.reloadData()
 				}
 			}
 		}
 	}
-
-    func scrollToBottom() {
-        // if messages.count > 0 {
-            //let indexPath = IndexPath(row: 0, section: 0)
-            // tableView!.scrollToRow(at: indexPath, at: .bottom, animated: true)
-       // }
-    }
 
     func leaveChannel() {
         channel.leave { result in
@@ -353,6 +390,71 @@ final class MainChatViewController: ChatViewController {
     }
 }
 
+// MARK: - InputBar Delegate
+extension MainChatViewController: TWInputBarDelegate {
+	func inputBarDidSelectImage(_ inputBar: InputBarAccessoryView, image: UIImage) {
+		imagesWaitingToBeSent.append(image)
+	}
+}
+
+// MARK: -
+extension MainChatViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        // Local variable inserted by Swift 4.2 migrator.
+        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+        
+        dismiss(animated: true, completion: {
+            if let pickedImage = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
+                let handled = self.attachmentManager.handleInput(of: pickedImage)
+                if !handled {
+                    // throw error
+                }
+            }
+        })
+    }
+}
+
+// MARK: - AttachmentManagerDelegate
+extension MainChatViewController: AttachmentManagerDelegate {
+    
+    func attachmentManager(_ manager: AttachmentManager, shouldBecomeVisible: Bool) {
+        setAttachmentManager(active: shouldBecomeVisible)
+    }
+    
+    func attachmentManager(_ manager: AttachmentManager, didReloadTo attachments: [AttachmentManager.Attachment]) {
+        twInputBar.sendButton.isEnabled = manager.attachments.count > 0
+    }
+    
+    func attachmentManager(_ manager: AttachmentManager, didInsert attachment: AttachmentManager.Attachment, at index: Int) {
+        twInputBar.sendButton.isEnabled = manager.attachments.count > 0
+    }
+    
+    func attachmentManager(_ manager: AttachmentManager, didRemove attachment: AttachmentManager.Attachment, at index: Int) {
+        twInputBar.sendButton.isEnabled = manager.attachments.count > 0
+    }
+    
+    func attachmentManager(_ manager: AttachmentManager, didSelectAddAttachmentAt index: Int) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    // MARK: - AttachmentManagerDelegate Helper
+    
+    func setAttachmentManager(active: Bool) {
+        
+        let topStackView = twInputBar.topStackView
+        if active && !topStackView.arrangedSubviews.contains(attachmentManager.attachmentView) {
+            topStackView.insertArrangedSubview(attachmentManager.attachmentView, at: topStackView.arrangedSubviews.count)
+            topStackView.layoutIfNeeded()
+        } else if !active && topStackView.arrangedSubviews.contains(attachmentManager.attachmentView) {
+            topStackView.removeArrangedSubview(attachmentManager.attachmentView)
+            topStackView.layoutIfNeeded()
+        }
+    }
+}
+
 // MARK: - Channel Delegate
 extension MainChatViewController : TCHChannelDelegate {
     func chatClient(_ client: TwilioChatClient, channel: TCHChannel, messageAdded message: TCHMessage) {
@@ -366,8 +468,10 @@ extension MainChatViewController : TCHChannelDelegate {
 				print("mediaSize: \(message.mediaSize)")
 			}
 
+		// FIXME: -
+		
 //            addMessages(newMessages: [message])
-			addMessages(message: message)
+			// addMessages(message: message)
         // }
 
 		print("mesaj yollandı ---> ", message.body)
@@ -404,6 +508,7 @@ extension MainChatViewController : TCHChannelDelegate {
     }
 }
 
+// MARK: - MessagesDisplayDelegate
 extension MainChatViewController: MessagesDisplayDelegate {
     
     // MARK: - Text Messages
@@ -430,9 +535,35 @@ extension MainChatViewController: MessagesDisplayDelegate {
     }
     
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
+        var corners: UIRectCorner = []
         
-        let tail: MessageStyle.TailCorner = isFromCurrentSender(message: message) ? .bottomRight : .bottomLeft
-        return .bubbleTail(tail, .curved)
+        if isFromCurrentSender(message: message) {
+            corners.formUnion(.topLeft)
+            corners.formUnion(.bottomLeft)
+            if !isPreviousMessageSameSender(at: indexPath) {
+                corners.formUnion(.topRight)
+            }
+            if !isNextMessageSameSender(at: indexPath) {
+                corners.formUnion(.bottomRight)
+            }
+        } else {
+            corners.formUnion(.topRight)
+            corners.formUnion(.bottomRight)
+            if !isPreviousMessageSameSender(at: indexPath) {
+                corners.formUnion(.topLeft)
+            }
+            if !isNextMessageSameSender(at: indexPath) {
+                corners.formUnion(.bottomLeft)
+            }
+        }
+        
+        return .custom { view in
+            let radius: CGFloat = 16
+            let path = UIBezierPath(roundedRect: view.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+            let mask = CAShapeLayer()
+            mask.path = path.cgPath
+            view.layer.mask = mask
+        }
     }
     
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
@@ -440,6 +571,7 @@ extension MainChatViewController: MessagesDisplayDelegate {
         // avatarView.set(avatar: avatar)
 		// TODO: Avatar image
 		avatarView.backgroundColor = .orange
+		avatarView.isHidden = isNextMessageSameSender(at: indexPath)
     }
 }
 
@@ -447,20 +579,40 @@ extension MainChatViewController: MessagesDisplayDelegate {
 
 extension MainChatViewController: MessagesLayoutDelegate {
     
-    func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        return 18
-    }
-    
-    func cellBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        return 17
+//    func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+//        return 18
+//    }
+//
+//    func cellBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+//        return 17
+//    }
+//
+//    func messageTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+//        return 20
+//    }
+//
+//    func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+//        return 16
+//    }
+	
+	func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        if isTimeLabelVisible(at: indexPath) {
+            return 18
+        }
+        return 0
     }
     
     func messageTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        return 20
+        if isFromCurrentSender(message: message) {
+            return !isPreviousMessageSameSender(at: indexPath) ? 20 : 0
+        } else {
+			// outgoingAvatarOverlap = 17.5
+			return !isPreviousMessageSameSender(at: indexPath) ? (20 + 17.5) : 0
+        }
     }
-    
+
     func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        return 16
+        return (!isNextMessageSameSender(at: indexPath) && isFromCurrentSender(message: message)) ? 16 : 0
     }
 }
 

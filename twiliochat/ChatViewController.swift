@@ -111,12 +111,15 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
     }
     
 	func configureMessageInputBar() {
-        messageInputBar.inputTextView.tintColor = .primaryColor
-        messageInputBar.sendButton.setTitleColor(.primaryColor, for: .normal)
-        messageInputBar.sendButton.setTitleColor(
-            UIColor.primaryColor.withAlphaComponent(0.3),
-            for: .highlighted
-        )
+
+//		messageInputBar = TWInputBarView()
+		
+//        messageInputBar.inputTextView.tintColor = .primaryColor
+//        messageInputBar.sendButton.setTitleColor(.primaryColor, for: .normal)
+//        messageInputBar.sendButton.setTitleColor(
+//            UIColor.primaryColor.withAlphaComponent(0.3),
+//            for: .highlighted
+//        )
     }
 	
 //	func configureMessageInputBar() {
@@ -198,12 +201,23 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
     }
     
     func isLastSectionVisible() -> Bool {
-        
         guard !messageList.isEmpty else { return false }
-        
         let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
-        
         return messagesCollectionView.indexPathsForVisibleItems.contains(lastIndexPath)
+    }
+	
+	func isTimeLabelVisible(at indexPath: IndexPath) -> Bool {
+        return indexPath.section % 3 == 0 && !isPreviousMessageSameSender(at: indexPath)
+    }
+    
+    func isPreviousMessageSameSender(at indexPath: IndexPath) -> Bool {
+        guard indexPath.section - 1 >= 0 else { return false }
+        return messageList[indexPath.section].user == messageList[indexPath.section - 1].user
+    }
+    
+    func isNextMessageSameSender(at indexPath: IndexPath) -> Bool {
+        guard indexPath.section + 1 < messageList.count else { return false }
+        return messageList[indexPath.section].user == messageList[indexPath.section + 1].user
     }
     
     // MARK: - MessagesDataSource
@@ -227,14 +241,12 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
         return nil
     }
     
-    func cellBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        
-        return NSAttributedString(string: "Read", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
-    }
-    
     func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        let name = message.sender.displayName
-        return NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption1)])
+        if !isPreviousMessageSameSender(at: indexPath) {
+            let name = message.sender.displayName
+            return NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption1)])
+        }
+        return nil
     }
     
     func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
@@ -318,7 +330,7 @@ extension ChatViewController: MessageLabelDelegate {
 }
 
 // MARK: - MessageInputBarDelegate
-
+// !!!! ATTENTION !!!!      THIS IS NOT AN EXTENSION OF "CHATVIEWCONTROLLER"
 extension MainChatViewController: InputBarAccessoryViewDelegate {
 
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
@@ -341,16 +353,25 @@ extension MainChatViewController: InputBarAccessoryViewDelegate {
         messageInputBar.sendButton.startAnimating()
         messageInputBar.inputTextView.placeholder = "Sending..."
 		
-		sendMessage(inputMessage: text) {
+// 		let images = inputBar.inputTextView.components as? [UIImage]
+		
+		// sendMessage(inputMessage: text, with: images) {
+		sendMessage(inputMessage: text) { isImageMessage in
 			DispatchQueue.main.async { [weak self] in
                 self?.messageInputBar.sendButton.stopAnimating()
                 self?.messageInputBar.inputTextView.placeholder = "Aa"
+
+				self?.insertMessages(isImageMessage ? self?.imagesWaitingToBeSent ?? [] : components)
 				
-				// Component kullanmadan sadece text'i insert ediyoruz.. bunu da Main Chat içerisindeki sendMessage'de yapıyor.. düzelt.
-				// self?.insertMessages(components)
                 self?.messagesCollectionView.scrollToBottom(animated: true)
             }
 		}
+    }
+	
+	func inputBar(_ inputBar: InputBarAccessoryView, didChangeIntrinsicContentTo size: CGSize) {
+        // Adjust content insets
+        print(size)
+        messagesCollectionView.contentInset.bottom = size.height + 300 // keyboard size estimate
     }
 
     private func insertMessages(_ data: [Any]) {

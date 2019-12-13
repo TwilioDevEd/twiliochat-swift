@@ -33,7 +33,8 @@ class MessagingManager: NSObject {
 		
 		// presentViewController(controller: MainChatViewController())
 //		presentViewControllerByName(viewController: "MainChatViewController")
-//		return
+		presentViewControllerByName(viewController: "RevealViewController")
+		return
 		
         if (!hasIdentity) {
             presentViewControllerByName(viewController: "LoginViewController")
@@ -173,7 +174,10 @@ extension MessagingManager : TwilioChatClientDelegate {
             loadGeneralChatRoomWithCompletion { success, error in
                 if success {
                     self.presentRootViewController()
-                }
+				} else {
+					// FIXME: Burası kaldırılacak. deneme amaçlı..
+					self.presentRootViewController()
+				}
             }
         }
         self.delegate?.chatClient(client, synchronizationStatusUpdated: status)
