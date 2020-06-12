@@ -30,7 +30,7 @@ class InputDialogController: NSObject {
             textField.placeholder = placeholder
             NotificationCenter.default.addObserver(self,
                                                    selector: #selector(InputDialogController.handleTextFieldTextDidChangeNotification(notification:)),
-                                                   name: NSNotification.Name.UITextFieldTextDidChange,
+                                                   name: UITextField.textDidChangeNotification,
                                                    object: nil)
         }
         
@@ -39,7 +39,7 @@ class InputDialogController: NSObject {
         presenter.present(alert, animated: true, completion: nil)
     }
     
-    func handleTextFieldTextDidChangeNotification(notification: NSNotification) {
+    @objc func handleTextFieldTextDidChangeNotification(notification: NSNotification) {
         let textField = notification.object as? UITextField
         saveAction.isEnabled = !(textField!.text?.isEmpty ?? false)
     }

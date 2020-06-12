@@ -65,12 +65,12 @@ class MainChatViewController: SLKTextViewController {
         rightButton.setTitleColor(UIColor(red:0.973, green:0.557, blue:0.502, alpha:1), for: .normal)
         
         if let font = UIFont(name:"Avenir-Heavy", size:17) {
-            navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: font]
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: font]
         }
         
         tableView!.allowsSelection = false
         tableView!.estimatedRowHeight = 70
-        tableView!.rowHeight = UITableViewAutomaticDimension
+        tableView!.rowHeight = UITableView.automaticDimension
         tableView!.separatorStyle = .none
         
         if channel == nil {
@@ -82,9 +82,9 @@ class MainChatViewController: SLKTextViewController {
         super.viewDidLayoutSubviews()
         
         // required for iOS 11
-        textInputbar.bringSubview(toFront: textInputbar.textView)
-        textInputbar.bringSubview(toFront: textInputbar.leftButton)
-        textInputbar.bringSubview(toFront: textInputbar.rightButton)
+        textInputbar.bringSubviewToFront(textInputbar.textView)
+        textInputbar.bringSubviewToFront(textInputbar.leftButton)
+        textInputbar.bringSubviewToFront(textInputbar.rightButton)
         
     }
     

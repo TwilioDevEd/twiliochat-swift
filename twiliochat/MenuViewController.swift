@@ -48,7 +48,7 @@ class MenuViewController: UIViewController {
         refreshControl.endRefreshing()
     }
     
-    func refreshChannels() {
+    @objc func refreshChannels() {
         refreshControl.beginRefreshing()
         reloadChannelList()
     }
@@ -154,7 +154,7 @@ extension MenuViewController : UITableViewDataSource {
         return false
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle,
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle,
                    forRowAt indexPath: IndexPath) {
         if editingStyle != .delete {
             return
