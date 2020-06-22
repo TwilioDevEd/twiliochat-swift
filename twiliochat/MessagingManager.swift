@@ -167,14 +167,11 @@ extension MessagingManager : TwilioChatClientDelegate {
         }
         self.delegate?.chatClient(client, synchronizationStatusUpdated: status)
     }
-}
-
-// MARK: - TwilioAccessManagerDelegate
-extension MessagingManager : TwilioAccessManagerDelegate {
-    func accessManagerTokenWillExpire(_ accessManager: TwilioAccessManager) {
+    
+    func chatClientTokenWillExpire(_ client: TwilioChatClient) {
         requestTokenWithCompletion { succeeded, token in
             if (succeeded) {
-                accessManager.updateToken(token!)
+                client.updateToken(token!)
             }
             else {
                 print("Error while trying to get new access token")
@@ -182,7 +179,14 @@ extension MessagingManager : TwilioAccessManagerDelegate {
         }
     }
     
-    func accessManager(_ accessManager: TwilioAccessManager!, error: Error!) {
-        print("Access manager error: \(error.localizedDescription)")
+    func chatClientTokenExpired(_ client: TwilioChatClient) {
+        requestTokenWithCompletion { succeeded, token in
+            if (succeeded) {
+                client.updateToken(token!)
+            }
+            else {
+                print("Error while trying to get new access token")
+            }
+        }
     }
 }

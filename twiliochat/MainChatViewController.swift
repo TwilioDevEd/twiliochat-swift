@@ -134,7 +134,7 @@ class MainChatViewController: SLKTextViewController {
         
         let label = cell.viewWithTag(MainChatViewController.TWCLabelTag) as! UILabel
         let memberStatus = (message.status! == .Joined) ? "joined" : "left"
-        label.text = "User \(message.member.identity ?? "[Unknown user]") has \(memberStatus)"
+        label.text = "User \(message.statusMember.identity ?? "[Unknown user]") has \(memberStatus)"
         return cell
     }
     
@@ -233,11 +233,11 @@ extension MainChatViewController : TCHChannelDelegate {
     }
     
     func chatClient(_ client: TwilioChatClient, channel: TCHChannel, memberJoined member: TCHMember) {
-        addMessages(newMessages: [StatusMessage(member:member, status:.Joined)])
+        addMessages(newMessages: [StatusMessage(statusMember:member, status:.Joined)])
     }
     
     func chatClient(_ client: TwilioChatClient, channel: TCHChannel, memberLeft member: TCHMember) {
-        addMessages(newMessages: [StatusMessage(member:member, status:.Left)])
+        addMessages(newMessages: [StatusMessage(statusMember:member, status:.Left)])
     }
     
     func chatClient(_ client: TwilioChatClient, channelDeleted channel: TCHChannel) {

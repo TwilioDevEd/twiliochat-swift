@@ -108,6 +108,7 @@ class MenuViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == MenuViewController.TWCOpenChannelSegue {
             let indexPath = sender as! NSIndexPath
+            
             let channelDescriptor = ChannelManager.sharedManager.channels![indexPath.row] as! TCHChannelDescriptor
             let navigationController = segue.destination as! UINavigationController
             
