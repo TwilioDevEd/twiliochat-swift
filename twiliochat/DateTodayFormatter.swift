@@ -35,7 +35,7 @@ extension NSDate {
         var formattedDateString = dateString
         
         if dateString.hasSuffix("Z") {
-            let lastIndex = dateString.characters.indices.last!
+            let lastIndex = dateString.indices.last!
             formattedDateString = dateString.substring(to: lastIndex) + "-000"
         }
         return dateFromString(str: formattedDateString, withFormat:"yyyy-MM-dd'T'HH:mm:ss.SSSZ")
@@ -44,7 +44,7 @@ extension NSDate {
     class func dateFromString(str: String, withFormat dateFormat: String) -> NSDate? {
         let formatter = DateFormatter()
         formatter.dateFormat = dateFormat
-        formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX") as Locale!
+        formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX") as Locale?
         return formatter.date(from: str) as NSDate?
     }
 }

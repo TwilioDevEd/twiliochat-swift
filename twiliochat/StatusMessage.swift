@@ -24,7 +24,7 @@ class StatusMessage: TCHMessage {
         self.member = member
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        dateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0) as TimeZone!
+        dateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0) as TimeZone?
         timestamp = dateFormatter.string(from: NSDate() as Date)
         self.status = status
     }

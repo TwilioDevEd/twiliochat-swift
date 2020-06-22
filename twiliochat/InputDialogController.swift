@@ -30,7 +30,7 @@ class InputDialogController: NSObject {
             textField.placeholder = placeholder
             NotificationCenter.default.addObserver(self,
                                                    selector: #selector(InputDialogController.handleTextFieldTextDidChangeNotification(notification:)),
-                                                   name: NSNotification.Name.UITextFieldTextDidChange,
+                                                   name: UITextField.textDidChangeNotification,
                                                    object: nil)
         }
         

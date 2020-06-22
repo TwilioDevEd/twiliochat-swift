@@ -130,6 +130,7 @@
 				59F208FC1C04C06800CC2392 /* twiliochat */,
 				59F209111C04C06800CC2392 /* twiliochatTests */,
 				59F208FB1C04C06800CC2392 /* Products */,
+				89D67A5C1B1630989E04019D /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -227,6 +228,13 @@
 			name = menu;
 			sourceTree = "<group>";
 		};
+		89D67A5C1B1630989E04019D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -277,11 +285,11 @@
 				TargetAttributes = {
 					59F208F91C04C06800CC2392 = {
 						CreatedOnToolsVersion = 7.1.1;
-						LastSwiftMigration = 0810;
+						LastSwiftMigration = 1150;
 					};
 					59F2090D1C04C06800CC2392 = {
 						CreatedOnToolsVersion = 7.1.1;
-						LastSwiftMigration = 0810;
+						LastSwiftMigration = 1150;
 						TestTargetID = 59F208F91C04C06800CC2392;
 					};
 				};
@@ -519,7 +527,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = twilio.twiliochat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "twiliochat/twiliochat-Bridging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -541,7 +549,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = twilio.twiliochat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "twiliochat/twiliochat-Bridging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -555,7 +563,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = twilio.twiliochatTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/twiliochat.app/twiliochat";
 			};
 			name = Debug;
@@ -570,7 +578,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = twilio.twiliochatTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/twiliochat.app/twiliochat";
 			};
 			name = Release;
