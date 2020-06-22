@@ -75,27 +75,29 @@ class ChannelManager: NSObject {
     // MARK: - Populate channels
     
     func populateChannels() {
-        channels = NSMutableOrderedSet()
         
         channelsList?.userChannelDescriptors { result, paginator in
-            self.channels?.addObjects(from: paginator!.items())
-            self.sortChannels()
-        }
-        
-        channelsList?.publicChannelDescriptors { result, paginator in
-            self.channels?.addObjects(from: paginator!.items())
-            self.sortChannels()
-        }
-        
-        if self.delegate != nil {
-            self.delegate!.reloadChannelList()
+            let newChannels = NSMutableOrderedSet()
+            newChannels.addObjects(from: paginator!.items())
+            self.channelsList?.publicChannelDescriptors { result, paginator in
+                newChannels.addObjects(from: paginator!.items())
+                self.channels = newChannels
+                self.sortChannels()
+                if let delegate = self.delegate {
+                    delegate.reloadChannelList()
+                }
+            }
         }
     }
     
     func sortChannels() {
+        guard let channels = channels else {
+            return
+        }
+        
         let sortSelector = #selector(NSString.localizedCaseInsensitiveCompare(_:))
         let descriptor = NSSortDescriptor(key: "friendlyName", ascending: true, selector: sortSelector)
-        channels!.sort(using: [descriptor])
+        channels.sort(using: [descriptor])
     }
     
     // MARK: - Create channel
@@ -123,8 +125,7 @@ extension ChannelManager : TwilioChatClientDelegate {
     func chatClient(_ client: TwilioChatClient, channelAdded channel: TCHChannel) {
         DispatchQueue.main.async {
             if self.channels != nil {
-                self.channels!.add(channel)
-                self.sortChannels()
+                self.populateChannels()
             }
             self.delegate?.chatClient(client, channelAdded: channel)
         }
@@ -136,9 +137,7 @@ extension ChannelManager : TwilioChatClientDelegate {
     
     func chatClient(_ client: TwilioChatClient, channelDeleted channel: TCHChannel) {
         DispatchQueue.main.async {
-            if self.channels != nil {
-                self.channels?.remove(channel)
-            }
+            self.populateChannels()
             self.delegate?.chatClient(client, channelDeleted: channel)
         }
         
