@@ -7,7 +7,7 @@ class AlertDialogController: NSObject {
     }
     
     class func showAlertWithMessage(message:String?, title:String?,
-                                    presenter:(UIViewController), completion:((Void) -> Void)?) {
+                                    presenter:(UIViewController), completion:(() -> Void)?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         let defaultAction = UIAlertAction(title: "OK", style: .cancel) { (_) -> Void in

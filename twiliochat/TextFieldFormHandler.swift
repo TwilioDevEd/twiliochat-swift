@@ -108,12 +108,12 @@ public class TextFieldFormHandler: NSObject {
         UIView.commitAnimations()
     }
     
-    func backgroundTap(sender: UITapGestureRecognizer) {
+    @objc func backgroundTap(sender: UITapGestureRecognizer) {
         topContainer.endEditing(true)
         moveScreenDown()
     }
     
-    func keyboardWillShow(notification: NSNotification) {
+    @objc func keyboardWillShow(notification: NSNotification) {
         if (keyboardSize == 0) {
             if let keyboardRect = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
                 keyboardSize = min(keyboardRect.height, keyboardRect.width)

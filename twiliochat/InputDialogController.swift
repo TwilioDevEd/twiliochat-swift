@@ -39,7 +39,7 @@ class InputDialogController: NSObject {
         presenter.present(alert, animated: true, completion: nil)
     }
     
-    func handleTextFieldTextDidChangeNotification(notification: NSNotification) {
+    @objc func handleTextFieldTextDidChangeNotification(notification: NSNotification) {
         let textField = notification.object as? UITextField
         saveAction.isEnabled = !(textField!.text?.isEmpty ?? false)
     }

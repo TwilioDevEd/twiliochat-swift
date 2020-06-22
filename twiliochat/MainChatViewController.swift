@@ -65,7 +65,7 @@ class MainChatViewController: SLKTextViewController {
         rightButton.setTitleColor(UIColor(red:0.973, green:0.557, blue:0.502, alpha:1), for: .normal)
         
         if let font = UIFont(name:"Avenir-Heavy", size:17) {
-            navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: font]
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font: font]
         }
         
         tableView!.allowsSelection = false

@@ -48,7 +48,7 @@ class MenuViewController: UIViewController {
         refreshControl.endRefreshing()
     }
     
-    func refreshChannels() {
+    @objc func refreshChannels() {
         refreshControl.beginRefreshing()
         reloadChannelList()
     }
