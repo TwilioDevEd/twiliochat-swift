@@ -84,14 +84,13 @@ class ChannelManager: NSObject {
             guard let paginator = paginator else {
                 return
             }
-            print(paginator.items().count)
+
             let newChannelDescriptors = NSMutableOrderedSet()
             newChannelDescriptors.addObjects(from: paginator.items())
             self.channelsList?.publicChannelDescriptors { result, paginator in
                 guard let paginator = paginator else {
                     return
                 }
-                print(paginator.items().count)
 
                 // de-dupe channel list
                 let channelIds = NSMutableSet()
