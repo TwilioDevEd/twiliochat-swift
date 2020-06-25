@@ -179,6 +179,7 @@ extension MenuViewController : UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension MenuViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         performSegue(withIdentifier: MenuViewController.TWCOpenChannelSegue, sender: indexPath)
     }
 }

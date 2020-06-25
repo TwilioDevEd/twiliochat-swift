@@ -34,6 +34,8 @@ class MenuTableCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         if (selected) {
             contentView.backgroundColor = selectedBackgroundColor
+        } else {
+            contentView.backgroundColor = nil
         }
     }
     
@@ -41,6 +43,8 @@ class MenuTableCell: UITableViewCell {
         super.setHighlighted(highlighted, animated: animated)
         if (highlighted) {
             contentView.backgroundColor = selectedBackgroundColor
+        } else {
+            contentView.backgroundColor = nil
         }
     }
 }
