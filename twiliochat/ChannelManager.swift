@@ -1,20 +1,24 @@
 import UIKit
 
+protocol ChannelManagerDelegate {
+    func reloadChannelDescriptorList()
+}
+
 class ChannelManager: NSObject {
     static let sharedManager = ChannelManager()
     
     static let defaultChannelUniqueName = "general"
     static let defaultChannelName = "General Channel"
     
-    weak var delegate:MenuViewController?
+    var delegate:ChannelManagerDelegate?
     
     var channelsList:TCHChannels?
-    var channels:NSMutableOrderedSet?
+    var channelDescriptors:NSOrderedSet?
     var generalChannel:TCHChannel!
     
     override init() {
         super.init()
-        channels = NSMutableOrderedSet()
+        channelDescriptors = NSMutableOrderedSet()
     }
     
     // MARK: - General channel
@@ -72,33 +76,56 @@ class ChannelManager: NSObject {
         }
     }
     
-    // MARK: - Populate channels
+    // MARK: - Populate channel Descriptors
     
-    func populateChannels() {
+    func populateChannelDescriptors() {
         
         channelsList?.userChannelDescriptors { result, paginator in
-            let newChannels = NSMutableOrderedSet()
-            newChannels.addObjects(from: paginator!.items())
+            guard let paginator = paginator else {
+                return
+            }
+            print(paginator.items().count)
+            let newChannelDescriptors = NSMutableOrderedSet()
+            newChannelDescriptors.addObjects(from: paginator.items())
             self.channelsList?.publicChannelDescriptors { result, paginator in
-                newChannels.addObjects(from: paginator!.items())
-                self.channels = newChannels
-                self.sortChannels()
+                guard let paginator = paginator else {
+                    return
+                }
+                print(paginator.items().count)
+
+                // de-dupe channel list
+                let channelIds = NSMutableSet()
+                for descriptor in newChannelDescriptors {
+                    if let descriptor = descriptor as? TCHChannelDescriptor {
+                        if let sid = descriptor.sid {
+                            channelIds.add(sid)
+                        }
+                    }
+                }
+                for descriptor in paginator.items() {
+                    if let sid = descriptor.sid {
+                        if !channelIds.contains(sid) {
+                            channelIds.add(sid)
+                            newChannelDescriptors.add(descriptor)
+                        }
+                    }
+                }
+                
+                
+                // sort the descriptors
+                let sortSelector = #selector(NSString.localizedCaseInsensitiveCompare(_:))
+                let descriptor = NSSortDescriptor(key: "friendlyName", ascending: true, selector: sortSelector)
+                newChannelDescriptors.sort(using: [descriptor])
+                
+                self.channelDescriptors = newChannelDescriptors
+                
                 if let delegate = self.delegate {
-                    delegate.reloadChannelList()
+                    delegate.reloadChannelDescriptorList()
                 }
             }
         }
     }
     
-    func sortChannels() {
-        guard let channels = channels else {
-            return
-        }
-        
-        let sortSelector = #selector(NSString.localizedCaseInsensitiveCompare(_:))
-        let descriptor = NSSortDescriptor(key: "friendlyName", ascending: true, selector: sortSelector)
-        channels.sort(using: [descriptor])
-    }
     
     // MARK: - Create channel
     
@@ -124,21 +151,19 @@ class ChannelManager: NSObject {
 extension ChannelManager : TwilioChatClientDelegate {
     func chatClient(_ client: TwilioChatClient, channelAdded channel: TCHChannel) {
         DispatchQueue.main.async {
-            if self.channels != nil {
-                self.populateChannels()
-            }
-            self.delegate?.chatClient(client, channelAdded: channel)
+            self.populateChannelDescriptors()
         }
     }
     
     func chatClient(_ client: TwilioChatClient, channel: TCHChannel, updated: TCHChannelUpdate) {
-        self.delegate?.chatClient(client, channel: channel, updated: updated)
+        DispatchQueue.main.async {
+            self.delegate?.reloadChannelDescriptorList()
+        }
     }
     
     func chatClient(_ client: TwilioChatClient, channelDeleted channel: TCHChannel) {
         DispatchQueue.main.async {
-            self.populateChannels()
-            self.delegate?.chatClient(client, channelDeleted: channel)
+            self.populateChannelDescriptors()
         }
         
     }
