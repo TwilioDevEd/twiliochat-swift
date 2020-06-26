@@ -158,7 +158,7 @@ extension MessagingManager : TwilioChatClientDelegate {
         if status == TCHClientSynchronizationStatus.completed {
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
             ChannelManager.sharedManager.channelsList = client.channelsList()
-            ChannelManager.sharedManager.populateChannels()
+            ChannelManager.sharedManager.populateChannelDescriptors()
             loadGeneralChatRoomWithCompletion { success, error in
                 if success {
                     self.presentRootViewController()
