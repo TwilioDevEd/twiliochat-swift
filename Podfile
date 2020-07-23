@@ -8,11 +8,11 @@ use_frameworks!
 target 'twiliochat' do
   pod 'SWRevealViewController', '~> 2.3'
   pod 'SlackTextViewController', '1.9.6'
-  pod 'TwilioChatClient', '~> 3.1.1'
+  pod 'TwilioChatClient', '~> 4.0'
 end
 
 target 'twiliochatTests' do
   pod 'SWRevealViewController', '~> 2.3'
   pod 'SlackTextViewController', '1.9.6'
-  pod 'TwilioChatClient', '~> 3.1.1'
+  pod 'TwilioChatClient', '~> 4.0'
 end
