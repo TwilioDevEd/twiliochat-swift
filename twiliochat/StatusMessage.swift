@@ -10,13 +10,13 @@ class StatusMessage: TCHMessage {
     var status: TWCMemberStatus! = nil
     var statusMember: TCHMember! = nil
     
-    var _timestamp: String = ""
-    override var timestamp: String {
+    var _dateCreated: String = ""
+    override var dateCreated: String {
         get {
-            return _timestamp
+            return _dateCreated
         }
-        set(newTimestamp) {
-            _timestamp = newTimestamp
+        set(newDateCreated) {
+            _dateCreated = newDateCreated
         }
     }
     
@@ -25,7 +25,7 @@ class StatusMessage: TCHMessage {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
         dateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0) as TimeZone?
-        timestamp = dateFormatter.string(from: NSDate() as Date)
+        dateCreated = dateFormatter.string(from: NSDate() as Date)
         self.statusMember = statusMember
         self.status = status
     }

@@ -121,7 +121,7 @@ class MainChatViewController: SLKTextViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: MainChatViewController.TWCChatCellIdentifier, for:indexPath as IndexPath)
         
         let chatCell: ChatTableCell = cell as! ChatTableCell
-        let date = NSDate.dateWithISO8601String(dateString: message.timestamp ?? "")
+        let date = NSDate.dateWithISO8601String(dateString: message.dateCreated ?? "")
         let timestamp = DateTodayFormatter().stringFromDate(date: date)
         
         chatCell.setUser(user: message.author ?? "[Unknown author]", message: message.body, date: timestamp ?? "[Unknown date]")
@@ -184,7 +184,7 @@ class MainChatViewController: SLKTextViewController {
     
     func sortMessages() {
         sortedMessages = messages.sorted { (a, b) -> Bool in
-            (a.timestamp ?? "") > (b.timestamp ?? "")
+            (a.dateCreated ?? "") > (b.dateCreated ?? "")
         }
     }
     
