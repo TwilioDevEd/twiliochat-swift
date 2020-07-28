@@ -7,25 +7,26 @@ enum TWCMemberStatus {
 }
 
 class StatusMessage: TCHMessage {
-    var member: TCHMember! = nil
     var status: TWCMemberStatus! = nil
-    var _timestamp: String = ""
-    override var timestamp: String {
+    var statusMember: TCHMember! = nil
+    
+    var _dateCreated: String = ""
+    override var dateCreated: String {
         get {
-            return _timestamp
+            return _dateCreated
         }
-        set(newTimestamp) {
-            _timestamp = newTimestamp
+        set(newDateCreated) {
+            _dateCreated = newDateCreated
         }
     }
     
-    init(member: TCHMember, status: TWCMemberStatus) {
+    init(statusMember: TCHMember, status: TWCMemberStatus) {
         super.init()
-        self.member = member
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        dateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0) as TimeZone!
-        timestamp = dateFormatter.string(from: NSDate() as Date)
+        dateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0) as TimeZone?
+        dateCreated = dateFormatter.string(from: NSDate() as Date)
+        self.statusMember = statusMember
         self.status = status
     }
     

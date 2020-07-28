@@ -121,7 +121,7 @@ class MainChatViewController: SLKTextViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: MainChatViewController.TWCChatCellIdentifier, for:indexPath as IndexPath)
         
         let chatCell: ChatTableCell = cell as! ChatTableCell
-        let date = NSDate.dateWithISO8601String(dateString: message.timestamp ?? "")
+        let date = NSDate.dateWithISO8601String(dateString: message.dateCreated ?? "")
         let timestamp = DateTodayFormatter().stringFromDate(date: date)
         
         chatCell.setUser(user: message.author ?? "[Unknown author]", message: message.body, date: timestamp ?? "[Unknown date]")
@@ -134,7 +134,7 @@ class MainChatViewController: SLKTextViewController {
         
         let label = cell.viewWithTag(MainChatViewController.TWCLabelTag) as! UILabel
         let memberStatus = (message.status! == .Joined) ? "joined" : "left"
-        label.text = "User \(message.member.identity ?? "[Unknown user]") has \(memberStatus)"
+        label.text = "User \(message.statusMember.identity ?? "[Unknown user]") has \(memberStatus)"
         return cell
     }
     
@@ -184,7 +184,7 @@ class MainChatViewController: SLKTextViewController {
     
     func sortMessages() {
         sortedMessages = messages.sorted { (a, b) -> Bool in
-            (a.timestamp ?? "") > (b.timestamp ?? "")
+            (a.dateCreated ?? "") > (b.dateCreated ?? "")
         }
     }
     
@@ -233,11 +233,11 @@ extension MainChatViewController : TCHChannelDelegate {
     }
     
     func chatClient(_ client: TwilioChatClient, channel: TCHChannel, memberJoined member: TCHMember) {
-        addMessages(newMessages: [StatusMessage(member:member, status:.Joined)])
+        addMessages(newMessages: [StatusMessage(statusMember:member, status:.Joined)])
     }
     
     func chatClient(_ client: TwilioChatClient, channel: TCHChannel, memberLeft member: TCHMember) {
-        addMessages(newMessages: [StatusMessage(member:member, status:.Left)])
+        addMessages(newMessages: [StatusMessage(statusMember:member, status:.Left)])
     }
     
     func chatClient(_ client: TwilioChatClient, channelDeleted channel: TCHChannel) {
