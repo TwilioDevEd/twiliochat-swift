@@ -46,6 +46,11 @@ class MenuViewController: UIViewController {
         return menuCell
     }
     
+    func reloadChannelList() {
+        tableView.reloadData()
+        refreshControl.endRefreshing()
+    }
+    
     @objc func refreshChannels() {
         refreshControl.beginRefreshing()
         tableView.reloadData()
