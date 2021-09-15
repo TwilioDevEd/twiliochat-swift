@@ -160,9 +160,7 @@ extension MessagingManager : TwilioChatClientDelegate {
             ChannelManager.sharedManager.channelsList = client.channelsList()
             ChannelManager.sharedManager.populateChannelDescriptors()
             loadGeneralChatRoomWithCompletion { success, error in
-                if success {
-                    self.presentRootViewController()
-                }
+                self.presentRootViewController()
             }
         }
         self.delegate?.chatClient(client, synchronizationStatusUpdated: status)
